@@ -1,0 +1,20 @@
+# Default ignored files
+/shelf/
+/.idea
+*.class
+*.json
+/workspace.xml
+DeliveryLog.log.lck
+DeliveryApp.iml
+
+## target folder at the top level of the project structue and paths and contents underneath it
+target/
+target/*
+## target folder at any level of the project structue
+**/target
+/target
+
+## personalized text files
+Receipts.txt
+logs.log
+UniqueWords.txt
