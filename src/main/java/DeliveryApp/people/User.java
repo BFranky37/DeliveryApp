@@ -1,17 +1,14 @@
 package DeliveryApp.people;
 
-import DeliveryApp.orders.Shipment;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class User extends Person{
+public class User {
     private static final Logger LOGGER = Logger.getLogger(User.class.getName());
     //Members
     private int id;
     private int profileID;
-    private Discount discount;
 
     //Constructors
     public User(int profileID) {
@@ -25,14 +22,6 @@ public class User extends Person{
     //Getters and setters
     public int getId() {
         return id;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
     }
 
     public int getProfileID() {
@@ -55,13 +44,12 @@ public class User extends Person{
         if (!(obj instanceof User)) return false;
         User per = (User) obj;
 
-        return (Objects.equals(this.getName(), per.getName()) &&
-                Objects.equals(this.getNumber(), per.getNumber()) &&
-                this.getAddress() == per.getAddress());
+        return (Objects.equals(this.id, per.id) &&
+                Objects.equals(this.profileID, per.profileID));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName(), this.getNumber(), this.getAddress());
+        return Objects.hash(id, profileID);
     }
 }

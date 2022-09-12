@@ -1,20 +1,22 @@
 package DeliveryApp.people;
 
-public class Person {
+public class Profile {
     //Members
     private int id;
     private String name;
     private String phoneNumber;
     private int addressID;
+    private int addedByUserID;
 
-    public Person() {
+    public Profile() {
 
     }
 
-    public Person(String fullname, String phoneNum, int fulladdress) {
+    public Profile(String fullname, String phoneNum, int fulladdress, int addedbyID) {
         name = fullname;
         phoneNumber = phoneNum;
         addressID = fulladdress;
+        addedByUserID = addedbyID;
     }
 
     //Getters and Setters
@@ -38,12 +40,20 @@ public class Person {
         phoneNumber = num;
     }
 
-    public int getAddress() {
+    public int getAddressID() {
         return addressID;
     }
 
-    public void setAddress(int newAddress) {
+    public void setAddressID(int newAddress) {
         addressID = newAddress;
+    }
+
+    public int getAddedByUserID() {
+        return addedByUserID;
+    }
+
+    public void setAddedByUserID(int addedByUserID) {
+        this.addedByUserID = addedByUserID;
     }
 
     //Class Overrides
@@ -51,4 +61,5 @@ public class Person {
     public String toString() {
         return ("Name: " + name + ", Phone Number: " + phoneNumber);
     }
+
 }
