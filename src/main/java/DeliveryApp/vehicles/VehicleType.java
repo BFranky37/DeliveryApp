@@ -25,6 +25,10 @@ public class VehicleType {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public String getName() {
         return name;
     }

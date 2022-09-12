@@ -34,6 +34,10 @@ public class Shipment {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public int getSenderID() {
         return senderID;
     }

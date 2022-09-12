@@ -21,6 +21,10 @@ public class Vehicle {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public String getVehicleNumber() {
         return vehicleNumber;
     }

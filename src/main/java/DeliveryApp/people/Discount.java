@@ -27,6 +27,10 @@ public enum Discount {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public String getName() {
         return name;
     }

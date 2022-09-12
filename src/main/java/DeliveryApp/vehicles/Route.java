@@ -1,6 +1,5 @@
 package DeliveryApp.vehicles;
 
-import DeliveryApp.people.Location;
 import org.apache.log4j.Logger;
 
 import java.util.Objects;
@@ -29,6 +28,10 @@ public class Route {
     //Getters and Setters
     public int getId() {
         return id;
+    }
+
+    public void setId(int newID) {
+        id = newID;
     }
 
     public int getFromLocation() {

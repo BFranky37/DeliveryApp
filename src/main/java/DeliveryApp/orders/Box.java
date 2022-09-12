@@ -23,6 +23,14 @@ public class Box {
         height = Math.round(SizeMeasurement.CENTIMETERS.convert(h) * 100.0) / 100.0;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public double getLength() {
         return length;
     }

@@ -24,6 +24,10 @@ public class User {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public int getProfileID() {
         return profileID;
     }

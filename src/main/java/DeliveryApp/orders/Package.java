@@ -32,6 +32,10 @@ public class Package {
         return id;
     }
 
+    public void setId(int newID) {
+        id = newID;
+    }
+
     public int getBoxID() {
         return boxID;
     }

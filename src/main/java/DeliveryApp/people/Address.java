@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 
 import java.util.Objects;
 
-public class Location {
-    private static final Logger LOGGER = Logger.getLogger(Location.class.getName());
+public class Address {
+    private static final Logger LOGGER = Logger.getLogger(Address.class.getName());
     //Members
     private int id;
     private String streetAddress;
@@ -13,9 +13,9 @@ public class Location {
     private int zipcode;
 
     //Constructors
-    public Location() {
+    public Address() {
     }
-    public Location(String saddress, String c, int zip) {
+    public Address(String saddress, String c, int zip) {
         streetAddress = saddress;
         city = c;
         zipcode = zip;
@@ -24,6 +24,10 @@ public class Location {
     //Getters and Setters
     public int getId() {
         return id;
+    }
+
+    public void setId(int newID) {
+        id = newID;
     }
 
     public String getAddress() {
@@ -59,8 +63,8 @@ public class Location {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Location)) return false;
-        Location address = (Location) obj;
+        if (!(obj instanceof Address)) return false;
+        Address address = (Address) obj;
 
         return (Objects.equals(this.streetAddress, address.streetAddress) &&
                 Objects.equals(this.city, address.city) &&
