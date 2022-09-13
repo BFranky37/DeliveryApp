@@ -2,6 +2,7 @@ package DeliveryApp.DAOclasses;
 
 import DeliveryApp.other.ConnectionPool;
 import DeliveryApp.people.Address;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddressDAO {
+    private static final Logger LOGGER = Logger.getLogger(AddressDAO.class.getName());
     public Address getAddressByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
@@ -24,7 +26,7 @@ public class AddressDAO {
                 return p;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -49,7 +51,7 @@ public class AddressDAO {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -71,7 +73,7 @@ public class AddressDAO {
             ps.setInt(3, p.getZipcode());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();
@@ -93,7 +95,7 @@ public class AddressDAO {
             ps.setInt(5, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();

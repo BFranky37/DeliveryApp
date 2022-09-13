@@ -42,7 +42,7 @@ public class AddressService {
         try {
             addressDAO.createAddress(newAddress);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         }
 
         return newAddress;
@@ -52,7 +52,8 @@ public class AddressService {
         try {
             return addressDAO.getAddressByID(id);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return null;
         }
     }
 
@@ -60,7 +61,8 @@ public class AddressService {
         try {
             return addressDAO.getIDbyAddress(a);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return -1;
         }
     }
 }

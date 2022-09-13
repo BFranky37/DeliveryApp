@@ -2,6 +2,7 @@ package DeliveryApp.DAOclasses;
 
 import DeliveryApp.other.ConnectionPool;
 import DeliveryApp.orders.Insurance;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class InsuranceDAO {
+    private static final Logger LOGGER = Logger.getLogger(InsuranceDAO.class.getName());
+    
     public Insurance getInsuranceByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
@@ -26,7 +29,7 @@ public class InsuranceDAO {
                 return p;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -51,7 +54,7 @@ public class InsuranceDAO {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -73,7 +76,7 @@ public class InsuranceDAO {
             ps.setDouble(4, p.getRate());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();
@@ -95,7 +98,7 @@ public class InsuranceDAO {
             ps.setInt(5, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();

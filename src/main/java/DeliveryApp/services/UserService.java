@@ -21,7 +21,8 @@ public class UserService {
         try {
             return userDAO.getUserByID(id);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return null;
         }
     }
 
@@ -29,7 +30,8 @@ public class UserService {
         try {
             return userDAO.getIDbyUser(u);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return -1;
         }
     }
 
@@ -37,7 +39,7 @@ public class UserService {
         try {
             userDAO.createUser(u);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -45,7 +47,7 @@ public class UserService {
         try {
             userDAO.updateUser(u);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         }
     }
 }

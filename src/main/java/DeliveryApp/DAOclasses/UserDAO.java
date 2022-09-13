@@ -2,6 +2,7 @@ package DeliveryApp.DAOclasses;
 
 import DeliveryApp.other.ConnectionPool;
 import DeliveryApp.people.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
+    
     public User getUserByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
@@ -23,7 +26,7 @@ public class UserDAO {
                 return p;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -46,7 +49,7 @@ public class UserDAO {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -66,7 +69,7 @@ public class UserDAO {
             ps.setInt(4, p.getProfileID());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();
@@ -86,7 +89,7 @@ public class UserDAO {
             ps.setInt(5, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();

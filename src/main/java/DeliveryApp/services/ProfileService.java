@@ -1,17 +1,9 @@
 package DeliveryApp.services;
 
 import DeliveryApp.DAOclasses.ProfileDAO;
-import DeliveryApp.Session;
-import DeliveryApp.exceptions.InvalidInputException;
-import DeliveryApp.other.ConnectionPool;
-import DeliveryApp.people.Address;
 import DeliveryApp.people.Profile;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -29,7 +21,7 @@ public class ProfileService {
         try {
             profileDAO.createProfile(p);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         }
 
         return p;
@@ -39,7 +31,8 @@ public class ProfileService {
         try {
             return profileDAO.getProfileByID(id);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return null;
         }
     }
 
@@ -47,7 +40,8 @@ public class ProfileService {
         try {
             return profileDAO.getIDbyProfile(p);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
+            return -1;
         }
     }
 

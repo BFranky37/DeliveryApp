@@ -3,6 +3,7 @@ package DeliveryApp.DAOclasses;
 import DeliveryApp.other.ConnectionPool;
 import DeliveryApp.people.Discount;
 import DeliveryApp.people.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DiscountDAO {
+    private static final Logger LOGGER = Logger.getLogger(DiscountDAO.class.getName());
+
     public Discount getDiscountByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
@@ -26,7 +29,7 @@ public class DiscountDAO {
                 return d;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -48,7 +51,7 @@ public class DiscountDAO {
                 return rs.getInt("discountID");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -72,7 +75,7 @@ public class DiscountDAO {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert rs != null;
             rs.close();
@@ -93,7 +96,7 @@ public class DiscountDAO {
             ps.setDouble(4, p.getDiscountRate());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();
@@ -114,7 +117,7 @@ public class DiscountDAO {
             ps.setInt(5, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e.getMessage());
         } finally {
             assert ps != null;
             ps.close();
