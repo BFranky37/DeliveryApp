@@ -33,7 +33,6 @@ public class DeliveryMain {
         User user = new User(senderProfile.getId());
         userService.createUser(user);
         user.setId(userService.getIDbyUser(user));
-        senderProfile.setUserID(user.getId());
 
 
 
