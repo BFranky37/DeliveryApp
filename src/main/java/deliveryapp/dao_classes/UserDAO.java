@@ -1,5 +1,6 @@
 package deliveryapp.dao_classes;
 
+import deliveryapp.models.people.Discount;
 import deliveryapp.utils.ConnectionPool;
 import deliveryapp.models.people.User;
 import org.apache.log4j.Logger;
@@ -9,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
+public class UserDAO implements IBaseDAO<User> {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM users WHERE id = ?;";
     private static final String GET_ID_BY_USER = "SELECT * FROM users WHERE " + "profileID = ?;";
     private static final String INSERT = "INSERT INTO users (profileID) VALUES (?);";
     private static final String UPDATE = "UPDATE users SET profileID = ? WHERE id = ?;";
-    
-    public User getUserByID(int id) throws SQLException {
+
+    @Override
+    public User getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -40,7 +42,8 @@ public class UserDAO {
         return null;
     }
 
-    public int getIDbyUser(User p) throws SQLException {
+    @Override
+    public int getIDbyObject(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -62,7 +65,8 @@ public class UserDAO {
         return -1;
     }
 
-    public void createUser(User p) throws SQLException {
+    @Override
+    public void create(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -78,7 +82,8 @@ public class UserDAO {
         }
     }
 
-    public void updateUser(User p) throws SQLException {
+    @Override
+    public void update(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {

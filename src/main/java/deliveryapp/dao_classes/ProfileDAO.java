@@ -1,5 +1,6 @@
 package deliveryapp.dao_classes;
 
+import deliveryapp.models.people.Discount;
 import deliveryapp.utils.ConnectionPool;
 import deliveryapp.models.people.Profile;
 import org.apache.log4j.Logger;
@@ -9,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProfileDAO {
+public class ProfileDAO implements IBaseDAO<Profile> {
     private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM profiles WHERE id = ?;";
     private static final String GET_ID_BY_PROFILE = "SELECT * FROM profiles WHERE name = ? AND phone_number = ? AND addressID = ?;";
     private static final String INSERT = "INSERT INTO profiles (name, phone_number, addressID) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE profiles SET name = ?, phone_number = ?, addressID = ? WHERE id = ?;";
-    
-    public Profile getProfileByID(int id) throws SQLException {
+
+    @Override
+    public Profile getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -41,7 +43,8 @@ public class ProfileDAO {
         return null;
     }
 
-    public int getIDbyProfile(Profile p) throws SQLException {
+    @Override
+    public int getIDbyObject(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -65,7 +68,8 @@ public class ProfileDAO {
         return -1;
     }
 
-    public void createProfile(Profile p) throws SQLException {
+    @Override
+    public void create(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -83,7 +87,8 @@ public class ProfileDAO {
         }
     }
 
-    public void updateProfile(Profile p) throws SQLException {
+    @Override
+    public void update(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {

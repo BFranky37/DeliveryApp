@@ -20,7 +20,7 @@ public class ProfileServiceImpl implements ProfileService {
         String phoneNumber = input.nextLine();
         Profile p = new Profile(name, phoneNumber, addressID);
         try {
-            profileDAO.createProfile(p);
+            profileDAO.create(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public int getIDbyProfile(Profile p) {
         try {
-            return profileDAO.getIDbyProfile(p);
+            return profileDAO.getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

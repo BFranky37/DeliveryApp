@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUserByID(int id) {
         try {
-            return userDAO.getUserByID(id);
+            return userDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public int getIDbyUser(User u) {
         try {
-            return userDAO.getIDbyUser(u);
+            return userDAO.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void createUser(User u) {
         try {
-            userDAO.createUser(u);
+            userDAO.create(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(User u) {
         try {
-            userDAO.updateUser(u);
+            userDAO.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

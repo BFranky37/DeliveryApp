@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DiscountDAO {
+public class DiscountDAO implements IBaseDAO<Discount>{
     private static final Logger LOGGER = Logger.getLogger(DiscountDAO.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM discounts WHERE id = ?;";
     private static final String GET_ID_BY_USER = "SELECT * FROM user_has_discount WHERE userID = ?;";
@@ -18,7 +18,8 @@ public class DiscountDAO {
     private static final String INSERT = "INSERT INTO discounts (name, rate) VALUES (?, ?);";
     private static final String UPDATE = "UPDATE discounts SET name = ?, rate = ? WHERE id = ?;";
 
-    public Discount getDiscountByID(int id) throws SQLException {
+    @Override
+    public Discount getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -43,8 +44,8 @@ public class DiscountDAO {
         }
         return null;
     }
-
-    public int getIDbyUser(User u) throws SQLException {
+    
+    public int getIDbyObject(User u) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -66,7 +67,8 @@ public class DiscountDAO {
         return -1;
     }
 
-    public int getIDbyDiscount(Discount p) throws SQLException {
+    @Override
+    public int getIDbyObject(Discount p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -89,7 +91,8 @@ public class DiscountDAO {
         return -1;
     }
 
-    public void createDiscount(Discount p) throws SQLException {
+    @Override
+    public void create(Discount p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -106,7 +109,8 @@ public class DiscountDAO {
         }
     }
 
-    public void updateDiscount(Discount p) throws SQLException {
+    @Override
+    public void update(Discount p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {

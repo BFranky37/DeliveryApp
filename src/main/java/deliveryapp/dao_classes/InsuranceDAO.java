@@ -9,14 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class InsuranceDAO {
+public class InsuranceDAO implements IBaseDAO<Insurance> {
     private static final Logger LOGGER = Logger.getLogger(InsuranceDAO.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM insurance WHERE id = ?;";
     private static final String GET_ID_BY_INSURANCE = "SELECT * FROM insurance WHERE name = ? AND base_cost = ? AND price_rate = ?;";
     private static final String INSERT = "INSERT INTO insurance (name, base_cost, price_rate) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE insurance SET name = ?, base_cost = ?, price_rate = ? WHERE id = ?;";
-    
-    public Insurance getInsuranceByID(int id) throws SQLException {
+
+    @Override
+    public Insurance getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -43,7 +44,8 @@ public class InsuranceDAO {
         return null;
     }
 
-    public int getIDbyInsurance(Insurance p) throws SQLException {
+    @Override
+    public int getIDbyObject(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -67,7 +69,8 @@ public class InsuranceDAO {
         return -1;
     }
 
-    public void createInsurance(Insurance p) throws SQLException {
+    @Override
+    public void create(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -85,7 +88,8 @@ public class InsuranceDAO {
         }
     }
 
-    public void updateInsurance(Insurance p) throws SQLException {
+    @Override
+    public void update(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {

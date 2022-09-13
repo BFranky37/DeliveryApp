@@ -38,7 +38,7 @@ public class AddressServiceImpl implements AddressService{
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            addressDAO.createAddress(newAddress);
+            addressDAO.create(newAddress);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -49,7 +49,7 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Address getAddressByID(int id)  {
         try {
-            return addressDAO.getAddressByID(id);
+            return addressDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -59,7 +59,7 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public int getIDbyAddress(Address a)  {
         try {
-            return addressDAO.getIDbyAddress(a);
+            return addressDAO.getIDbyObject(a);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

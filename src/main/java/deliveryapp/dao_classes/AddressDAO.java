@@ -9,13 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AddressDAO {
+public class AddressDAO implements IBaseDAO<Address>{
     private static final Logger LOGGER = Logger.getLogger(AddressDAO.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM addresses WHERE id = ?;";
     private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
     private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
-    public Address getAddressByID(int id) throws SQLException {
+    public Address getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -40,7 +40,7 @@ public class AddressDAO {
         return null;
     }
 
-    public int getIDbyAddress(Address p) throws SQLException {
+    public int getIDbyObject(Address p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -64,7 +64,7 @@ public class AddressDAO {
         return -1;
     }
 
-    public void createAddress(Address p) throws SQLException {
+    public void create(Address p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -82,7 +82,7 @@ public class AddressDAO {
         }
     }
 
-    public void updateAddress(Address p) throws SQLException {
+    public void update(Address p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
