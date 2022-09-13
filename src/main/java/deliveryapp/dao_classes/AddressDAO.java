@@ -11,12 +11,16 @@ import java.sql.SQLException;
 
 public class AddressDAO {
     private static final Logger LOGGER = Logger.getLogger(AddressDAO.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM addresses WHERE id = ?;";
+    private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
+    private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
     public Address getAddressByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM addresses WHERE id = ?;");
+            ps = c.prepareStatement(GET_BY_ID);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -41,8 +45,7 @@ public class AddressDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM addresses WHERE " +
-                    "street = ? AND city = ? AND zipcode = ?;");
+            ps = c.prepareStatement(GET_ID_BY_ADDRESS);
             ps.setString(1, p.getAddress());
             ps.setString(2, p.getCity());
             ps.setInt(3, p.getZipcode());
@@ -65,9 +68,7 @@ public class AddressDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("INSERT INTO addresses (street, city, zipcode) VALUES " +
-                    "(?, ?, ?);"
-            );
+            ps = c.prepareStatement(INSERT);
             ps.setString(1, p.getAddress());
             ps.setString(2, p.getCity());
             ps.setInt(3, p.getZipcode());
@@ -85,10 +86,7 @@ public class AddressDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("UPDATE addresses " +
-                    "SET street = ?, city = ?, zipcode = ?" +
-                    "WHERE id = ?;"
-            );
+            ps = c.prepareStatement(UPDATE);
             ps.setString(1, p.getAddress());
             ps.setString(2, p.getCity());
             ps.setInt(3, p.getZipcode());

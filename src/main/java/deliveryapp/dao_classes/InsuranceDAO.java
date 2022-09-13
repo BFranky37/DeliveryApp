@@ -11,13 +11,17 @@ import java.sql.SQLException;
 
 public class InsuranceDAO {
     private static final Logger LOGGER = Logger.getLogger(InsuranceDAO.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM insurance WHERE id = ?;";
+    private static final String GET_ID_BY_INSURANCE = "SELECT * FROM insurance WHERE name = ? AND base_cost = ? AND price_rate = ?;";
+    private static final String INSERT = "INSERT INTO insurance (name, base_cost, price_rate) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE insurance SET name = ?, base_cost = ?, price_rate = ? WHERE id = ?;";
     
     public Insurance getInsuranceByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM insurance WHERE id = ?;");
+            ps = c.prepareStatement(GET_BY_ID);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -44,8 +48,7 @@ public class InsuranceDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM insurance WHERE " +
-                    "name = ? AND base_cost = ? AND price_rate = ?;");
+            ps = c.prepareStatement(GET_ID_BY_INSURANCE);
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getCost());
             ps.setDouble(3, p.getRate());
@@ -68,9 +71,7 @@ public class InsuranceDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("INSERT INTO insurance (name, base_cost, price_rate) VALUES " +
-                    "(?, ?, ?);"
-            );
+            ps = c.prepareStatement(INSERT);
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getCost());
             ps.setDouble(3, p.getRate());
@@ -88,10 +89,7 @@ public class InsuranceDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("UPDATE insurance " +
-                    "SET name = ?, base_cost = ?, price_rate = ?" +
-                    "WHERE id = ?;"
-            );
+            ps = c.prepareStatement(UPDATE);
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getCost());
             ps.setDouble(3, p.getRate());

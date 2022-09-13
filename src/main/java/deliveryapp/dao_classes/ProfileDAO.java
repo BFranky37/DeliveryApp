@@ -11,13 +11,17 @@ import java.sql.SQLException;
 
 public class ProfileDAO {
     private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM profiles WHERE id = ?;";
+    private static final String GET_ID_BY_PROFILE = "SELECT * FROM profiles WHERE name = ? AND phone_number = ? AND addressID = ?;";
+    private static final String INSERT = "INSERT INTO profiles (name, phone_number, addressID) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE profiles SET name = ?, phone_number = ?, addressID = ? WHERE id = ?;";
     
     public Profile getProfileByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM profiles WHERE id = ?;");
+            ps = c.prepareStatement(GET_BY_ID);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -42,8 +46,7 @@ public class ProfileDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM profiles WHERE " +
-                    "name = ? AND phone_number = ? AND addressID = ?;");
+            ps = c.prepareStatement(GET_ID_BY_PROFILE);
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
@@ -66,9 +69,7 @@ public class ProfileDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("INSERT INTO profiles (name, phone_number, addressID) VALUES " +
-                    "(?, ?, ?);"
-            );
+            ps = c.prepareStatement(INSERT);
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
@@ -86,10 +87,7 @@ public class ProfileDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("UPDATE profiles " +
-                    "SET name = ?, phone_number = ?, addressID = ?" +
-                    "WHERE id = ?;"
-            );
+            ps = c.prepareStatement(UPDATE);
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
