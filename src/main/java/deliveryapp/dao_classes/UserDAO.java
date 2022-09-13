@@ -11,13 +11,17 @@ import java.sql.SQLException;
 
 public class UserDAO {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM users WHERE id = ?;";
+    private static final String GET_ID_BY_USER = "SELECT * FROM users WHERE " + "profileID = ?;";
+    private static final String INSERT = "INSERT INTO users (profileID) VALUES (?);";
+    private static final String UPDATE = "UPDATE users SET profileID = ? WHERE id = ?;";
     
     public User getUserByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM users WHERE id = ?;");
+            ps = c.prepareStatement(GET_BY_ID);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -41,8 +45,7 @@ public class UserDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement("SELECT * FROM users WHERE " +
-                    "profileID = ?;");
+            ps = c.prepareStatement(GET_ID_BY_USER);
             ps.setInt(1, p.getProfileID());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -63,9 +66,7 @@ public class UserDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("INSERT INTO users (profileID) VALUES " +
-                    "(?);"
-            );
+            ps = c.prepareStatement(INSERT);
             ps.setInt(1, p.getProfileID());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -81,10 +82,7 @@ public class UserDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("UPDATE users " +
-                    "SET profileID = ?" +
-                    "WHERE id = ?;"
-            );
+            ps = c.prepareStatement(UPDATE);
             ps.setInt(1, p.getProfileID());
             ps.setInt(2, p.getId());
             ps.executeUpdate();
