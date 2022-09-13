@@ -1,5 +1,6 @@
 package deliveryapp.utils;
 
+import deliveryapp.utils.exceptions.ConnectionException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -32,6 +33,18 @@ public class ConnectionPool {
     }
 
     public synchronized Connection getConnection() {
+        try {
+            if (connectionPool.isEmpty())
+                throw new ConnectionException("No connections available");
+            return connectionPool.remove(connectionPool.size() - 1);
+        } catch (ConnectionException e) {
+            LOGGER.warn(e.getMessage());
+            try {
+                connectionPool.add(DriverManager.getConnection("jdbc:mysql://localhost:3306/DeliveryApp", "root", "al48fh6!!boo"));
+            } catch (SQLException s) {
+                LOGGER.error(s.getMessage());
+            }
+        }
         return connectionPool.remove(connectionPool.size() - 1);
     }
 
