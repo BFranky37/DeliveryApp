@@ -47,8 +47,8 @@ public class InsuranceDAO {
             ps = c.prepareStatement("SELECT * FROM insurance WHERE " +
                     "name = ? AND base_cost = ? AND price_rate = ?;");
             ps.setString(1, p.getName());
-            ps.setDouble(3, p.getCost());
-            ps.setDouble(4, p.getRate());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -72,8 +72,8 @@ public class InsuranceDAO {
                     "(?, ?, ?);"
             );
             ps.setString(1, p.getName());
-            ps.setDouble(3, p.getCost());
-            ps.setDouble(4, p.getRate());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -93,9 +93,9 @@ public class InsuranceDAO {
                     "WHERE id = ?;"
             );
             ps.setString(1, p.getName());
-            ps.setDouble(3, p.getCost());
-            ps.setDouble(4, p.getRate());
-            ps.setInt(5, p.getId());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
+            ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

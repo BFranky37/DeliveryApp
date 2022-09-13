@@ -92,7 +92,7 @@ public class AddressDAO {
             ps.setString(1, p.getAddress());
             ps.setString(2, p.getCity());
             ps.setInt(3, p.getZipcode());
-            ps.setInt(5, p.getId());
+            ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

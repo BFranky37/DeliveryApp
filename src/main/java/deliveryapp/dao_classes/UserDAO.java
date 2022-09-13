@@ -43,7 +43,7 @@ public class UserDAO {
         try {
             ps = c.prepareStatement("SELECT * FROM users WHERE " +
                     "profileID = ?;");
-            ps.setInt(4, p.getProfileID());
+            ps.setInt(1, p.getProfileID());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -66,7 +66,7 @@ public class UserDAO {
             ps = c.prepareStatement("INSERT INTO users (profileID) VALUES " +
                     "(?);"
             );
-            ps.setInt(4, p.getProfileID());
+            ps.setInt(1, p.getProfileID());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -85,8 +85,8 @@ public class UserDAO {
                     "SET profileID = ?" +
                     "WHERE id = ?;"
             );
-            ps.setInt(4, p.getProfileID());
-            ps.setInt(5, p.getId());
+            ps.setInt(1, p.getProfileID());
+            ps.setInt(2, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

@@ -69,7 +69,7 @@ public class DiscountDAO {
             ps = c.prepareStatement("SELECT * FROM discounts WHERE " +
                     "name = ? AND rate = ?;");
             ps.setString(1, p.getName());
-            ps.setDouble(4, p.getDiscountRate());
+            ps.setDouble(2, p.getDiscountRate());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -93,7 +93,7 @@ public class DiscountDAO {
                     "(?, ?);"
             );
             ps.setString(1, p.getName());
-            ps.setDouble(4, p.getDiscountRate());
+            ps.setDouble(2, p.getDiscountRate());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -113,8 +113,8 @@ public class DiscountDAO {
                     "WHERE id = ?;"
             );
             ps.setString(1, p.getName());
-            ps.setDouble(4, p.getDiscountRate());
-            ps.setInt(5, p.getId());
+            ps.setDouble(2, p.getDiscountRate());
+            ps.setInt(3, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
