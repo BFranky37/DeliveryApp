@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class ProfileServiceImpl implements ProfileService{
+public class ProfileServiceImpl implements ProfileService {
     private ProfileDAO profileDAO;
     private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
     private static final Scanner input = new Scanner(System.in);
@@ -18,7 +18,7 @@ public class ProfileServiceImpl implements ProfileService{
         String name = input.nextLine();
         LOGGER.info("Please enter your phone number: ");
         String phoneNumber = input.nextLine();
-        Profile p = new Profile(name, phoneNumber, addressID, 0);
+        Profile p = new Profile(name, phoneNumber, addressID);
         try {
             profileDAO.createProfile(p);
         } catch (SQLException e) {

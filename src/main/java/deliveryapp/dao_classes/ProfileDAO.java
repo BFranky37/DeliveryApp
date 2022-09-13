@@ -22,7 +22,7 @@ public class ProfileDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Profile p = new Profile(rs.getString("name"), rs.getString("phone_number"),
-                        rs.getInt("addressID"), rs.getInt("userID"));
+                        rs.getInt("addressID"));
                 p.setId(id);
                 return p;
             }
@@ -43,11 +43,10 @@ public class ProfileDAO {
         ResultSet rs = null;
         try {
             ps = c.prepareStatement("SELECT * FROM profiles WHERE " +
-                    "name = ? AND phone_number = ? AND addressID = ? AND userID = ?;");
+                    "name = ? AND phone_number = ? AND addressID = ?;");
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
-            ps.setInt(4, p.getAddedByUserID());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -67,13 +66,12 @@ public class ProfileDAO {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
-            ps = c.prepareStatement("INSERT INTO profiles (name, phone_number, addressID, userID) VALUES " +
-                    "(?, ?, ?, ? );"
+            ps = c.prepareStatement("INSERT INTO profiles (name, phone_number, addressID) VALUES " +
+                    "(?, ?, ?);"
             );
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
-            ps.setInt(4, p.getAddedByUserID());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -89,14 +87,13 @@ public class ProfileDAO {
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement("UPDATE profiles " +
-                    "SET name = ?, phone_number = ?, addressID = ?, userID = ?" +
+                    "SET name = ?, phone_number = ?, addressID = ?" +
                     "WHERE id = ?;"
             );
             ps.setString(1, p.getName());
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
-            ps.setInt(4, p.getAddedByUserID());
-            ps.setInt(5, p.getId());
+            ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

@@ -24,7 +24,7 @@ public class DeliveryMain {
         AddressServiceImpl addressService = new AddressServiceImpl();
         Address senderAddress = addressService.addAddress();
         senderAddress.setId(addressService.getIDbyAddress(senderAddress));
-        //Create user profile
+        //Create profile
         ProfileServiceImpl profileService = new ProfileServiceImpl();
         Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
         senderProfile.setId(profileService.getIDbyProfile(senderProfile));
@@ -33,6 +33,7 @@ public class DeliveryMain {
         User user = new User(senderProfile.getId());
         userService.createUser(user);
         user.setId(userService.getIDbyUser(user));
+        senderProfile.setUserID(user.getId());
 
 
 

@@ -6,17 +6,14 @@ public class Profile {
     private String name;
     private String phoneNumber;
     private int addressID;
-    private int addedByUserID;
 
     public Profile() {
-
     }
 
-    public Profile(String fullname, String phoneNum, int fulladdress, int addedbyID) {
+    public Profile(String fullname, String phoneNum, int fulladdress) {
         name = fullname;
         phoneNumber = phoneNum;
         addressID = fulladdress;
-        addedByUserID = addedbyID;
     }
 
     //Getters and Setters
@@ -50,14 +47,6 @@ public class Profile {
 
     public void setAddressID(int newAddress) {
         addressID = newAddress;
-    }
-
-    public int getAddedByUserID() {
-        return addedByUserID;
-    }
-
-    public void setAddedByUserID(int addedByUserID) {
-        this.addedByUserID = addedByUserID;
     }
 
     //Class Overrides

@@ -13,7 +13,6 @@ public class User {
     //Constructors
     public User(int profileID) {
         this.profileID = profileID;
-        //discount = Discount.NO_DISCOUNT;
     }
 
     public User() {
