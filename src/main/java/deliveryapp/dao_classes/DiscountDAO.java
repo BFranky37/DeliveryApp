@@ -44,7 +44,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
         }
         return null;
     }
-    
+
     public int getIDbyObject(User u) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
