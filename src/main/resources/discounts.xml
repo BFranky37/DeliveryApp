@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<discounts>
+xsi:schemaLocation="https://www.w3schools.com/xml discounts.xsd">
+    <discount>
+        <name>Veteran</name>
+        <rate>.10</rate>
+    </discount>
+    <discount>
+        <name>Senior Citizen</name>
+        <rate>.05</rate>
+    </discount>
+    <discount>
+        <name>Employee</name>
+        <rate>.10</rate>
+    </discount>
+    <discount>
+        <name>Membership Holder</name>
+        <rate>.15</rate>
+    </discount>
+</discounts>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="vehicle_types">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="vehicle_type">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="name" type="xs:string"/>
+                            <xs:element name="cost_rate" type="xs:double"/>
+                            <xs:element name="weight_capacity" type="xs:double"/>
+                            <xs:element name="space_capacity" type="xs:double"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

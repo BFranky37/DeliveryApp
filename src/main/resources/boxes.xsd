@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="boxes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="box">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="length" type="xs:double"/>
+                            <xs:element name="width" type="xs:double"/>
+                            <xs:element name="height" type="xs:double"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -31,7 +31,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile getProfileByID(int id) {
         try {
-            return profileDAO.getProfileByID(id);
+            return profileDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;

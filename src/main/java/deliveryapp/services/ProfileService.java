@@ -2,8 +2,6 @@ package deliveryapp.services;
 
 import deliveryapp.models.people.Profile;
 
-import java.sql.SQLException;
-
 public interface ProfileService {
     public Profile addUserProfile(int addressID);
 
