@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService{
-    private AddressDAO addressDAO;
+    private AddressDAO addressDAO = new AddressDAO();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
