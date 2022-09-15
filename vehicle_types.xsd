@@ -4,7 +4,7 @@
     <xs:element name="vehicle_types">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="vehicle_type">
+                <xs:element name="vehicle_type" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="name" type="xs:string"/>

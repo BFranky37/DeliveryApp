@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <boxes>
-    xsi:schemaLocation="https://www.w3schools.com/xml boxes.xsd">
     <box>
         <length>6</length>
         <width>6</width>

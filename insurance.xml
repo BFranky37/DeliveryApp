@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <insurances>
-    xsi:schemaLocation="https://www.w3schools.com/xml insurance.xsd">
     <insurance id="1">
         <name>Basic Insurance</name>
         <base_cost>.3</base_cost>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <discounts>
-xsi:schemaLocation="https://www.w3schools.com/xml discounts.xsd">
     <discount id="1">
         <name>Veteran</name>
         <rate>.10</rate>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <vehicle_types>
-    xsi:schemaLocation="https://www.w3schools.com/xml discounts.xsd">
     <vehicle_type id="1">
         <name>Standard Delivery Car</name>
         <cost_rate>2.0</cost_rate>

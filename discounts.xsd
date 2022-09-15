@@ -4,7 +4,7 @@
     <xs:element name="discounts">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="discount">
+                <xs:element name="discount" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="name" type="xs:string"/>
