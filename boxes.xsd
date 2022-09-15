@@ -11,6 +11,7 @@
                             <xs:element name="width" type="xs:double"/>
                             <xs:element name="height" type="xs:double"/>
                         </xs:sequence>
+                        <xs:attribute type="xs:byte" name="id" use="optional"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

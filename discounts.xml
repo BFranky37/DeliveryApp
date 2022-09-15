@@ -2,19 +2,19 @@
 
 <discounts>
 xsi:schemaLocation="https://www.w3schools.com/xml discounts.xsd">
-    <discount>
+    <discount id="1">
         <name>Veteran</name>
         <rate>.10</rate>
     </discount>
-    <discount>
+    <discount id="2">
         <name>Senior Citizen</name>
         <rate>.05</rate>
     </discount>
-    <discount>
+    <discount id="3">
         <name>Employee</name>
         <rate>.10</rate>
     </discount>
-    <discount>
+    <discount id="4">
         <name>Membership Holder</name>
         <rate>.15</rate>
     </discount>
