@@ -81,7 +81,7 @@ public class Shipment {
         return routeID;
     }
 
-    public void setRoute(int newRoute) {
+    public void setRouteID(int newRoute) {
         routeID = newRoute;
         //determineShippingPlan();
     }
@@ -90,7 +90,7 @@ public class Shipment {
         return vehicleID;
     }
 
-    private void setVehicleID(int newVehicle) {
+    public void setVehicleID(int newVehicle) {
         vehicleID = newVehicle;
     }
 
