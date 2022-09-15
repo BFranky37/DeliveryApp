@@ -65,74 +65,7 @@ public class DeliveryMain {
 
             switch (menu) {
                 case SHIP_PACKAGE:
-                    //GOING THROUGH THE ORDER PROCESS
-                    boolean sendAnother;
-                    do {
-                        valid = false;
-                        sendAnother = false;
-                        //PACKAGE
-                        LOGGER.info("We need information about the package you are sending.");
-                        Package shippingPackage = Session.getPackageInfo();
 
-                        //RECIPIENT
-                        LOGGER.info("We now need to know who you want to send this package to. Press enter to continue");
-                        Recipient recipient = null;
-                        boolean previousRecipient;
-                        do {
-                            try { //SELECT FROM PREVIOUS RECIPIENTS
-                                LOGGER.info("Have you sent to this person before or added their information? (y/n)");
-                                previousRecipient = ValidateInput.validateYesNo(input.nextLine());
-                                if (previousRecipient) {
-                                    int num = 1;
-                                    IFilter<LinkedHashSet<Person>, List<Person>> filterProfiles = (profiles) -> //Convert profiles to List of Recipient names
-                                            (List<Person>) profiles.stream().filter(name -> !name.getClass().equals(Sender.class)).collect(Collectors.toList());
-                                    List<Person> profiles = filterProfiles.filter(Session.getProfiles());
-                                    for (Person profile : profiles) {
-                                        LOGGER.info(num + ". " + profile.getName() + ": " + profile.getAddress());
-                                        num++;
-                                    }
-                                    LOGGER.info("Please select the recipient for this shipment.");
-                                    int recipientSelection = Integer.parseInt(input.nextLine());
-                                    if (recipientSelection > profiles.size())
-                                        throw new InvalidInputException("Menu selection not in range.");
-                                    recipient = (Recipient) profiles.get(recipientSelection - 1);
-                                }
-                                else { //CREATE NEW RECIPIENT PROFILE
-                                    recipient = Session.getRecipientInfo();
-                                    Session.addProfile(recipient);
-                                }
-                                valid = true;
-                            } catch (InvalidInputException e) {
-                                LOGGER.info(e.getMessage());
-                            }
-                        } while (!valid);
-
-                        //INSURANCE
-                        Insurance insuranceType = Session.getInsuranceType(shippingPackage);
-                        //SHIPMENT
-                        Session.finalizeShipment(sender, recipient, shippingPackage, insuranceType);
-
-                        do {
-                            try {
-                                valid = false;
-                                LOGGER.info("Would you like to send another package? (y/n)");
-                                sendAnother = ValidateInput.validateYesNo(input.nextLine());
-                                valid = true;
-                            } catch (InvalidInputException e) {
-                                LOGGER.warn(e.getMessage() + "Invalid yes/no input");
-                                LOGGER.info("Please enter a valid input (y/n)");
-                            }
-                        } while (!valid);
-                    } while (sendAnother);
-
-                    LOGGER.info("All shipments finalized.");
-                    LOGGER.info("Printing Receipts...");
-                    try {
-                        Session.printReceipt(sender);
-                    } catch (IOException e) {
-                        LOGGER.error(e.getMessage());
-                        throw new RuntimeException(e);
-                    }
                     break;
 
                 case EDIT_PROFILE:
