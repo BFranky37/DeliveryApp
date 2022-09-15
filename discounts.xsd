@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="vehicle_types">
+    <xs:element name="discounts">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="vehicle_type">
+                <xs:element name="discount" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="name" type="xs:string"/>
-                            <xs:element name="cost_rate" type="xs:double"/>
-                            <xs:element name="weight_capacity" type="xs:double"/>
-                            <xs:element name="space_capacity" type="xs:double"/>
+                            <xs:element name="rate" type="xs:double"/>
                         </xs:sequence>
+                        <xs:attribute type="xs:byte" name="id" use="optional"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

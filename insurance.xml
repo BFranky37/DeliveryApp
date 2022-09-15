@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <insurances>
-    xsi:schemaLocation="https://www.w3schools.com/xml insurance.xsd">
-    <insurance>
+    <insurance id="1">
         <name>Basic Insurance</name>
         <base_cost>.3</base_cost>
         <price_rate>.015</price_rate>
     </insurance>
-    <insurance>
+    <insurance id="2">
         <name>Fragility Insurance</name>
         <base_cost>.5</base_cost>
         <price_rate>.03</price_rate>
     </insurance>
-    <insurance>
+    <insurance id="3">
         <name>High Value Insurance</name>
         <base_cost>1</base_cost>
         <price_rate>.5</price_rate>
     </insurance>
-    <insurance>
+    <insurance id="4">
         <name>High Value Fragility Insurance</name>
         <base_cost>1.5</base_cost>
         <price_rate>.55</price_rate>

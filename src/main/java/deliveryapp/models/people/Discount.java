@@ -9,12 +9,12 @@ public class Discount {
     private String name;
     private double discountRate;
 
-    Discount (String name, double discountRate) {
+    public Discount (String name, double discountRate) {
         this.name = name;
         this.discountRate = discountRate;
     }
 
-    Discount() {
+    public Discount() {
     }
 
     public int getId() {

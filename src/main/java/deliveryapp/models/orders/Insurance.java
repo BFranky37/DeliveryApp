@@ -12,9 +12,9 @@ public class Insurance {
     private double priceRate; //extra cost added on based on value of the object being shipped (Usually between 1.5 - 5%)
 
     //Constructors
-    Insurance() {
+    public Insurance() {
     }
-    Insurance(String nam, double cost, double rate) {
+    public Insurance(String nam, double cost, double rate) {
         name = nam;
         baseCost = cost;
         priceRate = rate;
