@@ -23,7 +23,7 @@ public class InsuranceServiceImpl implements InsuranceService{
     }
 
     @Override
-    public void parseFromXML(String schemaName, String xmlName) {
+    public void parseFromXmlDOM(String schemaName, String xmlName) {
         insuranceParser.loadSchema(schemaName);
         Document doc = insuranceParser.readXMLFile(xmlName);
 

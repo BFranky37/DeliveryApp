@@ -10,6 +10,7 @@ import java.util.Objects;
 @XmlType(propOrder = { "id", "length", "width", "height" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Box {
+    @XmlTransient
     private static final Logger LOGGER = Logger.getLogger(Box.class.getName());
 
     @XmlAttribute

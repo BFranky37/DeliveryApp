@@ -9,23 +9,27 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.sql.SQLException;
 
 public class DiscountServiceImpl implements DiscountService {
     private static final Logger LOGGER = Logger.getLogger(DiscountServiceImpl.class.getName());
 
     private final DiscountDAO discountDAO;
-    XmlParserDOM discountParser;
+    XmlParserDOM domParser;
 
     public DiscountServiceImpl() {
         discountDAO  = new DiscountDAO();
-        discountParser = new XmlParserDOM();
+        domParser = new XmlParserDOM();
     }
 
     @Override
-    public void parseFromXML(String schemaName, String xmlName) {
-        discountParser.loadSchema(schemaName);
-        Document doc = discountParser.readXMLFile(xmlName);
+    public void parseFromXmlDOM(String schemaName, String xmlName) {
+        domParser.loadSchema(schemaName);
+        Document doc = domParser.readXMLFile(xmlName);
 
         NodeList list = doc.getElementsByTagName("discount");
         for (int i = 0; i < list.getLength(); i++) {
@@ -44,5 +48,23 @@ public class DiscountServiceImpl implements DiscountService {
                 }
             }
         }
+    }
+
+    @Override
+    public void parseFromXmlJAXB(String schemaName, String xmlName) {
+        Discount xmlDiscount = new Discount();
+        try {
+            JAXBContext context = JAXBContext.newInstance(Discount.class);
+            xmlDiscount = (Discount) context.createUnmarshaller().unmarshal(new FileReader(xmlName));
+        } catch (JAXBException | FileNotFoundException e) {
+            LOGGER.warn(e.getMessage());
+        }
+
+        try {
+            discountDAO.create(xmlDiscount);
+        } catch (SQLException e) {
+            LOGGER.warn(e.getMessage());
+        }
+
     }
 }

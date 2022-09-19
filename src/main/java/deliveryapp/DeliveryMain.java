@@ -8,11 +8,7 @@ import deliveryapp.utils.Menu;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class DeliveryMain {
     private static final Logger LOGGER = Logger.getLogger(DeliveryMain.class.getName());
@@ -29,10 +25,10 @@ public class DeliveryMain {
 
         //Read Discount data from xml
         DiscountServiceImpl discountService = new DiscountServiceImpl();
-        discountService.parseFromXML("discounts.xsd", "src/main/resources/xml/discounts.xml");
+        discountService.parseFromXmlDOM("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
         //Read Insurance data from xml
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
-        insuranceService.parseFromXML("insurance.xsd", "src/main/resources/xml/insurance.xml");
+        insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
 
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
