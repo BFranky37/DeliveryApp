@@ -40,7 +40,7 @@ public class ProfileDAO implements IBaseDAO<Profile> {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return null;
+        throw new SQLException("No data matching the ID given");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ProfileDAO implements IBaseDAO<Profile> {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return -1;
+        throw new SQLException("No data matching the Object given");
     }
 
     @Override

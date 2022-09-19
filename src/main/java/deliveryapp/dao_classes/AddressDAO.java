@@ -15,6 +15,7 @@ public class AddressDAO implements IBaseDAO<Address>{
     private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
     private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
+
     public Address getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
@@ -37,7 +38,7 @@ public class AddressDAO implements IBaseDAO<Address>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return null;
+        throw new SQLException("No data matching the ID given");
     }
 
     public int getIDbyObject(Address p) throws SQLException {
@@ -61,7 +62,7 @@ public class AddressDAO implements IBaseDAO<Address>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return -1;
+        throw new SQLException("No data matching the Object given");
     }
 
     public void create(Address p) throws SQLException {

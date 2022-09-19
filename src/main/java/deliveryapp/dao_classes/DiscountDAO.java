@@ -42,7 +42,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return null;
+        throw new SQLException("No data matching the ID given");
     }
 
     public int getIDbyObject(User u) throws SQLException {
@@ -64,7 +64,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return -1;
+        throw new SQLException("No data matching the Object given");
     }
 
     @Override
@@ -88,7 +88,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        return -1;
+        throw new SQLException("No data matching the Object given");
     }
 
     @Override
