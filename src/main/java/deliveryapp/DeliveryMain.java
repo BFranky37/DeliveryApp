@@ -4,19 +4,10 @@ import deliveryapp.models.people.Address;
 import deliveryapp.services.*;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
-import org.apache.commons.io.FileUtils;
+import deliveryapp.utils.Menu;
+import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import java.io.File;
 import java.util.Scanner;
 
 public class DeliveryMain {
@@ -34,10 +25,10 @@ public class DeliveryMain {
 
         //Read Discount data from xml
         DiscountServiceImpl discountService = new DiscountServiceImpl();
-        discountService.parseFromXML("discounts.xsd", "discounts.xml");
+        discountService.parseFromXmlDOM("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
         //Read Insurance data from xml
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
-        insuranceService.parseFromXML("insurance.xsd", "insurance.xml");
+        insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
 
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
@@ -52,7 +43,49 @@ public class DeliveryMain {
         userService.createUser(user);
         user.setId(userService.getIDbyUser(user));
 
+        //MENU
+        Menu menu = Menu.SHIP_PACKAGE;
+        boolean exit = false;
+        boolean valid = false;
+        do {
+            boolean validInput = false;
+            menu.printMenu(); //Print menu
+            while (!validInput) {
+                try {
+                    menu = menu.makeSelection(Integer.parseInt(input.nextLine())); //Select menu option
+                    validInput = true;
+                } catch (InvalidInputException | NumberFormatException e) {
+                    LOGGER.warn(e.getMessage() + " Please try again.");
+                }
+            }
 
+            switch (menu) {
+                case SHIP_PACKAGE:
+
+                    break;
+
+                case EDIT_PROFILE:
+                    break;
+
+                case CHANGE_DISCOUNT:
+                    break;
+
+                case ADD_RECIPIENT:
+                    break;
+
+                case VIEW_PROFILES:
+                    break;
+
+                case OPERATING_CITIES:
+                    break;
+
+                case EXIT_PROGRAM:
+                    LOGGER.info("Thank you for using the Delivery App!");
+                    LOGGER.info("Exiting Program...");
+                    exit = true;
+                    break;
+            }
+        } while (!exit);
 
     }
 }
