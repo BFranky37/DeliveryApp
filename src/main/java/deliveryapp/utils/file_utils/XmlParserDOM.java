@@ -1,4 +1,4 @@
-package deliveryapp.utils;
+package deliveryapp.utils.file_utils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -14,11 +14,12 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.File;
 
-public class XmlParserDOM {
+public class XmlParserDOM implements XmlParser {
     private static final Logger LOGGER = Logger.getLogger(XmlParserDOM.class.getName());
 
     Schema schema;
 
+    @Override
     public void loadSchema(String filename) {
         try {
             String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
@@ -29,6 +30,7 @@ public class XmlParserDOM {
         }
     }
 
+    @Override
     public Document readXMLFile(String filename) {
         Document doc = null;
         try { //parse xml file

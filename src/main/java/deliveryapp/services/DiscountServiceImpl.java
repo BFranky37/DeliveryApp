@@ -1,9 +1,8 @@
 package deliveryapp.services;
 
-import deliveryapp.dao_classes.AddressDAO;
 import deliveryapp.dao_classes.DiscountDAO;
 import deliveryapp.models.people.Discount;
-import deliveryapp.utils.XmlParserDOM;
+import deliveryapp.utils.file_utils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

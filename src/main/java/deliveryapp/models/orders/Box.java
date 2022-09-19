@@ -3,16 +3,25 @@ package deliveryapp.models.orders;
 import deliveryapp.utils.SizeMeasurement;
 import org.apache.log4j.Logger;
 
+import javax.xml.bind.annotation.*;
 import java.util.Objects;
 
+@XmlRootElement(name = "book")
+@XmlType(propOrder = { "id", "length", "width", "height" })
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Box {
     private static final Logger LOGGER = Logger.getLogger(Box.class.getName());
 
+    @XmlAttribute
     private int id;
     //Dimensions measured in inches
+    @XmlElement
     private double length;
+    @XmlElement
     private double width;
+    @XmlElement
     private double height;
+    @XmlTransient
     private static final double sizeLimit = 500000;
 
     //Constructors
