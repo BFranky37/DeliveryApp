@@ -1,4 +1,4 @@
-# Default ignored files
+## Default ignored files
 /shelf/
 /.idea
 *.class
@@ -6,6 +6,9 @@
 /workspace.xml
 DeliveryLog.log.lck
 DeliveryApp.iml
+
+## Sensitive information
+db.properties
 
 ## target folder at the top level of the project structue and paths and contents underneath it
 target/
