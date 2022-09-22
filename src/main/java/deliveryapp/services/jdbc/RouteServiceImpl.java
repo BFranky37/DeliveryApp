@@ -1,22 +1,22 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.UserDAO;
-import deliveryapp.models.people.User;
-import deliveryapp.services.UserService;
+import deliveryapp.dao_classes.RouteDAO;
+import deliveryapp.models.vehicles.Route;
+import deliveryapp.services.RouteService;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class UserServiceImpl implements UserService {
-    private UserDAO userDAO = new UserDAO();;
-    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
+public class RouteServiceImpl implements RouteService {
+    private final RouteDAO routeDAO = new RouteDAO();;
+    private static final Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public User getUserByID(int id) {
+    public Route getRouteByID(int id) {
         try {
-            return userDAO.getObjectByID(id);
+            return routeDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getIDbyUser(User u) {
+    public int getIDbyRoute(Route u) {
         try {
-            return userDAO.getIDbyObject(u);
+            return routeDAO.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -34,18 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User u) {
+    public void createRoute(Route u) {
         try {
-            u.setId(userDAO.create(u));
+            u.setId(routeDAO.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
     }
 
     @Override
-    public void updateUser(User u) {
+    public void updateRoute(Route u) {
         try {
-            userDAO.update(u);
+            routeDAO.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

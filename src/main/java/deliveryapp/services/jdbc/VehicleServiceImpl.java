@@ -1,22 +1,22 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.UserDAO;
-import deliveryapp.models.people.User;
-import deliveryapp.services.UserService;
+import deliveryapp.dao_classes.VehicleDAO;
+import deliveryapp.models.vehicles.Vehicle;
+import deliveryapp.services.VehicleService;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class UserServiceImpl implements UserService {
-    private UserDAO userDAO = new UserDAO();;
-    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
+public class VehicleServiceImpl implements VehicleService {
+    private final VehicleDAO vehicleDAO = new VehicleDAO();;
+    private static final Logger LOGGER = Logger.getLogger(VehicleServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public User getUserByID(int id) {
+    public Vehicle getVehicleByID(int id) {
         try {
-            return userDAO.getObjectByID(id);
+            return vehicleDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getIDbyUser(User u) {
+    public int getIDbyVehicle(Vehicle u) {
         try {
-            return userDAO.getIDbyObject(u);
+            return vehicleDAO.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -34,18 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User u) {
+    public void createVehicle(Vehicle u) {
         try {
-            u.setId(userDAO.create(u));
+            u.setId(vehicleDAO.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
     }
 
     @Override
-    public void updateUser(User u) {
+    public void updateVehicle(Vehicle u) {
         try {
-            userDAO.update(u);
+            vehicleDAO.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
