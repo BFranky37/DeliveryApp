@@ -1,7 +1,8 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.InsuranceDAO;
 import deliveryapp.models.orders.Insurance;
+import deliveryapp.services.InsuranceService;
 import deliveryapp.utils.file_utils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -11,7 +12,7 @@ import org.w3c.dom.NodeList;
 
 import java.sql.SQLException;
 
-public class InsuranceServiceImpl implements InsuranceService{
+public class InsuranceServiceImpl implements InsuranceService {
     private static final Logger LOGGER = Logger.getLogger(InsuranceServiceImpl.class.getName());
 
     private final InsuranceDAO insuranceDAO;

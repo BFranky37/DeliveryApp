@@ -1,8 +1,9 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.AddressDAO;
 import deliveryapp.dao_classes.ProfileDAO;
 import deliveryapp.models.people.Profile;
+import deliveryapp.services.ProfileService;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;

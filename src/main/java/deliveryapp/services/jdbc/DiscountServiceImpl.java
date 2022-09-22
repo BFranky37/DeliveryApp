@@ -1,7 +1,8 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.DiscountDAO;
 import deliveryapp.models.people.Discount;
+import deliveryapp.services.DiscountService;
 import deliveryapp.utils.file_utils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
