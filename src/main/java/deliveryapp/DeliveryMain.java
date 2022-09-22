@@ -68,7 +68,25 @@ public class DeliveryMain {
             }
 
             switch (menu) {
-                
+                case SHIP_PACKAGE:
+
+                    break;
+
+                case EDIT_PROFILE:
+                    break;
+
+                case CHANGE_DISCOUNT:
+                    break;
+
+                case ADD_RECIPIENT:
+                    break;
+
+                case VIEW_PROFILES:
+                    break;
+
+                case OPERATING_CITIES:
+                    break;
+
                 case EXIT_PROGRAM:
                     LOGGER.info("Thank you for using the Delivery App!");
                     LOGGER.info("Exiting Program...");
