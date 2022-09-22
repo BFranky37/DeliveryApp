@@ -2,6 +2,7 @@ package deliveryapp;
 
 import deliveryapp.models.orders.Box;
 import deliveryapp.models.people.Address;
+import deliveryapp.models.people.Discount;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
 import deliveryapp.services.*;
@@ -26,15 +27,15 @@ public class DeliveryMain {
         AddressService addressService = new AddressServiceImpl();
         ProfileService profileService = new ProfileServiceImpl();
         UserService userService = new UserServiceImpl();
-        BoxService boxService = new BoxServiceImpl();
-        //Read Box data from Json file
+        DiscountServiceImpl discountService = new DiscountServiceImpl();
+        
+        //Read Discount data from Json file
         JsonParser jsonParser = new JsonParser();
-        List<Box> boxes = jsonParser.parseJson("src/main/resources/json/boxes.json", Box.class);
-        for (Box b: boxes) {
-            boxService.createBox(b);
+        List<Discount> discounts = jsonParser.parseJson("src/main/resources/json/discounts.json", Discount.class);
+        for (Discount d: discounts) {
+            discountService.createDiscount(d);
         }
         //Read Discount data from xml JAXB
-        DiscountServiceImpl discountService = new DiscountServiceImpl();
         discountService.parseFromXmlJAXB("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
         //Read Insurance data from xml DOM
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();

@@ -22,6 +22,14 @@ public class DiscountServiceImpl implements DiscountService {
     private final DiscountDAO discountDAO;
     XmlParserDOM domParser;
 
+    public void createDiscount(Discount d){
+        try {
+            d.setId(discountDAO.create(d));
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
     public DiscountServiceImpl() {
         discountDAO  = new DiscountDAO();
         domParser = new XmlParserDOM();
