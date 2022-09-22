@@ -1,5 +1,6 @@
 package deliveryapp.models.people;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.log4j.Logger;
 
 import java.util.Objects;
@@ -7,9 +8,13 @@ import java.util.Objects;
 public class Address {
     private static final Logger LOGGER = Logger.getLogger(Address.class.getName());
     //Members
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("street")
     private String streetAddress;
+    @JsonProperty("city")
     private String city;
+    @JsonProperty("zipcode")
     private int zipcode;
 
     //Constructors

@@ -1,0 +1,18 @@
+
+[
+  {
+    "street": "123 Street st",
+    "city": "Cityville",
+    "zipcode": 11111
+  },
+  {
+    "street": "13568 Road rd",
+    "city": "Hometown",
+    "zipcode": 56428
+  },
+  {
+  "street": "777 Lane ln",
+  "city": "Farplace",
+  "zipcode": 99853
+  }
+]

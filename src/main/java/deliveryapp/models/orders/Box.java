@@ -1,28 +1,23 @@
 package deliveryapp.models.orders;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import deliveryapp.utils.SizeMeasurement;
 import org.apache.log4j.Logger;
 
-import javax.xml.bind.annotation.*;
 import java.util.Objects;
 
-@XmlRootElement(name = "book")
-@XmlType(propOrder = { "id", "length", "width", "height" })
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Box {
-    @XmlTransient
     private static final Logger LOGGER = Logger.getLogger(Box.class.getName());
 
-    @XmlAttribute
+    @JsonProperty("id")
     private int id;
     //Dimensions measured in inches
-    @XmlElement
+    @JsonProperty("length")
     private double length;
-    @XmlElement
+    @JsonProperty("width")
     private double width;
-    @XmlElement
+    @JsonProperty("height")
     private double height;
-    @XmlTransient
     private static final double sizeLimit = 500000;
 
     //Constructors

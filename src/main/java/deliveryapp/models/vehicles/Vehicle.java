@@ -1,11 +1,16 @@
 package deliveryapp.models.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Vehicle {
     //Members
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("vehicle_typeID")
     private int vehicleTypeID;
+    @JsonProperty("tracking_number")
     private String vehicleNumber;
 
     //Constructors

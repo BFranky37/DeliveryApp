@@ -1,5 +1,6 @@
 package deliveryapp.models.people;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.annotation.*;
@@ -11,10 +12,13 @@ public class Discount {
     @XmlTransient
     private static final Logger LOGGER = Logger.getLogger(Discount.class.getName());
 
+    @JsonProperty("id")
     @XmlAttribute
     private int id;
+    @JsonProperty("name")
     @XmlElement
     private String name;
+    @JsonProperty("rate")
     @XmlElement(name = "rate")
     private double discountRate;
 
