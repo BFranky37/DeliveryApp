@@ -1,8 +1,9 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.AddressDAO;
 import deliveryapp.dao_classes.ProfileDAO;
 import deliveryapp.models.people.Profile;
+import deliveryapp.services.ProfileService;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class ProfileServiceImpl implements ProfileService {
         String phoneNumber = input.nextLine();
         Profile p = new Profile(name, phoneNumber, addressID);
         try {
-            profileDAO.create(p);
+            p.setId(profileDAO.create(p));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

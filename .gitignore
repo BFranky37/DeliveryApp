@@ -2,7 +2,6 @@
 /shelf/
 /.idea
 *.class
-*.json
 /workspace.xml
 DeliveryLog.log.lck
 DeliveryApp.iml

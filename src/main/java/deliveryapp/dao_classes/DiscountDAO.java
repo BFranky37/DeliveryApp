@@ -92,7 +92,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
     }
 
     @Override
-    public void create(Discount p) throws SQLException {
+    public int create(Discount p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -100,6 +100,8 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getDiscountRate());
             ps.executeUpdate();
+
+            return getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -107,6 +109,7 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
+        throw new SQLException("Could not get ID of newly created object");
     }
 
     @Override

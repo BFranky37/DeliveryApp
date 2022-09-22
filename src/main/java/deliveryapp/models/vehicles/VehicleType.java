@@ -1,12 +1,19 @@
 package deliveryapp.models.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class VehicleType {
     //Members
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("cost_rate")
     private double costRate;
+    @JsonProperty("weight_capacity")
     private double weightCapacity; //max weight of packages in pounds
     //for reference, UPS separates weight class at the 70 and 150lbs mark for standard cars, with no limit on freight trucks
+    @JsonProperty("space_capacity")
     private double spaceCapacity; //max size of packages in cubic inches
 
     //Constructors

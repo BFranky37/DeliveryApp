@@ -1,18 +1,14 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.ShipmentDAO;
-import deliveryapp.dao_classes.UserDAO;
 import deliveryapp.models.orders.Shipment;
 import deliveryapp.models.people.Profile;
+import deliveryapp.services.ShipmentService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class ShipmentServiceImpl implements ShipmentService {
 

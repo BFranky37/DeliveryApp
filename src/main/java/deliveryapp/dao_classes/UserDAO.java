@@ -66,13 +66,15 @@ public class UserDAO implements IBaseDAO<User> {
     }
 
     @Override
-    public void create(User p) throws SQLException {
+    public int create(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
             ps.setInt(1, p.getProfileID());
             ps.executeUpdate();
+
+            return getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -80,6 +82,7 @@ public class UserDAO implements IBaseDAO<User> {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
+        throw new SQLException("Could not get ID of newly created object");
     }
 
     @Override

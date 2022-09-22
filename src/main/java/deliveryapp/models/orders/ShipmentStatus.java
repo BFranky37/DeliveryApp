@@ -2,7 +2,7 @@ package deliveryapp.models.orders;
 
 import org.apache.log4j.Logger;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ShipmentStatus {
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatus.class.getName());
@@ -16,7 +16,11 @@ public class ShipmentStatus {
     public ShipmentStatus(Shipment shipment) {
         shipmentID = shipment.getId();
         delivered = false;
-        dateDeparted = new java.util.Date();
+        java.util.Date utilDate = new java.util.Date();
+        dateDeparted = new java.sql.Date(utilDate.getTime());;
+    }
+
+    public ShipmentStatus() {
     }
 
     public int getId() {

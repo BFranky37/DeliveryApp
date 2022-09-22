@@ -1,13 +1,18 @@
 package deliveryapp;
 
+import deliveryapp.models.orders.Box;
 import deliveryapp.models.people.Address;
-import deliveryapp.services.*;
+import deliveryapp.models.people.Discount;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
+import deliveryapp.services.*;
+import deliveryapp.services.jdbc.*;
 import deliveryapp.utils.Menu;
 import deliveryapp.utils.exceptions.InvalidInputException;
+import deliveryapp.utils.file_utils.JsonParser;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class DeliveryMain {
@@ -19,14 +24,20 @@ public class DeliveryMain {
         Scanner input = new Scanner(System.in);
 
         LOGGER.info("Welcome to the DeliveryApp. We will be happy to ship your package. ");
-        AddressServiceImpl addressService = new AddressServiceImpl();
-        ProfileServiceImpl profileService = new ProfileServiceImpl();
-        UserServiceImpl userService = new UserServiceImpl();
-
-        //Read Discount data from xml
+        AddressService addressService = new AddressServiceImpl();
+        ProfileService profileService = new ProfileServiceImpl();
+        UserService userService = new UserServiceImpl();
         DiscountServiceImpl discountService = new DiscountServiceImpl();
-        discountService.parseFromXmlDOM("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
-        //Read Insurance data from xml
+
+        //Read Discount data from Json file
+        JsonParser jsonParser = new JsonParser();
+        List<Discount> discounts = jsonParser.parseJson("src/main/resources/json/discounts.json", Discount.class);
+        for (Discount d: discounts) {
+            discountService.createDiscount(d);
+        }
+        //Read Discount data from xml JAXB
+        discountService.parseFromXmlJAXB("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
+        //Read Insurance data from xml DOM
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
         insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
 
@@ -34,14 +45,11 @@ public class DeliveryMain {
         LOGGER.info("First we need some information about you. Press enter to continue");
         //Create user address
         Address senderAddress = addressService.addAddress();
-        senderAddress.setId(addressService.getIDbyAddress(senderAddress));
         //Create profile
         Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
-        senderProfile.setId(profileService.getIDbyProfile(senderProfile));
         //Create User
         User user = new User(senderProfile.getId());
         userService.createUser(user);
-        user.setId(userService.getIDbyUser(user));
 
         //MENU
         Menu menu = Menu.SHIP_PACKAGE;
@@ -60,25 +68,7 @@ public class DeliveryMain {
             }
 
             switch (menu) {
-                case SHIP_PACKAGE:
-
-                    break;
-
-                case EDIT_PROFILE:
-                    break;
-
-                case CHANGE_DISCOUNT:
-                    break;
-
-                case ADD_RECIPIENT:
-                    break;
-
-                case VIEW_PROFILES:
-                    break;
-
-                case OPERATING_CITIES:
-                    break;
-
+                
                 case EXIT_PROGRAM:
                     LOGGER.info("Thank you for using the Delivery App!");
                     LOGGER.info("Exiting Program...");

@@ -1,0 +1,15 @@
+
+[
+  {
+    "name": "Senior Citizen",
+    "rate": 0.05
+  },
+  {
+    "name": "Employee",
+    "rate": 0.10
+  },
+  {
+    "name": "Membership Holder",
+    "rate": 0.15
+  }
+]

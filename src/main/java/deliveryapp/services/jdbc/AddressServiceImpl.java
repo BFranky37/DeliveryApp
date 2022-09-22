@@ -1,6 +1,7 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
 import deliveryapp.dao_classes.AddressDAO;
+import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import deliveryapp.models.people.Address;
@@ -10,7 +11,7 @@ import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
     private AddressDAO addressDAO = new AddressDAO();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
@@ -38,7 +39,7 @@ public class AddressServiceImpl implements AddressService{
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            addressDAO.create(newAddress);
+            newAddress.setId(addressDAO.create(newAddress));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

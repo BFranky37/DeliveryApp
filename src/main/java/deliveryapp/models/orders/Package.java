@@ -11,8 +11,8 @@ public class Package {
     private int id;
     private int boxID;
     private double weight;
-    private boolean fragility;
     private double value;
+    private boolean fragility;
     private double cost;
     final static double costRate = 2.3;
     public static final double weightLimit = 3000;

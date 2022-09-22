@@ -75,7 +75,7 @@ public class ShipmentDAO implements IBaseDAO<Shipment>{
     }
 
     @Override
-    public void create(Shipment p) throws SQLException {
+    public int create(Shipment p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -89,6 +89,8 @@ public class ShipmentDAO implements IBaseDAO<Shipment>{
             ps.setBoolean(7, p.getPrio());
             ps.setDouble(8, p.getSenderID());
             ps.executeUpdate();
+
+            return getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -96,6 +98,7 @@ public class ShipmentDAO implements IBaseDAO<Shipment>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
+        throw new SQLException("Could not get ID of newly created object");
     }
 
     @Override

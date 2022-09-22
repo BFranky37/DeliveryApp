@@ -1,22 +1,22 @@
-package deliveryapp.services;
+package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.AddressDAO;
-import deliveryapp.dao_classes.UserDAO;
-import deliveryapp.models.people.User;
+import deliveryapp.dao_classes.BoxDAO;
+import deliveryapp.models.orders.Box;
+import deliveryapp.services.BoxService;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class UserServiceImpl implements UserService{
-    private UserDAO userDAO = new UserDAO();;
-    private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
+public class BoxServiceImpl implements BoxService {
+    private final BoxDAO boxDAO = new BoxDAO();;
+    private static final Logger LOGGER = Logger.getLogger(BoxServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public User getUserByID(int id) {
+    public Box getBoxByID(int id) {
         try {
-            return userDAO.getObjectByID(id);
+            return boxDAO.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public int getIDbyUser(User u) {
+    public int getIDbyBox(Box u) {
         try {
-            return userDAO.getIDbyObject(u);
+            return boxDAO.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -34,18 +34,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(User u) {
+    public void createBox(Box u) {
         try {
-            userDAO.create(u);
+            u.setId(boxDAO.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
     }
 
     @Override
-    public void updateUser(User u) {
+    public void updateBox(Box u) {
         try {
-            userDAO.update(u);
+            boxDAO.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
