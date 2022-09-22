@@ -69,7 +69,7 @@ public class ProfileDAO implements IBaseDAO<Profile> {
     }
 
     @Override
-    public void create(Profile p) throws SQLException {
+    public int create(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -78,6 +78,8 @@ public class ProfileDAO implements IBaseDAO<Profile> {
             ps.setString(2, p.getNumber());
             ps.setInt(3, p.getAddressID());
             ps.executeUpdate();
+
+            return getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -85,6 +87,7 @@ public class ProfileDAO implements IBaseDAO<Profile> {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
+        throw new SQLException("Could not get ID of newly created object");
     }
 
     @Override

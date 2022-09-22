@@ -22,7 +22,7 @@ public class ProfileServiceImpl implements ProfileService {
         String phoneNumber = input.nextLine();
         Profile p = new Profile(name, phoneNumber, addressID);
         try {
-            profileDAO.create(p);
+            p.setId(profileDAO.create(p));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

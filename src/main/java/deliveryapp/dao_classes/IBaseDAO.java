@@ -9,7 +9,7 @@ public interface IBaseDAO<T> {
 
     public int getIDbyObject(T t) throws SQLException;
 
-    public void create(T t) throws SQLException;
+    public int create(T t) throws SQLException;
 
     public void update(T t) throws SQLException;
 }

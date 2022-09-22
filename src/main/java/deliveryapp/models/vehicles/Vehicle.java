@@ -11,7 +11,7 @@ public class Vehicle {
     //Constructors
     public Vehicle() {
     }
-    public Vehicle(String num, int vehicleTypeID) {
+    public Vehicle(int vehicleTypeID, String num) {
         this.vehicleTypeID = vehicleTypeID;
         vehicleNumber = num;
     }

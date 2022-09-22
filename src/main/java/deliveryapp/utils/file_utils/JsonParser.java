@@ -23,4 +23,14 @@ public class JsonParser implements JsonService{
         }
         return objects;
     }
+
+    @Override
+    public <T> void writeToFileJson(String outFilename, List<Class<T>> objects) {
+        ObjectMapper om = new ObjectMapper();
+        try {
+            om.writeValue(new File(outFilename), objects);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 }

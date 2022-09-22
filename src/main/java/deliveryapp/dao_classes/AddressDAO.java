@@ -65,7 +65,7 @@ public class AddressDAO implements IBaseDAO<Address>{
         throw new SQLException("No data matching the Object given");
     }
 
-    public void create(Address p) throws SQLException {
+    public int create(Address p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -74,6 +74,8 @@ public class AddressDAO implements IBaseDAO<Address>{
             ps.setString(2, p.getCity());
             ps.setInt(3, p.getZipcode());
             ps.executeUpdate();
+
+            return getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -81,6 +83,7 @@ public class AddressDAO implements IBaseDAO<Address>{
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
+        throw new SQLException("Could not get ID of newly created object");
     }
 
     public void update(Address p) throws SQLException {

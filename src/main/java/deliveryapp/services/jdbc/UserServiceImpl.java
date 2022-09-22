@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User u) {
         try {
-            userDAO.create(u);
+            u.setId(userDAO.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

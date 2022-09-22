@@ -39,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            addressDAO.create(newAddress);
+            newAddress.setId(addressDAO.create(newAddress));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

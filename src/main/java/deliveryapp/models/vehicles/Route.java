@@ -22,6 +22,7 @@ public class Route {
         fromLocationID = from;
         toLocationID = to;
         LOGGER.info("Route created.");
+
         //calculatePrice();
     }
 

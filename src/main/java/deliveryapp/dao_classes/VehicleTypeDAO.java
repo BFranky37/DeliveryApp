@@ -1,7 +1,7 @@
 package deliveryapp.dao_classes;
 
+import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.utils.ConnectionPool;
-import deliveryapp.models.orders.Insurance;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -9,15 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class InsuranceDAO implements IBaseDAO<Insurance> {
-    private static final Logger LOGGER = Logger.getLogger(InsuranceDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM insurance WHERE id = ?;";
-    private static final String GET_ID_BY_INSURANCE = "SELECT * FROM insurance WHERE name = ? AND base_cost = ? AND price_rate = ?;";
-    private static final String INSERT = "INSERT INTO insurance (name, base_cost, price_rate) VALUES (?, ?, ?);";
-    private static final String UPDATE = "UPDATE insurance SET name = ?, base_cost = ?, price_rate = ? WHERE id = ?;";
+public class VehicleTypeDAO implements IBaseDAO<VehicleType>{
+    private static final Logger LOGGER = Logger.getLogger(VehicleTypeDAO.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM vehicle_types WHERE id = ?;";
+    private static final String GET_ID_BY_VEHICLE_TYPE = "SELECT * FROM vehicle_types WHERE name = ? AND cost_rate = ? AND weight_capacity = ? AND space_capacity = ?;";
+    private static final String INSERT = "INSERT INTO vehicle_types (name, cost_rate, weight_capacity, space_capacity) VALUES (?, ?, ?, ?);";
+    private static final String UPDATE = "UPDATE vehicle_types SET name = ?, cost_rate = ?, weight_capacity = ?, space_capacity = ? WHERE id = ?;";
 
     @Override
-    public Insurance getObjectByID(int id) throws SQLException {
+    public VehicleType getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -26,10 +26,8 @@ public class InsuranceDAO implements IBaseDAO<Insurance> {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Insurance p = null;
-                p.setName(rs.getString("name"));
-                p.setCost(rs.getDouble("base_cost"));
-                p.setRate(rs.getDouble("price_rate"));
+                VehicleType p = new VehicleType(rs.getString("name"), rs.getDouble("cost_rate"),
+                        rs.getDouble("weight_capacity"), rs.getDouble("space_capacity"));
                 p.setId(id);
                 return p;
             }
@@ -45,15 +43,16 @@ public class InsuranceDAO implements IBaseDAO<Insurance> {
     }
 
     @Override
-    public int getIDbyObject(Insurance p) throws SQLException {
+    public int getIDbyObject(VehicleType p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_INSURANCE);
+            ps = c.prepareStatement(GET_ID_BY_VEHICLE_TYPE);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getCost());
-            ps.setDouble(3, p.getRate());
+            ps.setDouble(2, p.getRate());
+            ps.setDouble(3, p.getMaxWeight());
+            ps.setDouble(4, p.getMaxSize());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -70,14 +69,15 @@ public class InsuranceDAO implements IBaseDAO<Insurance> {
     }
 
     @Override
-    public int create(Insurance p) throws SQLException {
+    public int create(VehicleType p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getCost());
-            ps.setDouble(3, p.getRate());
+            ps.setDouble(2, p.getRate());
+            ps.setDouble(3, p.getMaxWeight());
+            ps.setDouble(4, p.getMaxSize());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -92,15 +92,16 @@ public class InsuranceDAO implements IBaseDAO<Insurance> {
     }
 
     @Override
-    public void update(Insurance p) throws SQLException {
+    public void update(VehicleType p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getCost());
-            ps.setDouble(3, p.getRate());
-            ps.setInt(4, p.getId());
+            ps.setDouble(2, p.getRate());
+            ps.setDouble(3, p.getMaxWeight());
+            ps.setDouble(4, p.getMaxSize());
+            ps.setInt(5, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

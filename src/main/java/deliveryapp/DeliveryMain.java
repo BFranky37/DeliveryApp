@@ -34,14 +34,11 @@ public class DeliveryMain {
         LOGGER.info("First we need some information about you. Press enter to continue");
         //Create user address
         Address senderAddress = addressService.addAddress();
-        senderAddress.setId(addressService.getIDbyAddress(senderAddress));
         //Create profile
         Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
-        senderProfile.setId(profileService.getIDbyProfile(senderProfile));
         //Create User
         User user = new User(senderProfile.getId());
         userService.createUser(user);
-        user.setId(userService.getIDbyUser(user));
 
         //MENU
         Menu menu = Menu.SHIP_PACKAGE;
