@@ -19,7 +19,6 @@ public class MyBatisFactory {
     public static SqlSessionFactory getSqlSessionFactory() {
         if(factory == null) {
             initialize();
-            LOGGER.info("Finished initializing SQLSessionFactory");
         }
         if(factory == null) {
             LOGGER.error("SqlSessionFactory failed to initialize");
@@ -28,13 +27,10 @@ public class MyBatisFactory {
     }
 
     private static void initialize() {
-        try { LOGGER.info("attempting to read mybatis resources file");
+        try {
             Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
-            LOGGER.info("read mybatis resources file");
             SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            LOGGER.info("created new SqlSessionFactoryBuilder");
             factory = builder.build(reader);
-            LOGGER.info("built SQLsessionFactory from mybatis config file");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }

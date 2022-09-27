@@ -31,9 +31,7 @@ public class AddressDAOimpl implements AddressDAO {
     @Override
     public int create(Address p) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            LOGGER.info("sqlSessionFactory opened!");
-            session.getMapper(AddressMapper.class).createAddress(p);
-            LOGGER.info("address created using mapper!");
+            session.getMapper(AddressMapper.class).createAddress(p.getAddress(), p.getCity(), p.getZipcode());
             return getIDbyObject(p);
         }
     }
