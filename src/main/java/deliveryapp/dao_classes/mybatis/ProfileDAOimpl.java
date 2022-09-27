@@ -3,11 +3,13 @@ package deliveryapp.dao_classes.mybatis;
 import deliveryapp.dao_classes.ProfileDAO;
 import deliveryapp.dao_classes.mybatis.mappers.ProfileMapper;
 import deliveryapp.models.people.Profile;
+import deliveryapp.services.myBatis.MyBatisFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.sql.SQLException;
+public class ProfileDAOimpl implements ProfileDAO {
 
-public class ProfileDAOimpl extends DAOimpl implements ProfileDAO {
+    private final SqlSessionFactory sqlSessionFactory = MyBatisFactory.getSqlSessionFactory();
 
     @Override
     public Profile getObjectByID(int id) {

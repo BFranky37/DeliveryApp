@@ -3,14 +3,14 @@ package deliveryapp.dao_classes.mybatis;
 import deliveryapp.dao_classes.BoxDAO;
 import deliveryapp.dao_classes.mybatis.mappers.BoxMapper;
 import deliveryapp.models.orders.Box;
+import deliveryapp.services.myBatis.MyBatisFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.sql.SQLException;
 
-public class BoxDAOimpl extends DAOimpl implements BoxDAO {
-    public BoxDAOimpl() {
-        super();
-    }
+public class BoxDAOimpl implements BoxDAO {
+    private final SqlSessionFactory sqlSessionFactory = MyBatisFactory.getSqlSessionFactory();
 
     @Override
     public Box getObjectByID(int id) {

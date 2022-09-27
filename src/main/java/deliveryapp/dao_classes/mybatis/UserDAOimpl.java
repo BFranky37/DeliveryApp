@@ -1,14 +1,16 @@
 package deliveryapp.dao_classes.mybatis;
 
 import deliveryapp.dao_classes.UserDAO;
-import deliveryapp.dao_classes.mybatis.mappers.ProfileMapper;
 import deliveryapp.dao_classes.mybatis.mappers.UserMapper;
 import deliveryapp.models.people.User;
+import deliveryapp.services.myBatis.MyBatisFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.sql.SQLException;
+public class UserDAOimpl implements UserDAO {
 
-public class UserDAOimpl extends DAOimpl implements UserDAO {
+    private final SqlSessionFactory sqlSessionFactory = MyBatisFactory.getSqlSessionFactory();
+
     @Override
     public User getObjectByID(int id) {
         try (SqlSession session = this.sqlSessionFactory.openSession()) {

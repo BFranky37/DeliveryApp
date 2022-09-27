@@ -19,6 +19,6 @@
     </environments>
 
     <mappers>
-        <package name="src/main/resources/mappers"/>
+        <package name="deliveryapp.dao_classes.mybatis.mappers"/>
     </mappers>
 </configuration>

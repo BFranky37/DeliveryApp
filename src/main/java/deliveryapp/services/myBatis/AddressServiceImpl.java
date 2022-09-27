@@ -6,13 +6,14 @@ import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
-    private AddressDAOimpl addressDAOimpl = new AddressDAOimpl();
+    private final AddressDAOimpl addressDAOimpl = new AddressDAOimpl();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

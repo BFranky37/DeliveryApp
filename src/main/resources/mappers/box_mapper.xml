@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="src/main/java/deliveryapp/dao_classes/BoxDAO">
+<mapper namespace="deliveryapp.dao_classes.mybatis.mappers.BoxMapper">
 
     <select id="getBoxByID" resultMap="boxResult">
         SELECT id, length, width, height

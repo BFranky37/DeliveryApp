@@ -4,7 +4,7 @@ import deliveryapp.models.people.Address;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
 import deliveryapp.services.*;
-import deliveryapp.services.jdbc.*;
+import deliveryapp.services.myBatis.*;
 import deliveryapp.utils.Menu;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
@@ -22,18 +22,18 @@ public class DeliveryMain {
 
         LOGGER.info("Welcome to the DeliveryApp. We will be happy to ship your package. ");
         AddressService addressService = new AddressServiceImpl();
-        ProfileService profileService = new ProfileServiceImpl();
-        UserService userService = new UserServiceImpl();
+        //ProfileService profileService = new ProfileServiceImpl();
+        //UserService userService = new UserServiceImpl();
 
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
         //Create user address
         Address senderAddress = addressService.addAddress();
         //Create profile
-        Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
+        //Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
         //Create User
-        User user = new User(senderProfile.getId());
-        userService.createUser(user);
+        //User user = new User(senderProfile.getId());
+        //userService.createUser(user);
 
         //MENU
         Menu menu = Menu.SHIP_PACKAGE;
