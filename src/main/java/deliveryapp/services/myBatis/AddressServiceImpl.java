@@ -1,6 +1,6 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.java.AddressDAOimpl;
+import deliveryapp.dao_classes.mybatis.AddressDAOimpl;
 import deliveryapp.models.people.Address;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
@@ -38,32 +38,18 @@ public class AddressServiceImpl implements AddressService {
 
         Address newAddress = new Address(address, city, zipcode);
 
-        try {
-            newAddress.setId(addressDAOimpl.create(newAddress));
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        }
+        newAddress.setId(addressDAOimpl.create(newAddress));
 
         return newAddress;
     }
 
     @Override
     public Address getAddressByID(int id)  {
-        try {
-            return addressDAOimpl.getObjectByID(id);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return null;
-        }
+        return addressDAOimpl.getObjectByID(id);
     }
 
     @Override
     public int getIDbyAddress(Address a)  {
-        try {
-            return addressDAOimpl.getIDbyObject(a);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return -1;
-        }
+        return addressDAOimpl.getIDbyObject(a);
     }
 }

@@ -1,14 +1,12 @@
 package deliveryapp;
 
 import deliveryapp.models.people.Address;
-import deliveryapp.models.people.Discount;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
 import deliveryapp.services.*;
 import deliveryapp.services.jdbc.*;
 import deliveryapp.utils.Menu;
 import deliveryapp.utils.exceptions.InvalidInputException;
-import deliveryapp.utils.file_utils.JsonParser;
 import org.apache.log4j.Logger;
 
 import java.util.List;

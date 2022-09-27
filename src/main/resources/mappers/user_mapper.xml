@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="src/main/java/deliveryapp/dao_classes/AddressDAO">
+
+    <resultMap id="addressResult" type="Address" autoMapping="false">
+        <id column="address_id" property="id"/>
+        <result column="street" property="street" />
+        <result column="city" property="city" />
+        <result column="zipcode" property="zipcode" />
+    </resultMap>
+
+    <select id="getAddressByID" resultMap="addressResult">
+        SELECT id, street, city, zipcode
+        FROM addresses WHERE id = #{id}
+    </select>
+</mapper>

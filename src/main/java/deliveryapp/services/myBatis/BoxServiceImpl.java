@@ -1,6 +1,6 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.java.BoxDAOimpl;
+import deliveryapp.dao_classes.mybatis.BoxDAOimpl;
 import deliveryapp.models.orders.Box;
 import deliveryapp.services.BoxService;
 import org.apache.log4j.Logger;
@@ -15,39 +15,21 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public Box getBoxByID(int id) {
-        try {
-            return boxDAOimpl.getObjectByID(id);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return null;
-        }
+        return boxDAOimpl.getObjectByID(id);
     }
 
     @Override
     public int getIDbyBox(Box u) {
-        try {
-            return boxDAOimpl.getIDbyObject(u);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return -1;
-        }
+        return boxDAOimpl.getIDbyObject(u);
     }
 
     @Override
     public void createBox(Box u) {
-        try {
-            u.setId(boxDAOimpl.create(u));
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        }
+        u.setId(boxDAOimpl.create(u));
     }
 
     @Override
     public void updateBox(Box u) {
-        try {
-            boxDAOimpl.update(u);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        }
+        boxDAOimpl.update(u);
     }
 }

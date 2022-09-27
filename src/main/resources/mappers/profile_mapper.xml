@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="src/main/java/deliveryapp/dao_classes/UserDAO">
+
+    <select id="getUserByID" resultMap="userResult">
+        SELECT id, name, phone_number, addressID
+        FROM users WHERE id = #{id}
+    </select>
+
+    <resultMap id="userResult" type="User" autoMapping="false">
+        <id column="user_id" property="id"/>
+        <result column="name" property="name" />
+        <result column="phone_number" property="phone_number" />
+        <result column="addressID" property="addressID" />
+    </resultMap>
+</mapper>

@@ -1,109 +1,39 @@
 package deliveryapp.dao_classes.mybatis;
 
 import deliveryapp.dao_classes.AddressDAO;
+import deliveryapp.dao_classes.mybatis.mappers.AddressMapper;
 import deliveryapp.models.people.Address;
-import deliveryapp.utils.ConnectionPool;
-import org.apache.log4j.Logger;
+import org.apache.ibatis.session.SqlSession;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AddressDAOimpl implements AddressDAO {
-    private static final Logger LOGGER = Logger.getLogger(AddressDAOimpl.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM addresses WHERE id = ?;";
-    private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
-    private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
-    private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
+public class AddressDAOimpl extends DAOimpl implements AddressDAO {
 
-    public Address getObjectByID(int id) throws SQLException {
-        Connection c = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = c.prepareStatement(GET_BY_ID);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Address p = new Address(rs.getString("street"), rs.getString("city"),
-                        rs.getInt("zipcode"));
-                p.setId(id);
-                return p;
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            assert rs != null;
-            rs.close();
-            ps.close();
-            ConnectionPool.getInstance().returnConnection(c);
+    @Override
+    public Address getObjectByID(int id) {
+        try (SqlSession session = this.sqlSessionFactory.openSession()) {
+            return session.getMapper(AddressMapper.class).getAddressByID(id);
         }
-        throw new SQLException("No data matching the ID given");
     }
 
-    public int getIDbyObject(Address p) throws SQLException {
-        Connection c = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = c.prepareStatement(GET_ID_BY_ADDRESS);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            assert rs != null;
-            rs.close();
-            ps.close();
-            ConnectionPool.getInstance().returnConnection(c);
+    @Override
+    public int getIDbyObject(Address p) {
+        try (SqlSession session = this.sqlSessionFactory.openSession()) {
+            return session.getMapper(AddressMapper.class).getIDbyAddress(p);
         }
-        throw new SQLException("No data matching the Object given");
     }
 
-    public int create(Address p) throws SQLException {
-        Connection c = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = c.prepareStatement(INSERT);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
-            ps.executeUpdate();
-
+    @Override
+    public int create(Address p) {
+        try (SqlSession session = this.sqlSessionFactory.openSession()) {
+            session.getMapper(AddressMapper.class).createAddress(p);
             return getIDbyObject(p);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            assert ps != null;
-            ps.close();
-            ConnectionPool.getInstance().returnConnection(c);
         }
-        throw new SQLException("Could not get ID of newly created object");
     }
 
-    public void update(Address p) throws SQLException {
-        Connection c = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = c.prepareStatement(UPDATE);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
-            ps.setInt(4, p.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            assert ps != null;
-            ps.close();
-            ConnectionPool.getInstance().returnConnection(c);
-        }
+    @Override
+    public void update(Address p) {
+        throw new UnsupportedOperationException();
     }
 }
 
