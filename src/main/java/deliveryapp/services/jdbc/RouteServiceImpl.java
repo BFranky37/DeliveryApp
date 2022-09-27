@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.RouteDAO;
+import deliveryapp.dao_classes.java.RouteDAOimpl;
 import deliveryapp.models.vehicles.Route;
 import deliveryapp.services.RouteService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class RouteServiceImpl implements RouteService {
-    private final RouteDAO routeDAO = new RouteDAO();;
+    private final RouteDAOimpl routeDAOimpl = new RouteDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public Route getRouteByID(int id) {
         try {
-            return routeDAO.getObjectByID(id);
+            return routeDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public int getIDbyRoute(Route u) {
         try {
-            return routeDAO.getIDbyObject(u);
+            return routeDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public void createRoute(Route u) {
         try {
-            u.setId(routeDAO.create(u));
+            u.setId(routeDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public void updateRoute(Route u) {
         try {
-            routeDAO.update(u);
+            routeDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

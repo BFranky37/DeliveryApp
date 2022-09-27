@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.PackageDAO;
+import deliveryapp.dao_classes.java.PackageDAOimpl;
 import deliveryapp.models.orders.Package;
 import deliveryapp.services.PackageService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PackageServiceImpl implements PackageService {
-    private final PackageDAO packageDAO = new PackageDAO();;
+    private final PackageDAOimpl packageDAOimpl = new PackageDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(PackageServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public Package getPackageByID(int id) {
         try {
-            return packageDAO.getObjectByID(id);
+            return packageDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public int getIDbyPackage(Package u) {
         try {
-            return packageDAO.getIDbyObject(u);
+            return packageDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public void createPackage(Package u) {
         try {
-            u.setId(packageDAO.create(u));
+            u.setId(packageDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public void updatePackage(Package u) {
         try {
-            packageDAO.update(u);
+            packageDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.ShipmentStatusDAO;
+import deliveryapp.dao_classes.java.ShipmentStatusDAOimpl;
 import deliveryapp.models.orders.ShipmentStatus;
 import deliveryapp.services.ShipmentStatusService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ShipmentStatusServiceImpl implements ShipmentStatusService {
-    private final ShipmentStatusDAO shipmentStatusDAO = new ShipmentStatusDAO();;
+    private final ShipmentStatusDAOimpl shipmentStatusDAOimpl = new ShipmentStatusDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatusServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public ShipmentStatus getShipmentStatusByID(int id) {
         try {
-            return shipmentStatusDAO.getObjectByID(id);
+            return shipmentStatusDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public int getIDbyShipmentStatus(ShipmentStatus u) {
         try {
-            return shipmentStatusDAO.getIDbyObject(u);
+            return shipmentStatusDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public void createShipmentStatus(ShipmentStatus u) {
         try {
-            u.setId(shipmentStatusDAO.create(u));
+            u.setId(shipmentStatusDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public void updateShipmentStatus(ShipmentStatus u) {
         try {
-            shipmentStatusDAO.update(u);
+            shipmentStatusDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

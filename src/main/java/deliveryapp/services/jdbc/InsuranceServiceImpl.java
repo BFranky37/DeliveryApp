@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.InsuranceDAO;
+import deliveryapp.dao_classes.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
 import deliveryapp.services.InsuranceService;
 import deliveryapp.utils.file_utils.XmlParserDOM;
@@ -15,11 +15,11 @@ import java.sql.SQLException;
 public class InsuranceServiceImpl implements InsuranceService {
     private static final Logger LOGGER = Logger.getLogger(InsuranceServiceImpl.class.getName());
 
-    private final InsuranceDAO insuranceDAO;
+    private final InsuranceDAOimpl insuranceDAOimpl;
     XmlParserDOM insuranceParser;
 
     public InsuranceServiceImpl() {
-        insuranceDAO  = new InsuranceDAO();
+        insuranceDAOimpl = new InsuranceDAOimpl();
         insuranceParser = new XmlParserDOM();
     }
 
@@ -39,7 +39,7 @@ public class InsuranceServiceImpl implements InsuranceService {
                 d.setCost(Double.parseDouble(element.getElementsByTagName("base_cost").item(0).getTextContent()));
                 d.setRate(Double.parseDouble(element.getElementsByTagName("price_rate").item(0).getTextContent()));
                 try {
-                    insuranceDAO.create(d);
+                    insuranceDAOimpl.create(d);
                 } catch (SQLException e) {
                     LOGGER.warn(e.getMessage());
                 }

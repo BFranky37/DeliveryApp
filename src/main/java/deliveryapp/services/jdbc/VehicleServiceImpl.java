@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.VehicleDAO;
+import deliveryapp.dao_classes.java.VehicleDAOimpl;
 import deliveryapp.models.vehicles.Vehicle;
 import deliveryapp.services.VehicleService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleServiceImpl implements VehicleService {
-    private final VehicleDAO vehicleDAO = new VehicleDAO();;
+    private final VehicleDAOimpl vehicleDAOimpl = new VehicleDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(VehicleServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public Vehicle getVehicleByID(int id) {
         try {
-            return vehicleDAO.getObjectByID(id);
+            return vehicleDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public int getIDbyVehicle(Vehicle u) {
         try {
-            return vehicleDAO.getIDbyObject(u);
+            return vehicleDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void createVehicle(Vehicle u) {
         try {
-            u.setId(vehicleDAO.create(u));
+            u.setId(vehicleDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void updateVehicle(Vehicle u) {
         try {
-            vehicleDAO.update(u);
+            vehicleDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

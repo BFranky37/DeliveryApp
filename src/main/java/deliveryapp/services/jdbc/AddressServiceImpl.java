@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.AddressDAO;
+import deliveryapp.dao_classes.java.AddressDAOimpl;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
-    private AddressDAO addressDAO = new AddressDAO();
+    private AddressDAOimpl addressDAOimpl = new AddressDAOimpl();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
@@ -39,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            newAddress.setId(addressDAO.create(newAddress));
+            newAddress.setId(addressDAOimpl.create(newAddress));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -50,7 +50,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getAddressByID(int id)  {
         try {
-            return addressDAO.getObjectByID(id);
+            return addressDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -60,7 +60,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public int getIDbyAddress(Address a)  {
         try {
-            return addressDAO.getIDbyObject(a);
+            return addressDAOimpl.getIDbyObject(a);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

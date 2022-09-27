@@ -1,7 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.AddressDAO;
-import deliveryapp.dao_classes.ProfileDAO;
+import deliveryapp.dao_classes.java.ProfileDAOimpl;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ProfileService;
 import org.apache.log4j.Logger;
@@ -10,8 +9,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {
-    private ProfileDAO profileDAO = new ProfileDAO();;
-    private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
+    private ProfileDAOimpl profileDAOimpl = new ProfileDAOimpl();;
+    private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
@@ -22,7 +21,7 @@ public class ProfileServiceImpl implements ProfileService {
         String phoneNumber = input.nextLine();
         Profile p = new Profile(name, phoneNumber, addressID);
         try {
-            p.setId(profileDAO.create(p));
+            p.setId(profileDAOimpl.create(p));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -33,7 +32,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile getProfileByID(int id) {
         try {
-            return profileDAO.getObjectByID(id);
+            return profileDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -43,7 +42,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public int getIDbyProfile(Profile p) {
         try {
-            return profileDAO.getIDbyObject(p);
+            return profileDAOimpl.getIDbyObject(p);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

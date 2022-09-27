@@ -1,6 +1,5 @@
 package deliveryapp;
 
-import deliveryapp.models.orders.Box;
 import deliveryapp.models.people.Address;
 import deliveryapp.models.people.Discount;
 import deliveryapp.models.people.Profile;

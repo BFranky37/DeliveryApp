@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.VehicleTypeDAO;
+import deliveryapp.dao_classes.java.VehicleTypeDAOimpl;
 import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.services.VehicleTypeService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleTypeServiceImpl implements VehicleTypeService {
-    private final VehicleTypeDAO vehicleTypeDAO = new VehicleTypeDAO();;
+    private final VehicleTypeDAOimpl vehicleTypeDAOimpl = new VehicleTypeDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(VehicleTypeServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public VehicleType getVehicleTypeByID(int id) {
         try {
-            return vehicleTypeDAO.getObjectByID(id);
+            return vehicleTypeDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public int getIDbyVehicleType(VehicleType u) {
         try {
-            return vehicleTypeDAO.getIDbyObject(u);
+            return vehicleTypeDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public void createVehicleType(VehicleType u) {
         try {
-            u.setId(vehicleTypeDAO.create(u));
+            u.setId(vehicleTypeDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public void updateVehicleType(VehicleType u) {
         try {
-            vehicleTypeDAO.update(u);
+            vehicleTypeDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

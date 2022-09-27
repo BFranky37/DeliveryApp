@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="src/main/java/deliveryapp/dao_classes/BoxDAO">
+    <sql id="body">
+        b.id as box_id
+    </sql>
+    <resultMap id="boxResult" type="Box" autoMapping="false">
+        <id column="box_id" property="id"/>
+        <result column="length" property="length" />
+        <result column="width" property="width" />
+        <result column="height" property="height" />
+    </resultMap>
+
+    <select id="getObjectByID" resultMap="boxResult">
+        SELECT b.id, b.length, b.width, b.height
+        FROM Box b WHERE id = #{id}
+    </select>
+</mapper>

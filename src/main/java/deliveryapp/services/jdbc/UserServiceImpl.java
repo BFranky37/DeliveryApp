@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.UserDAO;
+import deliveryapp.dao_classes.java.UserDAOimpl;
 import deliveryapp.models.people.User;
 import deliveryapp.services.UserService;
 import org.apache.log4j.Logger;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
-    private UserDAO userDAO = new UserDAO();;
+    private UserDAOimpl userDAOimpl = new UserDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
     public User getUserByID(int id) {
         try {
-            return userDAO.getObjectByID(id);
+            return userDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int getIDbyUser(User u) {
         try {
-            return userDAO.getIDbyObject(u);
+            return userDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User u) {
         try {
-            u.setId(userDAO.create(u));
+            u.setId(userDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User u) {
         try {
-            userDAO.update(u);
+            userDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
