@@ -1,22 +1,24 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.daoClasses.mybatis.AddressDAOimpl;
+import deliveryapp.services.myBatis.mappers.AddressMapper;
 import deliveryapp.models.people.Address;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
-    private final AddressDAOimpl addressDAOimpl = new AddressDAOimpl();
+    private final SqlSessionFactory sqlSessionFactory = MyBatisFactory.getSqlSessionFactory();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public Address addAddress() {
+    public Address addUserAddress() {
         boolean valid = false;
         LOGGER.info("Please enter your street address: ");
         String address = input.nextLine();
@@ -37,18 +39,27 @@ public class AddressServiceImpl implements AddressService {
 
         Address newAddress = new Address(address, city, zipcode);
 
-        newAddress.setId(addressDAOimpl.create(newAddress));
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.getMapper(AddressMapper.class).createAddress(address, city, zipcode);
+            newAddress.setId(getIDbyAddress(newAddress));
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+        }
 
         return newAddress;
     }
 
     @Override
     public Address getAddressByID(int id)  {
-        return addressDAOimpl.getObjectByID(id);
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(AddressMapper.class).getAddressByID(id);
+        }
     }
 
     @Override
     public int getIDbyAddress(Address a)  {
-        return addressDAOimpl.getIDbyObject(a);
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(AddressMapper.class).getIDbyAddress(a);
+        }
     }
 }

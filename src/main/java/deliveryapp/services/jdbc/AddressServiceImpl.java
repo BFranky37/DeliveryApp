@@ -17,7 +17,7 @@ public class AddressServiceImpl implements AddressService {
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public Address addAddress() {
+    public Address addUserAddress() {
         boolean valid = false;
         LOGGER.info("Please enter your street address: ");
         String address = input.nextLine();

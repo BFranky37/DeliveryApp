@@ -1,4 +1,4 @@
-package deliveryapp.daoClasses.mybatis.mappers;
+package deliveryapp.services.myBatis.mappers;
 
 import deliveryapp.models.people.Address;
 import org.apache.ibatis.annotations.Param;
@@ -8,5 +8,5 @@ public interface AddressMapper {
 
     int getIDbyAddress(Address p);
 
-    int createAddress(@Param("street")String street, @Param("city")String city, @Param("zipcode")int zipcode);
+    void createAddress(String street, String city, int zipcode);
 }

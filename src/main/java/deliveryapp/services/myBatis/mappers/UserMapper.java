@@ -1,4 +1,4 @@
-package deliveryapp.daoClasses.mybatis.mappers;
+package deliveryapp.services.myBatis.mappers;
 
 import deliveryapp.models.people.User;
 
