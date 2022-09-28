@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.ShipmentDAOimpl;
+import deliveryapp.daoClasses.java.ShipmentDAOimpl;
 import deliveryapp.models.orders.Shipment;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ShipmentService;

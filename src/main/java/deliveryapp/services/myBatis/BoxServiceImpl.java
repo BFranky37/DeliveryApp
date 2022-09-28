@@ -1,11 +1,10 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.mybatis.BoxDAOimpl;
+import deliveryapp.daoClasses.mybatis.BoxDAOimpl;
 import deliveryapp.models.orders.Box;
 import deliveryapp.services.BoxService;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BoxServiceImpl implements BoxService {

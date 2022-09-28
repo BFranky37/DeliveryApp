@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.RouteDAOimpl;
+import deliveryapp.daoClasses.java.RouteDAOimpl;
 import deliveryapp.models.vehicles.Route;
 import deliveryapp.services.RouteService;
 import org.apache.log4j.Logger;

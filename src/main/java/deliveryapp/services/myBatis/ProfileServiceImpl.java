@@ -1,11 +1,10 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.mybatis.ProfileDAOimpl;
+import deliveryapp.daoClasses.mybatis.ProfileDAOimpl;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ProfileService;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {

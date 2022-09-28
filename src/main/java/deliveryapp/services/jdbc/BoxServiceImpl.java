@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.BoxDAOimpl;
+import deliveryapp.daoClasses.java.BoxDAOimpl;
 import deliveryapp.models.orders.Box;
 import deliveryapp.services.BoxService;
 import org.apache.log4j.Logger;

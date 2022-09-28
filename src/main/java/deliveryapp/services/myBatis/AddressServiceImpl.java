@@ -1,15 +1,13 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.mybatis.AddressDAOimpl;
+import deliveryapp.daoClasses.mybatis.AddressDAOimpl;
 import deliveryapp.models.people.Address;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {

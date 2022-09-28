@@ -1,9 +1,9 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.InsuranceDAOimpl;
+import deliveryapp.daoClasses.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
 import deliveryapp.services.InsuranceService;
-import deliveryapp.utils.file_utils.XmlParserDOM;
+import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
