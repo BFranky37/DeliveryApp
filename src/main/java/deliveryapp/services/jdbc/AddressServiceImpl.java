@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.AddressDAOimpl;
+import deliveryapp.daoClasses.java.AddressDAOimpl;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;

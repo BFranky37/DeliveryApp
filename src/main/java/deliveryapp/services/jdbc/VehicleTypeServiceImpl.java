@@ -1,6 +1,6 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.java.VehicleTypeDAOimpl;
+import deliveryapp.daoClasses.java.VehicleTypeDAOimpl;
 import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.services.VehicleTypeService;
 import org.apache.log4j.Logger;

@@ -1,12 +1,9 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.dao_classes.mybatis.UserDAOimpl;
+import deliveryapp.daoClasses.mybatis.UserDAOimpl;
 import deliveryapp.models.people.User;
 import deliveryapp.services.UserService;
 import org.apache.log4j.Logger;
-
-import java.sql.SQLException;
-import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
     private final UserDAOimpl userDAOimpl = new UserDAOimpl();;
