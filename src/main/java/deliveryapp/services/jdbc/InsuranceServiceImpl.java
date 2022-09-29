@@ -1,5 +1,6 @@
 package deliveryapp.services.jdbc;
 
+import deliveryapp.daoClasses.InsuranceDAO;
 import deliveryapp.daoClasses.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
 import deliveryapp.services.InsuranceService;
@@ -15,11 +16,11 @@ import java.sql.SQLException;
 public class InsuranceServiceImpl implements InsuranceService {
     private static final Logger LOGGER = Logger.getLogger(InsuranceServiceImpl.class.getName());
 
-    private final InsuranceDAOimpl insuranceDAOimpl;
+    private final InsuranceDAO insuranceDAOimpl;
     XmlParserDOM insuranceParser;
 
     public InsuranceServiceImpl() {
-        insuranceDAOimpl = new InsuranceDAOimpl();
+        insuranceDAO  = new InsuranceDAOimpl();
         insuranceParser = new XmlParserDOM();
     }
 

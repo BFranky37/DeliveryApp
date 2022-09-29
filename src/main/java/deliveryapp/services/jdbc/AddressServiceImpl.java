@@ -1,5 +1,6 @@
 package deliveryapp.services.jdbc;
 
+import deliveryapp.daoClasses.AddressDAO;
 import deliveryapp.daoClasses.java.AddressDAOimpl;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
-    private AddressDAOimpl addressDAOimpl = new AddressDAOimpl();
+    private AddressDAO addressDAO = new AddressDAOimpl();
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
