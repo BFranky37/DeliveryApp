@@ -9,5 +9,7 @@ public interface BoxService {
 
     public void createBox(Box u);
 
+    public Box getBoxInfo();
+
     public void updateBox(Box u);
 }

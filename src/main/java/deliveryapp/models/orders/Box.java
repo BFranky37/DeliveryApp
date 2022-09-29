@@ -2,6 +2,8 @@ package deliveryapp.models.orders;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import deliveryapp.utils.SizeMeasurement;
+import deliveryapp.utils.exceptions.ExceedsLimitsException;
+import deliveryapp.utils.exceptions.NegativeValueException;
 import org.apache.log4j.Logger;
 
 import java.util.Objects;
@@ -59,6 +61,19 @@ public class Box {
 
     public void setHeight(double h) {
         height = h;
+    }
+
+    public static void validateSize(double l, double w, double h) throws ExceedsLimitsException, NegativeValueException {
+        double size = SizeMeasurement.CENTIMETERS.convert(l*w*h);
+        if (size > sizeLimit) {
+            throw new ExceedsLimitsException("Size exceeds limit");
+        } else if (l < 0 || w < 0 || h < 0) {
+            throw new NegativeValueException("Got a negative value for size");
+        }
+    }
+
+    public final double getArea() { //return area in cubic inches
+        return (Math.round(SizeMeasurement.CENTIMETERS.convert(length * width * height) * 100.0) / 100.0);
     }
 
     //Class Overrides

@@ -9,5 +9,7 @@ public interface PackageService {
 
     public void createPackage(Package u);
 
+    public Package getPackageInfo();
+
     public void updatePackage(Package u);
 }
