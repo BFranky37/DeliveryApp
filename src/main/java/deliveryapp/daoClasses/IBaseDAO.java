@@ -1,6 +1,4 @@
-package deliveryapp.dao_classes;
-
-import deliveryapp.models.people.User;
+package deliveryapp.daoClasses;
 
 import java.sql.SQLException;
 

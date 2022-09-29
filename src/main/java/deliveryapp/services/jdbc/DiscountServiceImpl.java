@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.DiscountDAO;
+import deliveryapp.daoClasses.DiscountDAO;
+import deliveryapp.daoClasses.java.DiscountDAOimpl;
 import deliveryapp.models.people.Discount;
 import deliveryapp.services.DiscountService;
 import deliveryapp.utils.file_utils.XmlParserDOM;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 public class DiscountServiceImpl implements DiscountService {
     private static final Logger LOGGER = Logger.getLogger(DiscountServiceImpl.class.getName());
 
-    private final DiscountDAO discountDAO;
+    private final DiscountDAO discountDAO = new DiscountDAOimpl();
     XmlParserDOM domParser;
 
     public void createDiscount(Discount d){
@@ -31,7 +32,6 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     public DiscountServiceImpl() {
-        discountDAO  = new DiscountDAO();
         domParser = new XmlParserDOM();
     }
 

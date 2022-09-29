@@ -1,7 +1,8 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.AddressDAO;
-import deliveryapp.dao_classes.ProfileDAO;
+import deliveryapp.daoClasses.AddressDAO;
+import deliveryapp.daoClasses.ProfileDAO;
+import deliveryapp.daoClasses.java.ProfileDAOimpl;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ProfileService;
 import org.apache.log4j.Logger;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {
-    private ProfileDAO profileDAO = new ProfileDAO();;
+    private final ProfileDAO profileDAO = new ProfileDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

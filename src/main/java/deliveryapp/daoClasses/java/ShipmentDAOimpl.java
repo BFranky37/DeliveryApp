@@ -1,5 +1,6 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
+import deliveryapp.daoClasses.ShipmentDAO;
 import deliveryapp.models.orders.Shipment;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.log4j.Logger;
@@ -9,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ShipmentDAO implements IBaseDAO<Shipment>{
-    private static final Logger LOGGER = Logger.getLogger(ShipmentDAO.class.getName());
+public class ShipmentDAOimpl implements ShipmentDAO {
+    private static final Logger LOGGER = Logger.getLogger(ShipmentDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM shipments WHERE id = ?;";
     private static final String GET_ID_BY_OBJECT = "SELECT * FROM shipments WHERE senderID = ? AND recipientID = ? AND packageID = ? AND insuranceID = ? AND routeID = ? AND vehicleID = ? AND priority = ? AND price = ?;";
     private static final String INSERT = "INSERT INTO shipments (senderID, recipientID, packageID, insuranceID, routeID, vehicleID, priority, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";

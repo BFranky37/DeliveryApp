@@ -1,8 +1,8 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
-import deliveryapp.models.people.Profile;
-import deliveryapp.models.vehicles.Route;
+import deliveryapp.daoClasses.UserDAO;
 import deliveryapp.utils.ConnectionPool;
+import deliveryapp.models.people.User;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,15 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RouteDAO implements IBaseDAO<Route>{
-    private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM routes WHERE id = ?;";
-    private static final String GET_ID_BY_ROUTE = "SELECT * FROM routes WHERE from_addressID = ? AND to_addressID = ?;";
-    private static final String INSERT = "INSERT INTO routes (distance, price, from_addressID, to_addressID) VALUES (?, ?, ?, ?);";
-    private static final String UPDATE = "UPDATE routes SET distance = ?, price = ?, from_addressID = ?, to_addressID = ? WHERE id = ?;";
+public class UserDAOimpl implements UserDAO {
+    private static final Logger LOGGER = Logger.getLogger(UserDAOimpl.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM users WHERE id = ?;";
+    private static final String GET_ID_BY_USER = "SELECT * FROM users WHERE " + "profileID = ?;";
+    private static final String INSERT = "INSERT INTO users (profileID) VALUES (?);";
+    private static final String UPDATE = "UPDATE users SET profileID = ? WHERE id = ?;";
 
     @Override
-    public Route getObjectByID(int id) throws SQLException {
+    public User getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -27,9 +27,7 @@ public class RouteDAO implements IBaseDAO<Route>{
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Route p = new Route(rs.getInt("from_addressID"), rs.getInt("to_addressID"));
-                p.setDistance(rs.getInt("distance"));
-                p.setPrice(rs.getDouble("price"));
+                User p = new User(rs.getInt("profileID"));
                 p.setId(id);
                 return p;
             }
@@ -45,14 +43,13 @@ public class RouteDAO implements IBaseDAO<Route>{
     }
 
     @Override
-    public int getIDbyObject(Route p) throws SQLException {
+    public int getIDbyObject(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_ROUTE);
-            ps.setInt(1, p.getFromLocation());
-            ps.setInt(2, p.getToLocation());
+            ps = c.prepareStatement(GET_ID_BY_USER);
+            ps.setInt(1, p.getProfileID());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -69,15 +66,12 @@ public class RouteDAO implements IBaseDAO<Route>{
     }
 
     @Override
-    public int create(Route p) throws SQLException {
+    public int create(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setInt(1, p.getDistance());
-            ps.setDouble(2, p.getPrice());
-            ps.setInt(3, p.getFromLocation());
-            ps.setInt(4, p.getToLocation());
+            ps.setInt(1, p.getProfileID());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -92,16 +86,13 @@ public class RouteDAO implements IBaseDAO<Route>{
     }
 
     @Override
-    public void update(Route p) throws SQLException {
+    public void update(User p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
-            ps.setInt(1, p.getDistance());
-            ps.setDouble(2, p.getPrice());
-            ps.setInt(3, p.getFromLocation());
-            ps.setInt(3, p.getToLocation());
-            ps.setInt(4, p.getId());
+            ps.setInt(1, p.getProfileID());
+            ps.setInt(2, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

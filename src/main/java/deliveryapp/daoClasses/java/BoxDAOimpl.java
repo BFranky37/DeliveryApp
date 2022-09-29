@@ -1,8 +1,8 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
-import deliveryapp.models.people.Discount;
+import deliveryapp.daoClasses.BoxDAO;
+import deliveryapp.models.orders.Box;
 import deliveryapp.utils.ConnectionPool;
-import deliveryapp.models.people.Profile;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,15 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProfileDAO implements IBaseDAO<Profile> {
-    private static final Logger LOGGER = Logger.getLogger(ProfileDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM profiles WHERE id = ?;";
-    private static final String GET_ID_BY_PROFILE = "SELECT * FROM profiles WHERE name = ? AND phone_number = ? AND addressID = ?;";
-    private static final String INSERT = "INSERT INTO profiles (name, phone_number, addressID) VALUES (?, ?, ?);";
-    private static final String UPDATE = "UPDATE profiles SET name = ?, phone_number = ?, addressID = ? WHERE id = ?;";
+public class BoxDAOimpl implements BoxDAO {
+    private static final Logger LOGGER = Logger.getLogger(BoxDAOimpl.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM boxes WHERE id = ?;";
+    private static final String GET_ID_BY_BOX = "SELECT * FROM boxes WHERE length = ? AND width = ? AND height = ?;";
+    private static final String INSERT = "INSERT INTO boxes (length, width, height) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE boxes SET length = ?, width = ?, height = ? WHERE id = ?;";
 
     @Override
-    public Profile getObjectByID(int id) throws SQLException {
+    public Box getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -27,8 +27,7 @@ public class ProfileDAO implements IBaseDAO<Profile> {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Profile p = new Profile(rs.getString("name"), rs.getString("phone_number"),
-                        rs.getInt("addressID"));
+                Box p = new Box(rs.getDouble("length"), rs.getDouble("width"), rs.getDouble("height"));
                 p.setId(id);
                 return p;
             }
@@ -44,15 +43,15 @@ public class ProfileDAO implements IBaseDAO<Profile> {
     }
 
     @Override
-    public int getIDbyObject(Profile p) throws SQLException {
+    public int getIDbyObject(Box p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_PROFILE);
-            ps.setString(1, p.getName());
-            ps.setString(2, p.getNumber());
-            ps.setInt(3, p.getAddressID());
+            ps = c.prepareStatement(GET_ID_BY_BOX);
+            ps.setDouble(1, p.getLength());
+            ps.setDouble(2, p.getWidth());
+            ps.setDouble(3, p.getHeight());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -69,14 +68,14 @@ public class ProfileDAO implements IBaseDAO<Profile> {
     }
 
     @Override
-    public int create(Profile p) throws SQLException {
+    public int create(Box p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setString(1, p.getName());
-            ps.setString(2, p.getNumber());
-            ps.setInt(3, p.getAddressID());
+            ps.setDouble(1, p.getLength());
+            ps.setDouble(2, p.getWidth());
+            ps.setDouble(3, p.getHeight());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -91,14 +90,14 @@ public class ProfileDAO implements IBaseDAO<Profile> {
     }
 
     @Override
-    public void update(Profile p) throws SQLException {
+    public void update(Box p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
-            ps.setString(1, p.getName());
-            ps.setString(2, p.getNumber());
-            ps.setInt(3, p.getAddressID());
+            ps.setDouble(1, p.getLength());
+            ps.setDouble(2, p.getWidth());
+            ps.setDouble(3, p.getHeight());
             ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {

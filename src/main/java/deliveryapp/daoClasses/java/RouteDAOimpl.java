@@ -1,6 +1,7 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
-import deliveryapp.models.orders.Box;
+import deliveryapp.daoClasses.RouteDAO;
+import deliveryapp.models.vehicles.Route;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 
@@ -9,15 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BoxDAO implements IBaseDAO<Box>{
-    private static final Logger LOGGER = Logger.getLogger(BoxDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM boxes WHERE id = ?;";
-    private static final String GET_ID_BY_BOX = "SELECT * FROM boxes WHERE length = ? AND width = ? AND height = ?;";
-    private static final String INSERT = "INSERT INTO boxes (length, width, height) VALUES (?, ?, ?);";
-    private static final String UPDATE = "UPDATE boxes SET length = ?, width = ?, height = ? WHERE id = ?;";
+public class RouteDAOimpl implements RouteDAO {
+    private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM routes WHERE id = ?;";
+    private static final String GET_ID_BY_ROUTE = "SELECT * FROM routes WHERE from_addressID = ? AND to_addressID = ?;";
+    private static final String INSERT = "INSERT INTO routes (distance, price, from_addressID, to_addressID) VALUES (?, ?, ?, ?);";
+    private static final String UPDATE = "UPDATE routes SET distance = ?, price = ?, from_addressID = ?, to_addressID = ? WHERE id = ?;";
 
     @Override
-    public Box getObjectByID(int id) throws SQLException {
+    public Route getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -26,7 +27,9 @@ public class BoxDAO implements IBaseDAO<Box>{
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Box p = new Box(rs.getDouble("length"), rs.getDouble("width"), rs.getDouble("height"));
+                Route p = new Route(rs.getInt("from_addressID"), rs.getInt("to_addressID"));
+                p.setDistance(rs.getInt("distance"));
+                p.setPrice(rs.getDouble("price"));
                 p.setId(id);
                 return p;
             }
@@ -42,15 +45,14 @@ public class BoxDAO implements IBaseDAO<Box>{
     }
 
     @Override
-    public int getIDbyObject(Box p) throws SQLException {
+    public int getIDbyObject(Route p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_BOX);
-            ps.setDouble(1, p.getLength());
-            ps.setDouble(2, p.getWidth());
-            ps.setDouble(3, p.getHeight());
+            ps = c.prepareStatement(GET_ID_BY_ROUTE);
+            ps.setInt(1, p.getFromLocation());
+            ps.setInt(2, p.getToLocation());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -67,14 +69,15 @@ public class BoxDAO implements IBaseDAO<Box>{
     }
 
     @Override
-    public int create(Box p) throws SQLException {
+    public int create(Route p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setDouble(1, p.getLength());
-            ps.setDouble(2, p.getWidth());
-            ps.setDouble(3, p.getHeight());
+            ps.setInt(1, p.getDistance());
+            ps.setDouble(2, p.getPrice());
+            ps.setInt(3, p.getFromLocation());
+            ps.setInt(4, p.getToLocation());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -89,14 +92,15 @@ public class BoxDAO implements IBaseDAO<Box>{
     }
 
     @Override
-    public void update(Box p) throws SQLException {
+    public void update(Route p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
-            ps.setDouble(1, p.getLength());
-            ps.setDouble(2, p.getWidth());
-            ps.setDouble(3, p.getHeight());
+            ps.setInt(1, p.getDistance());
+            ps.setDouble(2, p.getPrice());
+            ps.setInt(3, p.getFromLocation());
+            ps.setInt(3, p.getToLocation());
             ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {

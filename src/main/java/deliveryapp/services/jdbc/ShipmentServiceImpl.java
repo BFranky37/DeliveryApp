@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.ShipmentDAO;
+import deliveryapp.daoClasses.ShipmentDAO;
+import deliveryapp.daoClasses.java.ShipmentDAOimpl;
 import deliveryapp.models.orders.Shipment;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ShipmentService;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class ShipmentServiceImpl implements ShipmentService {
 
-    private ShipmentDAO shipmentDAO = new ShipmentDAO();;
+    private ShipmentDAO shipmentDAO = new ShipmentDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ShipmentServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

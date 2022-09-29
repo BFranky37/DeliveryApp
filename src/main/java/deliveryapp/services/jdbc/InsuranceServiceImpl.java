@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.InsuranceDAO;
+import deliveryapp.daoClasses.InsuranceDAO;
+import deliveryapp.daoClasses.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
 import deliveryapp.services.InsuranceService;
 import deliveryapp.utils.file_utils.XmlParserDOM;
@@ -19,7 +20,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     XmlParserDOM insuranceParser;
 
     public InsuranceServiceImpl() {
-        insuranceDAO  = new InsuranceDAO();
+        insuranceDAO  = new InsuranceDAOimpl();
         insuranceParser = new XmlParserDOM();
     }
 

@@ -1,8 +1,8 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
+import deliveryapp.daoClasses.ProfileDAO;
 import deliveryapp.utils.ConnectionPool;
-import deliveryapp.models.people.Discount;
-import deliveryapp.models.people.User;
+import deliveryapp.models.people.Profile;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,16 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DiscountDAO implements IBaseDAO<Discount>{
-    private static final Logger LOGGER = Logger.getLogger(DiscountDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM discounts WHERE id = ?;";
-    private static final String GET_ID_BY_USER = "SELECT * FROM user_has_discount WHERE userID = ?;";
-    private static final String GET_ID_BY_DISCOUNT = "SELECT * FROM discounts WHERE name = ? AND rate = ?;";
-    private static final String INSERT = "INSERT INTO discounts (name, rate) VALUES (?, ?);";
-    private static final String UPDATE = "UPDATE discounts SET name = ?, rate = ? WHERE id = ?;";
+public class ProfileDAOimpl implements ProfileDAO {
+    private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM profiles WHERE id = ?;";
+    private static final String GET_ID_BY_PROFILE = "SELECT * FROM profiles WHERE name = ? AND phone_number = ? AND addressID = ?;";
+    private static final String INSERT = "INSERT INTO profiles (name, phone_number, addressID) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE profiles SET name = ?, phone_number = ?, addressID = ? WHERE id = ?;";
 
     @Override
-    public Discount getObjectByID(int id) throws SQLException {
+    public Profile getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -28,11 +27,10 @@ public class DiscountDAO implements IBaseDAO<Discount>{
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Discount d = null;
-                d.setName(rs.getString("name"));
-                d.setDiscountRate(rs.getDouble("rate"));
-                d.setId(id);
-                return d;
+                Profile p = new Profile(rs.getString("name"), rs.getString("phone_number"),
+                        rs.getInt("addressID"));
+                p.setId(id);
+                return p;
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -45,37 +43,16 @@ public class DiscountDAO implements IBaseDAO<Discount>{
         throw new SQLException("No data matching the ID given");
     }
 
-    public int getIDbyObject(User u) throws SQLException {
-        Connection c = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = c.prepareStatement(GET_ID_BY_USER);
-            ps.setInt(1, u.getId());
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return rs.getInt("discountID");
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            assert rs != null;
-            rs.close();
-            ps.close();
-            ConnectionPool.getInstance().returnConnection(c);
-        }
-        throw new SQLException("No data matching the Object given");
-    }
-
     @Override
-    public int getIDbyObject(Discount p) throws SQLException {
+    public int getIDbyObject(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_DISCOUNT);
+            ps = c.prepareStatement(GET_ID_BY_PROFILE);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getDiscountRate());
+            ps.setString(2, p.getNumber());
+            ps.setInt(3, p.getAddressID());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -92,13 +69,14 @@ public class DiscountDAO implements IBaseDAO<Discount>{
     }
 
     @Override
-    public int create(Discount p) throws SQLException {
+    public int create(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getDiscountRate());
+            ps.setString(2, p.getNumber());
+            ps.setInt(3, p.getAddressID());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -113,14 +91,15 @@ public class DiscountDAO implements IBaseDAO<Discount>{
     }
 
     @Override
-    public void update(Discount p) throws SQLException {
+    public void update(Profile p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
             ps.setString(1, p.getName());
-            ps.setDouble(2, p.getDiscountRate());
-            ps.setInt(3, p.getId());
+            ps.setString(2, p.getNumber());
+            ps.setInt(3, p.getAddressID());
+            ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -131,4 +110,3 @@ public class DiscountDAO implements IBaseDAO<Discount>{
         }
     }
 }
-

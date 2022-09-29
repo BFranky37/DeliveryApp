@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.RouteDAO;
+import deliveryapp.daoClasses.RouteDAO;
+import deliveryapp.daoClasses.java.RouteDAOimpl;
 import deliveryapp.models.vehicles.Route;
 import deliveryapp.services.RouteService;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class RouteServiceImpl implements RouteService {
-    private final RouteDAO routeDAO = new RouteDAO();;
+    private final RouteDAO routeDAO = new RouteDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

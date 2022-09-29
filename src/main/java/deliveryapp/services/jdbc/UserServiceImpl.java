@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.UserDAO;
+import deliveryapp.daoClasses.UserDAO;
+import deliveryapp.daoClasses.java.UserDAOimpl;
 import deliveryapp.models.people.User;
 import deliveryapp.services.UserService;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
-    private UserDAO userDAO = new UserDAO();;
+    private UserDAO userDAO = new UserDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

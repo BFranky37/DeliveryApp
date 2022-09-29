@@ -1,7 +1,8 @@
-package deliveryapp.dao_classes;
+package deliveryapp.daoClasses.java;
 
+import deliveryapp.daoClasses.InsuranceDAO;
 import deliveryapp.utils.ConnectionPool;
-import deliveryapp.models.people.Address;
+import deliveryapp.models.orders.Insurance;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -9,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AddressDAO implements IBaseDAO<Address>{
-    private static final Logger LOGGER = Logger.getLogger(AddressDAO.class.getName());
-    private static final String GET_BY_ID = "SELECT * FROM addresses WHERE id = ?;";
-    private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
-    private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
-    private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
+public class InsuranceDAOimpl implements InsuranceDAO {
+    private static final Logger LOGGER = Logger.getLogger(InsuranceDAOimpl.class.getName());
+    private static final String GET_BY_ID = "SELECT * FROM insurance WHERE id = ?;";
+    private static final String GET_ID_BY_INSURANCE = "SELECT * FROM insurance WHERE name = ? AND base_cost = ? AND price_rate = ?;";
+    private static final String INSERT = "INSERT INTO insurance (name, base_cost, price_rate) VALUES (?, ?, ?);";
+    private static final String UPDATE = "UPDATE insurance SET name = ?, base_cost = ?, price_rate = ? WHERE id = ?;";
 
-    public Address getObjectByID(int id) throws SQLException {
+    @Override
+    public Insurance getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -25,8 +27,10 @@ public class AddressDAO implements IBaseDAO<Address>{
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Address p = new Address(rs.getString("street"), rs.getString("city"),
-                        rs.getInt("zipcode"));
+                Insurance p = null;
+                p.setName(rs.getString("name"));
+                p.setCost(rs.getDouble("base_cost"));
+                p.setRate(rs.getDouble("price_rate"));
                 p.setId(id);
                 return p;
             }
@@ -41,15 +45,16 @@ public class AddressDAO implements IBaseDAO<Address>{
         throw new SQLException("No data matching the ID given");
     }
 
-    public int getIDbyObject(Address p) throws SQLException {
+    @Override
+    public int getIDbyObject(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_ADDRESS);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
+            ps = c.prepareStatement(GET_ID_BY_INSURANCE);
+            ps.setString(1, p.getName());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");
@@ -65,14 +70,15 @@ public class AddressDAO implements IBaseDAO<Address>{
         throw new SQLException("No data matching the Object given");
     }
 
-    public int create(Address p) throws SQLException {
+    @Override
+    public int create(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
+            ps.setString(1, p.getName());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
             ps.executeUpdate();
 
             return getIDbyObject(p);
@@ -86,14 +92,15 @@ public class AddressDAO implements IBaseDAO<Address>{
         throw new SQLException("Could not get ID of newly created object");
     }
 
-    public void update(Address p) throws SQLException {
+    @Override
+    public void update(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(UPDATE);
-            ps.setString(1, p.getAddress());
-            ps.setString(2, p.getCity());
-            ps.setInt(3, p.getZipcode());
+            ps.setString(1, p.getName());
+            ps.setDouble(2, p.getCost());
+            ps.setDouble(3, p.getRate());
             ps.setInt(4, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -105,4 +112,3 @@ public class AddressDAO implements IBaseDAO<Address>{
         }
     }
 }
-
