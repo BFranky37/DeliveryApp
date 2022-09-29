@@ -4,7 +4,7 @@ import deliveryapp.daoClasses.DiscountDAO;
 import deliveryapp.daoClasses.java.DiscountDAOimpl;
 import deliveryapp.models.people.Discount;
 import deliveryapp.services.DiscountService;
-import deliveryapp.utils.file_utils.XmlParserDOM;
+import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,7 +25,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     public void createDiscount(Discount d){
         try {
-            d.setId(discountDAO.create(d));
+            d.setId(discountDAOimpl.create(d));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class DiscountServiceImpl implements DiscountService {
                 d.setDiscountRate(Double.parseDouble(element.getElementsByTagName("rate").item(0).getTextContent()));
 
                 try {
-                    discountDAO.create(d);
+                    discountDAOimpl.create(d);
                 } catch (SQLException e) {
                     LOGGER.warn(e.getMessage());
                 }
@@ -70,7 +70,7 @@ public class DiscountServiceImpl implements DiscountService {
         }
 
         try {
-            discountDAO.create(xmlDiscount);
+            discountDAOimpl.create(xmlDiscount);
         } catch (SQLException e) {
             LOGGER.warn(e.getMessage());
         }

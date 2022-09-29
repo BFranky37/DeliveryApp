@@ -20,7 +20,7 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public Box getBoxByID(int id) {
         try {
-            return boxDAO.getObjectByID(id);
+            return boxDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -30,7 +30,7 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public int getIDbyBox(Box u) {
         try {
-            return boxDAO.getIDbyObject(u);
+            return boxDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -40,7 +40,7 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public void createBox(Box u) {
         try {
-            u.setId(boxDAO.create(u));
+            u.setId(boxDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -85,7 +85,7 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public void updateBox(Box u) {
         try {
-            boxDAO.update(u);
+            boxDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

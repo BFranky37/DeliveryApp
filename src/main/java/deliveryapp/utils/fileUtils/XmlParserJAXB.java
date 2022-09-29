@@ -1,4 +1,4 @@
-package deliveryapp.utils.file_utils;
+package deliveryapp.utils.fileUtils;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;

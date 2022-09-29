@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="deliveryapp.services.myBatis.mappers.BoxMapper">
+
+    <select id="getBoxByID" resultMap="boxResult">
+        SELECT id, length, width, height
+        FROM boxes WHERE id = #{id}
+    </select>
+
+    <resultMap id="boxResult" type="Box" autoMapping="false">
+        <id column="box_id" property="id"/>
+        <result column="length" property="length" />
+        <result column="width" property="width" />
+        <result column="height" property="height" />
+    </resultMap>
+</mapper>

@@ -1,4 +1,4 @@
-package deliveryapp.utils.file_utils;
+package deliveryapp.utils.fileUtils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

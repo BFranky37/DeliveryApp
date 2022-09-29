@@ -18,7 +18,7 @@ public class AddressServiceImpl implements AddressService {
     private static final Scanner input = new Scanner(System.in);
 
     @Override
-    public Address addAddress() {
+    public Address addUserAddress() {
         boolean valid = false;
         LOGGER.info("Please enter your street address: ");
         String address = input.nextLine();
@@ -29,6 +29,7 @@ public class AddressServiceImpl implements AddressService {
         int zipcode = 0;
         do {
             try {
+                valid = false;
                 zipcode = ValidateInput.validateZip(input.nextInt());
                 valid = true;
             } catch (InvalidInputException e) {
@@ -40,7 +41,45 @@ public class AddressServiceImpl implements AddressService {
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            newAddress.setId(addressDAO.create(newAddress));
+            int addressID = getIDbyAddress(newAddress);
+            if (addressID < 0)
+                newAddress.setId(addressDAOimpl.create(newAddress));
+            else newAddress.setId(addressID);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+        return newAddress;
+    }
+
+    public Address addRecipientAddress() {
+        boolean valid = false;
+        LOGGER.info("Please enter the recipient's street address: ");
+        String address = input.nextLine();
+        LOGGER.info("Please enter the recipient's city: ");
+        String city = input.nextLine();
+        city = StringUtils.capitalize(city);
+        LOGGER.info("Please enter the recipient's zipcode or postal code: ");
+        int zipcode = 0;
+        do {
+            try {
+                valid = false;
+                zipcode = ValidateInput.validateZip(input.nextInt());
+                valid = true;
+            } catch (InvalidInputException e) {
+                LOGGER.warn(e.getMessage() + "Invalid zipcode input");
+                LOGGER.info("Please enter a valid 6-digit zipcode:");
+            }
+        } while (!valid);
+        input.nextLine();
+
+        Address newAddress = new Address(address, city, zipcode);
+
+        try {
+            int addressID = getIDbyAddress(newAddress);
+            if (addressID < 0)
+                newAddress.setId(addressDAOimpl.create(newAddress));
+            else newAddress.setId(addressID);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -51,7 +90,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getAddressByID(int id)  {
         try {
-            return addressDAO.getObjectByID(id);
+            return addressDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -61,7 +100,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public int getIDbyAddress(Address a)  {
         try {
-            return addressDAO.getIDbyObject(a);
+            return addressDAOimpl.getIDbyObject(a);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

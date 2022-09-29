@@ -22,7 +22,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public Package getPackageByID(int id) {
         try {
-            return packageDAO.getObjectByID(id);
+            return packageDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -32,7 +32,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public int getIDbyPackage(Package u) {
         try {
-            return packageDAO.getIDbyObject(u);
+            return packageDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -85,7 +85,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public void createPackage(Package u) {
         try {
-            u.setId(packageDAO.create(u));
+            u.setId(packageDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -94,7 +94,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public void updatePackage(Package u) {
         try {
-            packageDAO.update(u);
+            packageDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

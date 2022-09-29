@@ -17,7 +17,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public ShipmentStatus getShipmentStatusByID(int id) {
         try {
-            return shipmentStatusDAO.getObjectByID(id);
+            return shipmentStatusDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -27,7 +27,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public int getIDbyShipmentStatus(ShipmentStatus u) {
         try {
-            return shipmentStatusDAO.getIDbyObject(u);
+            return shipmentStatusDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -37,7 +37,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public void createShipmentStatus(ShipmentStatus u) {
         try {
-            u.setId(shipmentStatusDAO.create(u));
+            u.setId(shipmentStatusDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -46,7 +46,7 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     @Override
     public void updateShipmentStatus(ShipmentStatus u) {
         try {
-            shipmentStatusDAO.update(u);
+            shipmentStatusDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

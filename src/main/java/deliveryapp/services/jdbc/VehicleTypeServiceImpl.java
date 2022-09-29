@@ -17,7 +17,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public VehicleType getVehicleTypeByID(int id) {
         try {
-            return vehicleTypeDAO.getObjectByID(id);
+            return vehicleTypeDAOimpl.getObjectByID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -27,7 +27,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public int getIDbyVehicleType(VehicleType u) {
         try {
-            return vehicleTypeDAO.getIDbyObject(u);
+            return vehicleTypeDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -37,7 +37,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public void createVehicleType(VehicleType u) {
         try {
-            u.setId(vehicleTypeDAO.create(u));
+            u.setId(vehicleTypeDAOimpl.create(u));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -46,7 +46,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     @Override
     public void updateVehicleType(VehicleType u) {
         try {
-            vehicleTypeDAO.update(u);
+            vehicleTypeDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

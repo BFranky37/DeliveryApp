@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import java.util.Scanner;
 
 public class ShipmentServiceImpl implements ShipmentService {
-
     private ShipmentDAO shipmentDAO = new ShipmentDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ShipmentServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);

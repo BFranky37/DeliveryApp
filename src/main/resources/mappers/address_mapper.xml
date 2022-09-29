@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="deliveryapp.services.myBatis.mappers.AddressMapper">
+
+    <select id="getAddressByID" resultMap="addressResult">
+        SELECT id, street, city, zipcode
+        FROM addresses WHERE id = #{id}
+    </select>
+    <resultMap id="addressResult" type="Address" autoMapping="false">
+        <id column="address_id" property="id"/>
+        <result column="street" property="street" />
+        <result column="city" property="city" />
+        <result column="zipcode" property="zipcode" />
+    </resultMap>
+
+    <select id="getIDbyAddress" resultMap="idResult">
+        SELECT id
+        FROM addresses
+        WHERE street = #{id} AND city = #{city} AND zipcode = #{zipcode}
+    </select>
+    <resultMap id="idResult" type="Address" autoMapping="false">
+        <id column="address_id" property="id"/>
+    </resultMap>
+
+    <insert id="createAddress">
+        INSERT INTO addresses (street, city, zipcode) VALUES (#{street} , #{city} , #{zipcode})
+    </insert>
+</mapper>

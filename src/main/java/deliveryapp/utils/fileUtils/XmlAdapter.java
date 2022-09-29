@@ -1,4 +1,4 @@
-package deliveryapp.utils.file_utils;
+package deliveryapp.utils.fileUtils;
 
 import java.text.ParseException;
 
