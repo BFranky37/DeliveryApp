@@ -1,6 +1,10 @@
 package deliveryapp.models.orders;
 
+import deliveryapp.services.jdbc.BoxServiceImpl;
 import deliveryapp.utils.WeightMeasurement;
+import deliveryapp.utils.exceptions.ExceedsLimitsException;
+import deliveryapp.utils.exceptions.NegativeValueException;
+import deliveryapp.utils.functionalInterfaces.INumericOperation;
 import org.apache.log4j.Logger;
 
 import java.util.Objects;
@@ -25,7 +29,7 @@ public class Package {
         weight = WeightMeasurement.KILOGRAMS.convert(wgt); //weight is initially given in Kilos. Convert to pounds
         value = val;
         fragility = fragile;
-        //calculatePrice();
+        calculatePrice();
     }
 
     //Getters and Setters
@@ -76,6 +80,24 @@ public class Package {
 
     public void setPrice(double price) {
         cost = price;
+    }
+
+    public void calculatePrice() {
+        // area / 100 * costRate
+        BoxServiceImpl boxService = new BoxServiceImpl();
+        Box box = boxService.getBoxByID(boxID);
+        INumericOperation<Double> applyRate = (base, rate) -> base * rate;
+        cost = applyRate.operation(box.getArea() / 100, costRate);
+    }
+
+    public static double validateWeight(double weight) throws ExceedsLimitsException, NegativeValueException {
+        weight = WeightMeasurement.KILOGRAMS.convert(weight); //weight is initially given in Kilos. Convert to pounds
+        if (weight > weightLimit) {
+            throw new ExceedsLimitsException("Size exceeds limit");
+        } else if (weight < 0) {
+            throw new NegativeValueException("Got a negative value for size");
+        }
+        else return weight;
     }
 
     //Class Overrides

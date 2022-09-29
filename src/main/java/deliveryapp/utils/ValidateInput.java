@@ -21,4 +21,11 @@ public final class ValidateInput {
         }
         else throw new InvalidInputException("Zipcode given not in valid range");
     }
+
+    public static double validateValue(double value) throws InvalidInputException {
+        if (value > 0) {
+            return Math.round(value * 100.0) / 100.0;
+        }
+        else throw new InvalidInputException("Do not enter a negative value for your item");
+    }
 }
