@@ -33,6 +33,11 @@ public class BoxServiceImpl implements BoxService {
     }
 
     @Override
+    public Box getBoxInfo() {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public void updateBox(Box u) {
         throw new NotImplementedException();
     }
