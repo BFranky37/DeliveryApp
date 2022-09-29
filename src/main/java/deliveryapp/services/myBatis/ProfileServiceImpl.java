@@ -1,15 +1,18 @@
 package deliveryapp.services.myBatis;
 
-import deliveryapp.daoClasses.mybatis.ProfileDAOimpl;
 import deliveryapp.models.people.Profile;
 import deliveryapp.services.ProfileService;
+import deliveryapp.services.myBatis.mappers.ProfileMapper;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {
-    private final ProfileDAOimpl profileDAOimpl = new ProfileDAOimpl();;
-    private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
+    private final SqlSessionFactory sqlSessionFactory = MyBatisFactory.getSqlSessionFactory();
+    private static final Logger LOGGER = Logger.getLogger(ProfileServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
     @Override
@@ -19,23 +22,30 @@ public class ProfileServiceImpl implements ProfileService {
         LOGGER.info("Please enter your phone number: ");
         String phoneNumber = input.nextLine();
         Profile p = new Profile(name, phoneNumber, addressID);
-        p.setId(profileDAOimpl.create(p));
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.getMapper(ProfileMapper.class).createProfile(p);
+            p.setId(getIDbyProfile(p));
+        }
 
         return p;
     }
 
     @Override
     public Profile getProfileByID(int id) {
-        return profileDAOimpl.getObjectByID(id);
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(ProfileMapper.class).getProfileByID(id);
+        }
     }
 
     @Override
     public int getIDbyProfile(Profile p) {
-        return profileDAOimpl.getIDbyObject(p);
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.getMapper(ProfileMapper.class).getIDbyProfile(p);
+        }
     }
 
     @Override
     public void addRecipientProfile(int addressID) {
-
+        throw new NotImplementedException();
     }
 }
