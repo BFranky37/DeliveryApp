@@ -37,10 +37,6 @@ public class DeliveryMain {
         Scanner input = new Scanner(System.in);
 
         LOGGER.info("Welcome to the DeliveryApp. We will be happy to ship your package. ");
-<<<<<<< Updated upstream
-        AddressService addressService = new AddressServiceImpl();
-        ProfileService profileService = new ProfileServiceImpl();
-        UserService userService = new UserServiceImpl();
         DiscountServiceImpl discountService = new DiscountServiceImpl();
 
         //Read Discount data from Json file
@@ -54,18 +50,12 @@ public class DeliveryMain {
         //Read Insurance data from xml DOM
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
         insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
-=======
->>>>>>> Stashed changes
 
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
         //Create user address
-<<<<<<< Updated upstream
-        Address senderAddress = addressService.addAddress();
-=======
         AddressService addressService = new AddressServiceImpl();
         Address senderAddress = addressService.addUserAddress();
->>>>>>> Stashed changes
         //Create profile
         ProfileService profileService = new ProfileServiceImpl();
         Profile senderProfile = profileService.addUserProfile(senderAddress.getId());
@@ -91,9 +81,6 @@ public class DeliveryMain {
             }
 
             switch (menu) {
-<<<<<<< Updated upstream
-                
-=======
                 case SHIP_PACKAGE:
                     //GOING THROUGH THE ORDER PROCESS
                     PackageServiceImpl packageService = new PackageServiceImpl();

@@ -1,6 +1,7 @@
 package deliveryapp.services.jdbc;
 
-import deliveryapp.dao_classes.ShipmentStatusDAO;
+import deliveryapp.daoClasses.ShipmentStatusDAO;
+import deliveryapp.daoClasses.java.ShipmentStatusDAOimpl;
 import deliveryapp.models.orders.ShipmentStatus;
 import deliveryapp.services.ShipmentStatusService;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ShipmentStatusServiceImpl implements ShipmentStatusService {
-    private final ShipmentStatusDAO shipmentStatusDAO = new ShipmentStatusDAO();;
+    private final ShipmentStatusDAO shipmentStatusDAO = new ShipmentStatusDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatusServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
