@@ -1,5 +1,6 @@
 package deliveryapp.services.jdbc;
 
+import deliveryapp.daoClasses.PackageDAO;
 import deliveryapp.daoClasses.java.PackageDAOimpl;
 import deliveryapp.models.orders.Box;
 import deliveryapp.models.orders.Package;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PackageServiceImpl implements PackageService {
-    private final PackageDAOimpl packageDAOimpl = new PackageDAOimpl();;
+    private final PackageDAO packageDAO = new PackageDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(PackageServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

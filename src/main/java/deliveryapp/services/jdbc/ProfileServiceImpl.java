@@ -2,6 +2,9 @@ package deliveryapp.services.jdbc;
 
 import deliveryapp.daoClasses.java.ProfileDAOimpl;
 import deliveryapp.models.people.Address;
+import deliveryapp.daoClasses.AddressDAO;
+import deliveryapp.daoClasses.ProfileDAO;
+import deliveryapp.daoClasses.java.ProfileDAOimpl;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
 import deliveryapp.services.AddressService;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {
-    private final ProfileDAOimpl profileDAOimpl = new ProfileDAOimpl();;
+    private final ProfileDAO profileDAO = new ProfileDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

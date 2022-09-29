@@ -1,5 +1,6 @@
 package deliveryapp.services.jdbc;
 
+import deliveryapp.daoClasses.VehicleDAO;
 import deliveryapp.daoClasses.java.VehicleDAOimpl;
 import deliveryapp.models.vehicles.Vehicle;
 import deliveryapp.services.VehicleService;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleServiceImpl implements VehicleService {
-    private final VehicleDAOimpl vehicleDAOimpl = new VehicleDAOimpl();;
+    private final VehicleDAO vehicleDAO = new VehicleDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(VehicleServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

@@ -29,6 +29,20 @@ public class DeliveryMain {
         Scanner input = new Scanner(System.in);
 
         LOGGER.info("Welcome to the DeliveryApp. We will be happy to ship your package. ");
+
+        DiscountServiceImpl discountService = new DiscountServiceImpl();
+        //Read Discount data from Json file
+        JsonParser jsonParser = new JsonParser();
+        List<Discount> discounts = jsonParser.parseJson("src/main/resources/json/discounts.json", Discount.class);
+        for (Discount d: discounts) {
+            discountService.createDiscount(d);
+        }
+        //Read Discount data from xml JAXB
+        discountService.parseFromXmlJAXB("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
+        //Read Insurance data from xml DOM
+        InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
+        insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
+
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
         //Create profile

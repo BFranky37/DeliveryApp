@@ -1,5 +1,6 @@
 package deliveryapp.services.jdbc;
 
+import deliveryapp.daoClasses.BoxDAO;
 import deliveryapp.daoClasses.java.BoxDAOimpl;
 import deliveryapp.models.orders.Box;
 import deliveryapp.models.orders.Package;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BoxServiceImpl implements BoxService {
-    private final BoxDAOimpl boxDAOimpl = new BoxDAOimpl();;
+    private final BoxDAO boxDAO = new BoxDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(BoxServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
