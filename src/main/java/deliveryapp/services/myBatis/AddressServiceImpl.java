@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
@@ -44,6 +45,39 @@ public class AddressServiceImpl implements AddressService {
             newAddress.setId(getIDbyAddress(newAddress));
         } catch (Exception e) {
             LOGGER.warn(e.getMessage());
+        }
+
+        return newAddress;
+    }
+
+    public Address addRecipientAddress() {
+        boolean valid = false;
+        LOGGER.info("Please enter the recipient's street address: ");
+        String address = input.nextLine();
+        LOGGER.info("Please enter the recipient's city: ");
+        String city = input.nextLine();
+        city = StringUtils.capitalize(city);
+        LOGGER.info("Please enter the recipient's zipcode or postal code: ");
+        int zipcode = 0;
+        do {
+            try {
+                valid = false;
+                zipcode = ValidateInput.validateZip(input.nextInt());
+                valid = true;
+            } catch (InvalidInputException e) {
+                LOGGER.warn(e.getMessage() + "Invalid zipcode input");
+                LOGGER.info("Please enter a valid 6-digit zipcode:");
+            }
+        } while (!valid);
+        input.nextLine();
+
+        Address newAddress = new Address(address, city, zipcode);
+
+        try (SqlSession session = sqlSessionFactory.openSession()){
+            int addressID = session.getMapper(AddressMapper.class).getIDbyAddress(newAddress);
+            if (addressID < 0)
+                session.getMapper(AddressMapper.class).createAddress(address, city, zipcode);
+            else newAddress.setId(addressID);
         }
 
         return newAddress;
