@@ -83,7 +83,7 @@ public class DeliveryMain {
                         //RECIPIENT
                         LOGGER.info("We now need to know who you want to send this package to. Press enter to continue");
                         Profile recipient = profileService.selectRecipient(user);
-                        //INSURANCE
+                        //INSURANCE,
                         Insurance insuranceType = Session.getInsuranceType(shippingPackage);
                         //SHIPMENT
                         Session.finalizeShipment(sender, recipient, shippingPackage, insuranceType);
