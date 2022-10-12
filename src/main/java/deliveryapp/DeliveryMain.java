@@ -1,8 +1,7 @@
 package deliveryapp;
 
-import deliveryapp.models.orders.Box;
+import deliveryapp.models.orders.Insurance;
 import deliveryapp.models.orders.Package;
-import deliveryapp.models.people.Address;
 import deliveryapp.models.people.*;
 import deliveryapp.services.*;
 import deliveryapp.services.jdbc.*;
@@ -10,7 +9,6 @@ import deliveryapp.utils.Menu;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.*;
 import deliveryapp.utils.fileUtils.JsonParser;
-import deliveryapp.utils.file_utils.JsonParser;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -71,6 +69,7 @@ public class DeliveryMain {
 
             switch (menu) {
                 case SHIP_PACKAGE:
+                    ShipmentServiceImpl shipmentService = new ShipmentServiceImpl();
                     //GOING THROUGH THE ORDER PROCESS
                     PackageServiceImpl packageService = new PackageServiceImpl();
                     boolean sendAnother;
@@ -84,9 +83,9 @@ public class DeliveryMain {
                         LOGGER.info("We now need to know who you want to send this package to. Press enter to continue");
                         Profile recipient = profileService.selectRecipient(user);
                         //INSURANCE,
-                        Insurance insuranceType = Session.getInsuranceType(shippingPackage);
+                        Insurance insuranceType = insuranceService.getInsuranceType(shippingPackage);
                         //SHIPMENT
-                        Session.finalizeShipment(sender, recipient, shippingPackage, insuranceType);
+                        shipmentService.shipPackage(user, recipient, shippingPackage, insuranceType);
 
                         do {
                             try {
@@ -103,12 +102,12 @@ public class DeliveryMain {
 
                     LOGGER.info("All shipments finalized.");
                     LOGGER.info("Printing Receipts...");
-                    try {
-                        Session.printReceipt(sender);
-                    } catch (IOException e) {
-                        LOGGER.error(e.getMessage());
-                        throw new RuntimeException(e);
-                    }
+//                    try {
+//                        Session.printReceipt(sender);
+//                    } catch (IOException e) {
+//                        LOGGER.error(e.getMessage());
+//                        throw new RuntimeException(e);
+//                    }
                     break;
 
                 case EDIT_PROFILE:

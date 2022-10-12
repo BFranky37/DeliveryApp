@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PackageServiceImpl implements PackageService {
-    private final PackageDAO packageDAO = new PackageDAOimpl();;
+    private final PackageDAO packageDAOimpl = new PackageDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(PackageServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

@@ -21,5 +21,10 @@
         <base_cost>1.5</base_cost>
         <price_rate>.55</price_rate>
     </insurance>
+    <insurance id="5">
+        <name>No Insurance</name>
+        <base_cost>0</base_cost>
+        <price_rate>0</price_rate>
+    </insurance>
 </insurances>
 

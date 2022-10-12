@@ -43,7 +43,7 @@ public class AddressServiceImpl implements AddressService {
         try {
             int addressID = getIDbyAddress(newAddress);
             if (addressID < 0)
-                newAddress.setId(addressDAOimpl.create(newAddress));
+                newAddress.setId(addressDAO.create(newAddress));
             else newAddress.setId(addressID);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -78,7 +78,7 @@ public class AddressServiceImpl implements AddressService {
         try {
             int addressID = getIDbyAddress(newAddress);
             if (addressID < 0)
-                newAddress.setId(addressDAOimpl.create(newAddress));
+                newAddress.setId(addressDAO.create(newAddress));
             else newAddress.setId(addressID);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -88,9 +88,27 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address getAddressByID(int id)  {
+    public Address getAddressByID(int id) {
         try {
-            return addressDAOimpl.getObjectByID(id);
+            return addressDAO.getObjectByID(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public Address getAddressByUserID(int id) {
+        try {
+            return addressDAO.getAddressByUserID(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public Address getAddressByProfileID(int id) {
+        try {
+            return addressDAO.getAddressByProfileID(id);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -98,9 +116,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public int getIDbyAddress(Address a)  {
+    public int getIDbyAddress(Address a) {
         try {
-            return addressDAOimpl.getIDbyObject(a);
+            return addressDAO.getIDbyObject(a);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return -1;

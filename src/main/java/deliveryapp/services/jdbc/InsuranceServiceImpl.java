@@ -3,7 +3,10 @@ package deliveryapp.services.jdbc;
 import deliveryapp.daoClasses.InsuranceDAO;
 import deliveryapp.daoClasses.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
+import deliveryapp.models.orders.Package;
 import deliveryapp.services.InsuranceService;
+import deliveryapp.utils.ValidateInput;
+import deliveryapp.utils.exceptions.InvalidInputException;
 import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -12,16 +15,66 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class InsuranceServiceImpl implements InsuranceService {
     private static final Logger LOGGER = Logger.getLogger(InsuranceServiceImpl.class.getName());
 
-    private final InsuranceDAO insuranceDAOimpl;
-    XmlParserDOM insuranceParser;
+    private final InsuranceDAO insuranceDAOimpl = new InsuranceDAOimpl();;
+    XmlParserDOM insuranceParser = new XmlParserDOM();;
 
     public InsuranceServiceImpl() {
-        insuranceDAO  = new InsuranceDAOimpl();
-        insuranceParser = new XmlParserDOM();
+    }
+
+    public Insurance getInsuranceByID(int id) {
+        try {
+            return insuranceDAOimpl.getObjectByID(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public Insurance getInsuranceType(Package shippingPackage) {
+        Scanner input = new Scanner(System.in);
+
+        Insurance insuranceType = new Insurance();
+        boolean insurancePurchased = false;
+        double value = shippingPackage.getValue();
+        try {
+            if (value > 200)
+                insuranceType = insuranceDAOimpl.getObjectByName("High Value Insurance");
+            else if (shippingPackage.getFragility())
+                insuranceType = insuranceDAOimpl.getObjectByName("Fragility Insurance");
+            else insuranceType = insuranceDAOimpl.getObjectByName("Basic Insurance");
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+        boolean valid = false;
+        do {
+            try {
+                LOGGER.info("Would you like to purchase " + insuranceType.getName() + " for this package to be reimbursed in the case it is lost or damaged? ");
+                LOGGER.info("The price for insurance for your item would be " +
+                        "$" + Math.round(insuranceType.calculatePrice(value) * 100.0) / 100.0 + " (y/n):");
+                insurancePurchased = ValidateInput.validateYesNo(input.nextLine());
+                valid = true;
+            } catch (InvalidInputException e) {
+                LOGGER.warn(e.getMessage() + "Invalid yes/no input");
+                LOGGER.info("Please enter a valid input (y/n)");
+            }
+        } while (!valid);
+
+        if (!insurancePurchased) {
+            try {
+                insuranceType = insuranceDAOimpl.getObjectByName("No Insurance");
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
+            }
+        }
+        else {
+            LOGGER.info("Insurance added: " + insuranceType.getName());
+        }
+        return insuranceType;
     }
 
     @Override

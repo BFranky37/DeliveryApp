@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BoxServiceImpl implements BoxService {
-    private final BoxDAO boxDAO = new BoxDAOimpl();;
+    private final BoxDAO boxDAOimpl = new BoxDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(BoxServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

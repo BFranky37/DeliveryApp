@@ -13,6 +13,8 @@ import java.sql.SQLException;
 public class VehicleTypeDAOimpl implements VehicleTypeDAO {
     private static final Logger LOGGER = Logger.getLogger(VehicleTypeDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM vehicle_types WHERE id = ?;";
+    private static final String GET_BY_NAME = "SELECT * FROM vehicle_types WHERE name = ?;";
+    private static final String GET_BY_VEHICLE_ID = "SELECT * FROM vehicle_types WHERE id IN (SELECT vehicle_typeID FROM vehicles WHERE id = ?);";
     private static final String GET_ID_BY_VEHICLE_TYPE = "SELECT * FROM vehicle_types WHERE name = ? AND cost_rate = ? AND weight_capacity = ? AND space_capacity = ?;";
     private static final String INSERT = "INSERT INTO vehicle_types (name, cost_rate, weight_capacity, space_capacity) VALUES (?, ?, ?, ?);";
     private static final String UPDATE = "UPDATE vehicle_types SET name = ?, cost_rate = ?, weight_capacity = ?, space_capacity = ? WHERE id = ?;";
@@ -41,6 +43,56 @@ public class VehicleTypeDAOimpl implements VehicleTypeDAO {
             ConnectionPool.getInstance().returnConnection(c);
         }
         throw new SQLException("No data matching the ID given");
+    }
+
+    public VehicleType getVehicleTypeByName(String name) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_NAME);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                VehicleType p = new VehicleType(rs.getString("name"), rs.getDouble("cost_rate"),
+                        rs.getDouble("weight_capacity"), rs.getDouble("space_capacity"));
+                p.setId(rs.getInt("id"));
+                return p;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the name given");
+    }
+
+    public VehicleType getVehicleTypeByVehicleID(int vehicleID) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_VEHICLE_ID);
+            ps.setInt(1, vehicleID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                VehicleType p = new VehicleType(rs.getString("name"), rs.getDouble("cost_rate"),
+                        rs.getDouble("weight_capacity"), rs.getDouble("space_capacity"));
+                p.setId(rs.getInt("id"));
+                return p;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the name given");
     }
 
     @Override

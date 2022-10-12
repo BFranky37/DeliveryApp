@@ -9,5 +9,9 @@ public interface AddressService {
 
     public Address getAddressByID(int id);
 
+    public Address getAddressByUserID(int id);
+
+    public Address getAddressByProfileID(int id);
+
     public int getIDbyAddress(Address a);
 }

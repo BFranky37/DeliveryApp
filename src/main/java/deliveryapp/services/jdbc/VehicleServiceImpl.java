@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleServiceImpl implements VehicleService {
-    private final VehicleDAO vehicleDAO = new VehicleDAOimpl();;
+    private final VehicleDAO vehicleDAOimpl = new VehicleDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(VehicleServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

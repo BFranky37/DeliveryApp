@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ShipmentStatusServiceImpl implements ShipmentStatusService {
-    private final ShipmentStatusDAO shipmentStatusDAO = new ShipmentStatusDAOimpl();;
+    private final ShipmentStatusDAO shipmentStatusDAOimpl = new ShipmentStatusDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatusServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

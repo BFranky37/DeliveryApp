@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class InsuranceDAOimpl implements InsuranceDAO {
     private static final Logger LOGGER = Logger.getLogger(InsuranceDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM insurance WHERE id = ?;";
+    private static final String GET_BY_NAME = "SELECT * FROM insurance WHERE name = ?;";
     private static final String GET_ID_BY_INSURANCE = "SELECT * FROM insurance WHERE name = ? AND base_cost = ? AND price_rate = ?;";
     private static final String INSERT = "INSERT INTO insurance (name, base_cost, price_rate) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE insurance SET name = ?, base_cost = ?, price_rate = ? WHERE id = ?;";
@@ -27,11 +28,38 @@ public class InsuranceDAOimpl implements InsuranceDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Insurance p = null;
+                Insurance p = new Insurance();
                 p.setName(rs.getString("name"));
                 p.setCost(rs.getDouble("base_cost"));
                 p.setRate(rs.getDouble("price_rate"));
                 p.setId(id);
+                return p;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the ID given");
+    }
+
+    public Insurance getObjectByName(String name) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_NAME);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Insurance p = new Insurance();
+                p.setName(rs.getString("name"));
+                p.setCost(rs.getDouble("base_cost"));
+                p.setRate(rs.getDouble("price_rate"));
+                p.setId(rs.getInt("id"));
                 return p;
             }
         } catch (SQLException e) {
@@ -67,12 +95,16 @@ public class InsuranceDAOimpl implements InsuranceDAO {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        throw new SQLException("No data matching the Object given");
+        return 0;
     }
 
     @Override
     public int create(Insurance p) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
+        int exists = getIDbyObject(p);
+        if (exists > 0)
+            return exists;
+
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);

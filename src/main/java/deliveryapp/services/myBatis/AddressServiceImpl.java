@@ -5,6 +5,7 @@ import deliveryapp.models.people.Address;
 import deliveryapp.services.AddressService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -88,6 +89,16 @@ public class AddressServiceImpl implements AddressService {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AddressMapper.class).getAddressByID(id);
         }
+    }
+
+    @Override
+    public Address getAddressByUserID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Address getAddressByProfileID(int id) {
+        throw new NotImplementedException();
     }
 
     @Override

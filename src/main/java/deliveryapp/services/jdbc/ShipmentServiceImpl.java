@@ -2,13 +2,20 @@ package deliveryapp.services.jdbc;
 
 import deliveryapp.daoClasses.ShipmentDAO;
 import deliveryapp.daoClasses.java.ShipmentDAOimpl;
+import deliveryapp.models.orders.Insurance;
 import deliveryapp.models.orders.Shipment;
+import deliveryapp.models.orders.Package;
+import deliveryapp.models.people.Discount;
 import deliveryapp.models.people.Profile;
+import deliveryapp.models.people.User;
+import deliveryapp.services.DiscountService;
 import deliveryapp.services.ShipmentService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ShipmentServiceImpl implements ShipmentService {
@@ -16,46 +23,72 @@ public class ShipmentServiceImpl implements ShipmentService {
     private static final Logger LOGGER = Logger.getLogger(ShipmentServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
+    int numShipments;
+
+    public ShipmentServiceImpl() {
+        numShipments = 0;
+    }
+
     @Override
-    public Shipment shipPackage() {
-        //GOING THROUGH THE ORDER PROCESS
-        boolean sendAnother;
+    public Shipment shipPackage(User sender, Profile recipient, Package shippingPackage, Insurance insuranceType) {
+        boolean priority = false;
+        boolean valid = false;
         do {
-            boolean valid = false;
-            sendAnother = false;
-            //PACKAGE
-            LOGGER.info("We need information about the package you are sending.");
-            //PackageService -> Session.getpackageinfo
+            try {
+                valid = false;
+                LOGGER.info("Would you like to pay for priority shipping to ensure your package reaches the destination quickly? (y/n): ");
+                priority = ValidateInput.validateYesNo(input.nextLine());
+                valid = true;
+            } catch (InvalidInputException e) {
+                LOGGER.warn(e.getMessage() + "Invalid yes/no input");
+                LOGGER.info("Please enter a valid input (y/n)");
+            }
+        } while (!valid);
+        if (priority) {
+            LOGGER.info("Priority Shipping added.");
+        }
 
-            //RECIPIENT
-            LOGGER.info("We now need to know who you want to send this package to. Press enter to continue");
-            Profile recipient = null;
+        Shipment shipment = new Shipment(sender.getId(), recipient.getId(), shippingPackage.getId(), insuranceType.getId(), priority);
 
-            //ProfileService OR ContactService -> previousRecipients
-            //if not create new profile for recipient
+        LOGGER.info("The final price for this shipment comes out to $" + Math.round(shipment.getPrice() * 100.0) / 100.0);
+        DiscountService discountService = new DiscountServiceImpl();
+        List<Discount> discounts = discountService.getDiscountsByUser(sender.getId());
+        for (Discount d : discounts) {
+            LOGGER.info("with " + d.getName() + " discount of " + d.getDiscountRate() * 100 + "% applied");
+        }
 
-            //INSURANCE
-            //InsuranceService -> Session.getInsuranceType(shippingPackage);
+        boolean shipmentFinalized = false;
+        do {
+            try {
+                valid = false;
+                LOGGER.info("Would you like to finalize this shipment? (y/n)");
+                shipmentFinalized = ValidateInput.validateYesNo(input.nextLine());
+                valid = true;
+            } catch (InvalidInputException e) {
+                LOGGER.warn(e.getMessage() + "Invalid yes/no input");
+                LOGGER.info("Please enter a valid input (y/n)");
+            }
+        } while (!valid);
 
-            //SHIPMENT
-            //Session.finalizeShipment(sender, recipient, shippingPackage, insuranceType);
+        if (shipmentFinalized) {
+            numShipments ++;
+            LOGGER.info("number of shipments increased to " + numShipments);
+            try {
+                shipmentDAO.create(shipment);
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
+            }
+            LOGGER.info("Shipment finalized");
+            LOGGER.info("Package Sent!");
 
-            do {
-                try {
-                    valid = false;
-                    LOGGER.info("Would you like to send another package? (y/n)");
-                    sendAnother = ValidateInput.validateYesNo(input.nextLine());
-                    valid = true;
-                } catch (InvalidInputException e) {
-                    LOGGER.warn(e.getMessage() + "Invalid yes/no input");
-                    LOGGER.info("Please enter a valid input (y/n)");
-                }
-            } while (!valid);
-        } while (sendAnother);
-
-        LOGGER.info("All shipments finalized.");
-        LOGGER.info("Printing Receipts...");
-        // ShipmentService -> Session.printReceipt(sender);
-        return null;
+            //Object Lock1 = new Object();
+            //Object Lock2 = new Object();
+            //Thread travel = new Thread(new Travel(shipment, Lock1, Lock2));
+            //Thread receivePackage = new Thread(new DropOff(shipment, Lock1, Lock2));
+            //travel.start();
+            //receivePackage.start();
+            //LOGGER.info("Delivery vehicle has begun it's transport");
+        }
+        return shipment;
     }
 }

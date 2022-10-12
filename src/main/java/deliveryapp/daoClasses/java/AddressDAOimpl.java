@@ -13,6 +13,8 @@ import java.sql.SQLException;
 public class AddressDAOimpl implements AddressDAO {
     private static final Logger LOGGER = Logger.getLogger(AddressDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM addresses WHERE id = ?;";
+    private static final String GET_BY_USER_ID = "SELECT * FROM addresses WHERE id IN (SELECT addressID FROM profiles WHERE id IN (SELECT profileID FROM users WHERE id = ?));";
+    private static final String GET_BY_PROFILE_ID = "SELECT * FROM addresses WHERE id IN (SELECT addressID FROM profiles WHERE id = ?);";
     private static final String GET_ID_BY_ADDRESS = "SELECT * FROM addresses WHERE street = ? AND city = ? AND zipcode = ?;";
     private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
@@ -23,6 +25,56 @@ public class AddressDAOimpl implements AddressDAO {
         ResultSet rs = null;
         try {
             ps = c.prepareStatement(GET_BY_ID);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Address p = new Address(rs.getString("street"), rs.getString("city"),
+                        rs.getInt("zipcode"));
+                p.setId(id);
+                return p;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the ID given");
+    }
+
+    public Address getAddressByUserID(int id) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_USER_ID);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Address p = new Address(rs.getString("street"), rs.getString("city"),
+                        rs.getInt("zipcode"));
+                p.setId(id);
+                return p;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the ID given");
+    }
+
+    public Address getAddressByProfileID(int id) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_PROFILE_ID);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {

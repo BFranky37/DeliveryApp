@@ -8,6 +8,10 @@ public interface AddressDAO extends IBaseDAO<Address> {
     @Override
     public Address getObjectByID(int id) throws SQLException;
 
+    public Address getAddressByUserID(int id) throws SQLException;
+
+    public Address getAddressByProfileID(int id) throws SQLException;
+
     @Override
     public int getIDbyObject(Address p) throws SQLException;
 

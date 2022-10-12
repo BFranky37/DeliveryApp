@@ -1,11 +1,16 @@
 package deliveryapp.models.vehicles;
 
+import deliveryapp.models.people.Address;
+import deliveryapp.services.AddressService;
+import deliveryapp.services.jdbc.AddressServiceImpl;
+import deliveryapp.utils.functionalInterfaces.IReturnOperation;
 import org.apache.log4j.Logger;
 
 import java.util.Objects;
 
 public class Route {
     private static final Logger LOGGER = Logger.getLogger(Route.class.getName());
+    AddressService addressService = new AddressServiceImpl();
     //Members
     private int id;
     private int distance;
@@ -23,7 +28,7 @@ public class Route {
         toLocationID = to;
         LOGGER.info("Route created.");
 
-        //calculatePrice();
+        calculatePrice();
     }
 
     //Getters and Setters
@@ -41,7 +46,7 @@ public class Route {
 
     public void setFromLocation(int from) {
         fromLocationID = from;
-        //calculatePrice();
+        calculatePrice();
     }
 
     public int getToLocation() {
@@ -50,7 +55,7 @@ public class Route {
 
     public void setToLocation(int to) {
         toLocationID = to;
-        //calculatePrice();
+        calculatePrice();
     }
 
     public int getDistance() {
@@ -67,6 +72,19 @@ public class Route {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void calculatePrice() { //Generally speaking, the bigger the difference in Zip Code, the further away the post offices are
+        Address fromLocation = addressService.getAddressByID(fromLocationID);
+        Address toLocation = addressService.getAddressByID(toLocationID);
+        IReturnOperation<Integer> getDistance = (from, to) -> from - to;
+        distance = Math.abs(getDistance.returnResult(fromLocation.getZipcode(), toLocation.getZipcode()));
+        if (distance < 100) {
+            price = (Math.round(distance * 100.0) / 100000.0) + basePrice;
+        }
+        else {
+            price = (Math.round(distance * 100.0) / 2000000.0) + basePrice;
+        }
     }
 
 

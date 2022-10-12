@@ -3,6 +3,7 @@ package deliveryapp.services.jdbc;
 import deliveryapp.daoClasses.DiscountDAO;
 import deliveryapp.daoClasses.java.DiscountDAOimpl;
 import deliveryapp.models.people.Discount;
+import deliveryapp.models.people.User;
 import deliveryapp.services.DiscountService;
 import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
@@ -16,11 +17,13 @@ import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscountServiceImpl implements DiscountService {
     private static final Logger LOGGER = Logger.getLogger(DiscountServiceImpl.class.getName());
 
-    private final DiscountDAO discountDAO = new DiscountDAOimpl();
+    private final DiscountDAO discountDAOimpl = new DiscountDAOimpl();
     XmlParserDOM domParser;
 
     public void createDiscount(Discount d){
@@ -29,6 +32,15 @@ public class DiscountServiceImpl implements DiscountService {
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    public List<Discount> getDiscountsByUser(int userID) {
+        try {
+            return discountDAOimpl.getDiscountsByUser(userID);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
     public DiscountServiceImpl() {

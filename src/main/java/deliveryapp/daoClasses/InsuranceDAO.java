@@ -8,6 +8,8 @@ public interface InsuranceDAO extends IBaseDAO<Insurance> {
     @Override
     public Insurance getObjectByID(int id) throws SQLException;
 
+    public Insurance getObjectByName(String name) throws SQLException;
+
     @Override
     public int getIDbyObject(Insurance p) throws SQLException;
 

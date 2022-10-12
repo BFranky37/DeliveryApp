@@ -1,10 +1,27 @@
 package deliveryapp.models.orders;
 
+import deliveryapp.models.people.Discount;
+import deliveryapp.models.vehicles.Route;
+import deliveryapp.models.vehicles.Vehicle;
+import deliveryapp.models.vehicles.VehicleType;
+import deliveryapp.services.*;
+import deliveryapp.services.jdbc.*;
 import org.apache.log4j.Logger;
+
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 public class Shipment {
     private static final Logger LOGGER = Logger.getLogger(Shipment.class.getName());
+    RouteService routeService = new RouteServiceImpl();
+    PackageService packageService = new PackageServiceImpl();
+    BoxService boxService = new BoxServiceImpl();
+    VehicleService vehicleService = new VehicleServiceImpl();
+    VehicleTypeService vehicleTypeService = new VehicleTypeServiceImpl();
+    InsuranceService insuranceService = new InsuranceServiceImpl();
+    DiscountService discountService = new DiscountServiceImpl();
+
     //MEMBERS
     private int id;
     private int senderID;
@@ -25,8 +42,7 @@ public class Shipment {
         insuranceID = plan;
         priority = prio;
 
-        //routeID = new Route(send.getAddress(), receive.getAddress());
-        //determineShippingPlan();
+        setRoute();
     }
 
     //Getters and Setters
@@ -86,6 +102,14 @@ public class Shipment {
         //determineShippingPlan();
     }
 
+    public void setRoute() {
+        AddressService addressService = new AddressServiceImpl();
+        Route route = new Route(addressService.getAddressByUserID(senderID).getId(), addressService.getAddressByProfileID(recipientID).getId());
+        routeService.createRoute(route);
+        routeID = route.getId();
+        //determineShippingPlan();
+    }
+
     public int getVehicleID() {
         return vehicleID;
     }
@@ -109,6 +133,64 @@ public class Shipment {
 
     public void setTotalPrice(double price) {
         totalPrice = price;
+    }
+
+    public void calculatePrice() {
+        Route travelRoute = routeService.getRouteByID(routeID);
+        Package shippingPackage = packageService.getPackageByID(packageID);
+        VehicleType vehicleType = vehicleTypeService.getVehicleTypeByVehicleID(vehicleID);
+        Insurance insurance = insuranceService.getInsuranceByID(insuranceID);
+        totalPrice = Double.parseDouble(String.format("%.2f", (shippingPackage.getPrice() + travelRoute.getPrice() + vehicleType.getRate()
+                + insurance.calculatePrice(shippingPackage.getValue()))));
+        //Apply discount
+        List<Discount> discounts = discountService.getDiscountsByUser(senderID);
+        for (Discount d : discounts) {
+            totalPrice -= totalPrice * d.getDiscountRate();
+        }
+    }
+
+    public void determineShippingPlan() {
+        //This is the function that will prompt the user for the desired priority of the delivery,
+        //then it will choose a vehicle based on factors such as distance, priority and size of package
+        // it will either be vehicle = new Truck() or vehicle = new Plane(), and then fill in the remaining fields with a vehicle preset
+        int vehicleNumber = (int)Math.floor(Math.random()*(999999-100000+1)+100000);
+        Route travelRoute = routeService.getRouteByID(routeID);
+        Package shippingPackage = packageService.getPackageByID(packageID);
+        Box box = boxService.getBoxByID(shippingPackage.getBoxID());
+
+        if (!priority && travelRoute.getDistance() < 1000 && shippingPackage.getWeight() <= 150 && box.getArea() <= 65000) {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Standard Delivery Car").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+        else if (!priority && travelRoute.getDistance() < 1000 && shippingPackage.getWeight() <= 300 && box.getArea() <= 90000) {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Heavy Delivery Truck").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+        else if (priority && travelRoute.getDistance() < 1000 && shippingPackage.getWeight() <= 150 && box.getArea() <= 65000) {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Priority Delivery Car").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+        else if (!priority && shippingPackage.getWeight() <= 1000 && box.getArea() <= 500000.0) {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Delivery Freight Truck").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+
+        else if (shippingPackage.getWeight() <= 300 && box.getArea() <= 90000) {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Standard Delivery Plane").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+        else {
+            Vehicle vehicle = new Vehicle(vehicleTypeService.getVehicleTypeByName("Heavy Cargo Plane").getId(), "00-" + vehicleNumber);
+            vehicleService.createVehicle(vehicle);
+            vehicleID = vehicle.getId();
+        }
+
+        calculatePrice();
     }
 
     //Class Overrides

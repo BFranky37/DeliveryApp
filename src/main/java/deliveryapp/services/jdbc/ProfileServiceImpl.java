@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ProfileServiceImpl implements ProfileService {
-    private final ProfileDAO profileDAO = new ProfileDAOimpl();;
+    private final ProfileDAO profileDAOimpl = new ProfileDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(ProfileDAOimpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

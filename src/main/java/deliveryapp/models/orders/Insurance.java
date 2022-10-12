@@ -52,6 +52,10 @@ public class Insurance {
         priceRate = rate;
     }
 
+    public double calculatePrice(double value) {
+        return baseCost + (priceRate * value);
+    }
+
     //Class Overrides
     @Override
     public String toString() {

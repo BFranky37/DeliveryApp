@@ -10,11 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscountDAOimpl implements DiscountDAO {
     private static final Logger LOGGER = Logger.getLogger(DiscountDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM discounts WHERE id = ?;";
-    private static final String GET_ID_BY_USER = "SELECT * FROM user_has_discount WHERE userID = ?;";
+    private static final String GET_DISCOUNTS_BY_USER = "SELECT * FROM discounts WHERE id IN (SELECT discountID FROM user_has_discount WHERE userID = ?);";
     private static final String GET_ID_BY_DISCOUNT = "SELECT * FROM discounts WHERE name = ? AND rate = ?;";
     private static final String INSERT = "INSERT INTO discounts (name, rate) VALUES (?, ?);";
     private static final String UPDATE = "UPDATE discounts SET name = ?, rate = ? WHERE id = ?;";
@@ -29,7 +31,7 @@ public class DiscountDAOimpl implements DiscountDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Discount d = null;
+                Discount d = new Discount();
                 d.setName(rs.getString("name"));
                 d.setDiscountRate(rs.getDouble("rate"));
                 d.setId(id);
@@ -46,17 +48,21 @@ public class DiscountDAOimpl implements DiscountDAO {
         throw new SQLException("No data matching the ID given");
     }
 
-    public int getIDbyObject(User u) throws SQLException {
+    public List<Discount> getDiscountsByUser(int userID) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
+        List<Discount> discounts = new ArrayList<>();
         try {
-            ps = c.prepareStatement(GET_ID_BY_USER);
-            ps.setInt(1, u.getId());
+            ps = c.prepareStatement(GET_DISCOUNTS_BY_USER);
+            ps.setInt(1, userID);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return rs.getInt("discountID");
+                Discount discount = new Discount(rs.getString("name"), rs.getDouble("rate"));
+                discount.setId(rs.getInt("id"));
+                discounts.add(discount);
             }
+            return discounts;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -65,7 +71,7 @@ public class DiscountDAOimpl implements DiscountDAO {
             ps.close();
             ConnectionPool.getInstance().returnConnection(c);
         }
-        throw new SQLException("No data matching the Object given");
+        throw new SQLException("No Discounts matching the User given");
     }
 
     @Override

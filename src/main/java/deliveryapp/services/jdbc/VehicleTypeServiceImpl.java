@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleTypeServiceImpl implements VehicleTypeService {
-    private final VehicleTypeDAO vehicleTypeDAO = new VehicleTypeDAOimpl();;
+    private final VehicleTypeDAO vehicleTypeDAOimpl = new VehicleTypeDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(VehicleTypeServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
@@ -18,6 +18,24 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     public VehicleType getVehicleTypeByID(int id) {
         try {
             return vehicleTypeDAOimpl.getObjectByID(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public VehicleType getVehicleTypeByName(String name) {
+        try {
+            return vehicleTypeDAOimpl.getVehicleTypeByName(name);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public VehicleType getVehicleTypeByVehicleID(int vehicleID) {
+        try {
+            return vehicleTypeDAOimpl.getVehicleTypeByVehicleID(vehicleID);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;

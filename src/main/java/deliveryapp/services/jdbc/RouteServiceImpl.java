@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class RouteServiceImpl implements RouteService {
-    private final RouteDAO routeDAO = new RouteDAOimpl();;
+    private final RouteDAO routeDAOimpl = new RouteDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
-    private UserDAO userDAO = new UserDAOimpl();;
+    private UserDAO userDAOimpl = new UserDAOimpl();;
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
