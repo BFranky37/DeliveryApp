@@ -1,9 +1,7 @@
 package deliveryapp.daoClasses.java;
 
 import deliveryapp.daoClasses.ContactDAO;
-import deliveryapp.models.people.Contact;
-import deliveryapp.models.people.Profile;
-import deliveryapp.models.people.User;
+import deliveryapp.models.people.*;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.log4j.Logger;

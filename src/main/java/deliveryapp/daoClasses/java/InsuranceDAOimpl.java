@@ -5,10 +5,7 @@ import deliveryapp.utils.ConnectionPool;
 import deliveryapp.models.orders.Insurance;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class InsuranceDAOimpl implements InsuranceDAO {
     private static final Logger LOGGER = Logger.getLogger(InsuranceDAOimpl.class.getName());
