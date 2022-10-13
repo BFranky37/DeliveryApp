@@ -3,22 +3,18 @@ package deliveryapp.daoClasses.java;
 import deliveryapp.daoClasses.DiscountDAO;
 import deliveryapp.utils.ConnectionPool;
 import deliveryapp.models.people.Discount;
-import deliveryapp.models.people.User;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DiscountDAOimpl implements DiscountDAO {
     private static final Logger LOGGER = Logger.getLogger(DiscountDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM discounts WHERE id = ?;";
-    private static final String GET_DISCOUNTS_BY_USER = "SELECT * FROM discounts WHERE id IN (SELECT discountID FROM user_has_discount WHERE userID = ?);";
+    private static final String GET_DISCOUNTS_BY_USER = "SELECT * FROM discounts WHERE id IN (SELECT discountID FROM user_status WHERE userID = ?);";
     private static final String GET_ID_BY_DISCOUNT = "SELECT * FROM discounts WHERE name = ? AND rate = ?;";
-    private static final String INSERT = "INSERT INTO discounts (name, rate) VALUES (?, ?);";
+    private static final String INSERT = "INSERT INTO discounts (id, name, rate) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE id = id;";
     private static final String UPDATE = "UPDATE discounts SET name = ?, rate = ? WHERE id = ?;";
 
     @Override
@@ -104,8 +100,9 @@ public class DiscountDAOimpl implements DiscountDAO {
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setString(1, p.getName());
-            ps.setDouble(2, p.getDiscountRate());
+            ps.setInt(1, p.getId());
+            ps.setString(2, p.getName());
+            ps.setDouble(3, p.getDiscountRate());
             ps.executeUpdate();
 
             return getIDbyObject(p);

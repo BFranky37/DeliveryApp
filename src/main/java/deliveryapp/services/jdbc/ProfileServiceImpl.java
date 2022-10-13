@@ -2,14 +2,11 @@ package deliveryapp.services.jdbc;
 
 import deliveryapp.daoClasses.java.ProfileDAOimpl;
 import deliveryapp.models.people.Address;
-import deliveryapp.daoClasses.AddressDAO;
 import deliveryapp.daoClasses.ProfileDAO;
-import deliveryapp.daoClasses.java.ProfileDAOimpl;
+import deliveryapp.models.people.Contact;
 import deliveryapp.models.people.Profile;
 import deliveryapp.models.people.User;
-import deliveryapp.services.AddressService;
-import deliveryapp.services.ContactService;
-import deliveryapp.services.ProfileService;
+import deliveryapp.services.*;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import org.apache.log4j.Logger;
@@ -44,10 +41,7 @@ public class ProfileServiceImpl implements ProfileService {
         Profile p = new Profile(name, phoneNumber, userAddress.getId());
 
         try {
-            int profileID = getIDbyProfile(p);
-            if (profileID < 0)
-                p.setId(profileDAOimpl.create(p));
-            else p.setId(profileID);
+            p.setId(profileDAOimpl.create(p));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -57,7 +51,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile addRecipientProfile() {
-        input.nextLine();
         LOGGER.info("Please enter the recipient's name: ");
         String name = input.nextLine();
         LOGGER.info("Please enter the recipient's phone number: ");
@@ -69,10 +62,7 @@ public class ProfileServiceImpl implements ProfileService {
         Profile p = new Profile(name, phoneNumber, recipientAddress.getId());
 
         try {
-            int profileID = getIDbyProfile(p);
-            if (profileID < 0)
-                p.setId(profileDAOimpl.create(p));
-            else p.setId(profileID);
+            p.setId(profileDAOimpl.create(p));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -95,7 +85,6 @@ public class ProfileServiceImpl implements ProfileService {
         try {
             return profileDAOimpl.getIDbyObject(p);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
             return -1;
         }
     }
@@ -117,7 +106,9 @@ public class ProfileServiceImpl implements ProfileService {
                         throw new SQLException("Going back...");
                 } else { //CREATE NEW RECIPIENT PROFILE
                     recipient = addRecipientProfile();
-                    //add new recipient profile to user's contacts
+                    LOGGER.info("What is your relationship to this person?");
+                    Contact newContact = new Contact(user.getId(), recipient.getId(), input.nextLine());
+                    contactService.createContact(newContact);
                 }
                 valid = true;
             } catch (InvalidInputException | SQLException e) {
@@ -135,12 +126,12 @@ public class ProfileServiceImpl implements ProfileService {
             num++;
         }
         LOGGER.info(num +". Nevermind, take me back");
-        LOGGER.info("\nPlease select the recipient for this shipment.");
+        LOGGER.info("Please select the recipient for this shipment.");
         int recipientSelection = Integer.parseInt(input.nextLine());
         if (recipientSelection > profiles.size() + 1)
             throw new InvalidInputException("Menu selection not in range.");
         else if (recipientSelection > profiles.size())
             return null;
-        else return profiles.get(recipientSelection);
+        else return profiles.get(recipientSelection - 1);
     }
 }

@@ -3,7 +3,6 @@ package deliveryapp.services.jdbc;
 import deliveryapp.daoClasses.DiscountDAO;
 import deliveryapp.daoClasses.java.DiscountDAOimpl;
 import deliveryapp.models.people.Discount;
-import deliveryapp.models.people.User;
 import deliveryapp.services.DiscountService;
 import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;

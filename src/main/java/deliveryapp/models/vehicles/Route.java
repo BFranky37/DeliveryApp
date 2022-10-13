@@ -26,7 +26,6 @@ public class Route {
     public Route(int from, int to) {
         fromLocationID = from;
         toLocationID = to;
-        LOGGER.info("Route created.");
 
         calculatePrice();
     }
@@ -91,7 +90,9 @@ public class Route {
     //Class Overrides
     @Override
     public String toString() {
-        return ("From " + fromLocationID + " to " + toLocationID);
+        Address fromLocation = addressService.getAddressByID(fromLocationID);
+        Address toLocation = addressService.getAddressByID(toLocationID);
+        return ("From " + fromLocation + " to " + toLocation);
     }
 
     @Override

@@ -8,15 +8,11 @@ import deliveryapp.services.jdbc.*;
 import deliveryapp.utils.Menu;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.*;
-import deliveryapp.utils.fileUtils.JsonParser;
+
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class DeliveryMain {
     private static final Logger LOGGER = Logger.getLogger(DeliveryMain.class.getName());
@@ -28,18 +24,13 @@ public class DeliveryMain {
 
         LOGGER.info("Welcome to the DeliveryApp. We will be happy to ship your package. ");
 
+        //Read data from xml DOM
         DiscountServiceImpl discountService = new DiscountServiceImpl();
-        //Read Discount data from Json file
-        JsonParser jsonParser = new JsonParser();
-        List<Discount> discounts = jsonParser.parseJson("src/main/resources/json/discounts.json", Discount.class);
-        for (Discount d: discounts) {
-            discountService.createDiscount(d);
-        }
-        //Read Discount data from xml JAXB
-        discountService.parseFromXmlJAXB("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
-        //Read Insurance data from xml DOM
+        discountService.parseFromXmlDOM("src/main/resources/xsd/discounts.xsd", "src/main/resources/xml/discounts.xml");
         InsuranceServiceImpl insuranceService = new InsuranceServiceImpl();
         insuranceService.parseFromXmlDOM("src/main/resources/xsd/insurances.xsd", "src/main/resources/xml/insurances.xml");
+        VehicleTypeService vehicleTypeService = new VehicleTypeServiceImpl();
+        vehicleTypeService.parseFromXmlDOM("src/main/resources/xsd/vehicle_types.xsd", "src/main/resources/xml/vehicle_types.xml");
 
         //Get user information
         LOGGER.info("First we need some information about you. Press enter to continue");
@@ -102,12 +93,12 @@ public class DeliveryMain {
 
                     LOGGER.info("All shipments finalized.");
                     LOGGER.info("Printing Receipts...");
-//                    try {
-//                        Session.printReceipt(sender);
-//                    } catch (IOException e) {
-//                        LOGGER.error(e.getMessage());
-//                        throw new RuntimeException(e);
-//                    }
+                    try {
+                        shipmentService.printReceipt(user);
+                    } catch (IOException e) {
+                        LOGGER.error(e.getMessage());
+                        throw new RuntimeException(e);
+                    }
                     break;
 
                 case EDIT_PROFILE:

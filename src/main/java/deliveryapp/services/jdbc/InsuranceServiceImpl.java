@@ -9,10 +9,7 @@ import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -21,7 +18,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     private static final Logger LOGGER = Logger.getLogger(InsuranceServiceImpl.class.getName());
 
     private final InsuranceDAO insuranceDAOimpl = new InsuranceDAOimpl();;
-    XmlParserDOM insuranceParser = new XmlParserDOM();;
+    XmlParserDOM insuranceParser = new XmlParserDOM();
 
     public InsuranceServiceImpl() {
     }

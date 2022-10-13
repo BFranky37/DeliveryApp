@@ -5,15 +5,12 @@ import deliveryapp.models.orders.ShipmentStatus;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ShipmentStatusDAOimpl implements ShipmentStatusDAO {
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatusDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM shipment_status WHERE id = ?;";
-    private static final String GET_ID_BY_SHIPMENT = "SELECT * FROM shipment_status WHERE shipmentID = ? AND delivered = ? AND date_arrived = ? AND date_departed = ?;";
+    private static final String GET_ID_BY_SHIPMENT = "SELECT * FROM shipment_status WHERE shipmentID = ? AND delivered = ? AND date_departed = ?;";
     private static final String INSERT = "INSERT INTO shipment_status (shipmentID, delivered, date_arrived, date_departed) VALUES (?, ?, ?, ?);";
     private static final String UPDATE = "UPDATE shipment_status SET shipmentID = ?, delivered = ?, date_arrived = ?, date_departed = ? WHERE id = ?;";
 
@@ -55,8 +52,7 @@ public class ShipmentStatusDAOimpl implements ShipmentStatusDAO {
             ps = c.prepareStatement(GET_ID_BY_SHIPMENT);
             ps.setInt(1, p.getShipmentID());
             ps.setBoolean(2, p.isDelivered());
-            ps.setDate(3, p.getDateArrived());
-            ps.setDate(4, p.getDateDeparted());
+            ps.setDate(3, p.getDateDeparted());
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");

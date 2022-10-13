@@ -47,7 +47,6 @@ public class Package {
 
     public void setBoxID(int bx) {
         boxID = bx;
-        //calculatePrice();
     }
 
     public double getWeight() {
@@ -87,7 +86,7 @@ public class Package {
         BoxServiceImpl boxService = new BoxServiceImpl();
         Box box = boxService.getBoxByID(boxID);
         INumericOperation<Double> applyRate = (base, rate) -> base * rate;
-        cost = applyRate.operation(box.getArea() / 100, costRate);
+        cost = applyRate.operation(box.getArea() / 100, costRate) + 1;
     }
 
     public static double validateWeight(double weight) throws ExceedsLimitsException, NegativeValueException {

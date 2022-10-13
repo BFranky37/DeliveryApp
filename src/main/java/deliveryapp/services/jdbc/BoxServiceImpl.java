@@ -3,7 +3,6 @@ package deliveryapp.services.jdbc;
 import deliveryapp.daoClasses.BoxDAO;
 import deliveryapp.daoClasses.java.BoxDAOimpl;
 import deliveryapp.models.orders.Box;
-import deliveryapp.models.orders.Package;
 import deliveryapp.services.BoxService;
 import deliveryapp.utils.exceptions.ExceedsLimitsException;
 import deliveryapp.utils.exceptions.NegativeValueException;
@@ -32,7 +31,6 @@ public class BoxServiceImpl implements BoxService {
         try {
             return boxDAOimpl.getIDbyObject(u);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
             return -1;
         }
     }

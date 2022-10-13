@@ -5,10 +5,7 @@ import deliveryapp.models.orders.Package;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class PackageDAOimpl implements PackageDAO {
     private static final Logger LOGGER = Logger.getLogger(PackageDAOimpl.class.getName());

@@ -14,4 +14,6 @@ public interface VehicleTypeService {
     public void createVehicleType(VehicleType u);
 
     public void updateVehicleType(VehicleType u);
+
+    public void parseFromXmlDOM(String schemaName, String xmlName);
 }

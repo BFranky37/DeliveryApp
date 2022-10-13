@@ -43,7 +43,7 @@ public class ConnectionPool {
         String username = props.getProperty("jdbc.username");
         String password = props.getProperty("jdbc.password");
 
-        for (int i = 0; i < 5; i++) { //Add connections to pool
+        for (int i = 0; i < 10; i++) { //Add connections to pool
             try {
                 connectionPool.add(DriverManager.getConnection(url, username, password));
             } catch (SQLException e) {

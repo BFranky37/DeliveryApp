@@ -6,9 +6,7 @@ import deliveryapp.models.orders.Box;
 import deliveryapp.models.orders.Package;
 import deliveryapp.services.PackageService;
 import deliveryapp.utils.ValidateInput;
-import deliveryapp.utils.exceptions.ExceedsLimitsException;
-import deliveryapp.utils.exceptions.InvalidInputException;
-import deliveryapp.utils.exceptions.NegativeValueException;
+import deliveryapp.utils.exceptions.*;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
@@ -72,7 +70,6 @@ public class PackageServiceImpl implements PackageService {
                 valid = true;
             } catch (InvalidInputException e) {
                 LOGGER.warn(e.getMessage());
-                LOGGER.info("Please enter a valid input (y/n)");
             }
         } while (!valid);
 

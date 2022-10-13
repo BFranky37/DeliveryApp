@@ -2,6 +2,7 @@ package deliveryapp.services.jdbc;
 
 import deliveryapp.daoClasses.ShipmentStatusDAO;
 import deliveryapp.daoClasses.java.ShipmentStatusDAOimpl;
+import deliveryapp.models.orders.Shipment;
 import deliveryapp.models.orders.ShipmentStatus;
 import deliveryapp.services.ShipmentStatusService;
 import org.apache.log4j.Logger;
@@ -38,6 +39,15 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     public void createShipmentStatus(ShipmentStatus u) {
         try {
             u.setId(shipmentStatusDAOimpl.create(u));
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    public void createShipmentStatus(Shipment u) {
+        ShipmentStatus shipmentStatus = new ShipmentStatus(u);
+        try {
+            u.setId(shipmentStatusDAOimpl.create(shipmentStatus));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }

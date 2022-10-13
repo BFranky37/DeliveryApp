@@ -55,7 +55,7 @@ public class AddressDAOimpl implements AddressDAO {
             while (rs.next()) {
                 Address p = new Address(rs.getString("street"), rs.getString("city"),
                         rs.getInt("zipcode"));
-                p.setId(id);
+                p.setId(rs.getInt("id"));
                 return p;
             }
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class AddressDAOimpl implements AddressDAO {
             while (rs.next()) {
                 Address p = new Address(rs.getString("street"), rs.getString("city"),
                         rs.getInt("zipcode"));
-                p.setId(id);
+                p.setId(rs.getInt("id"));
                 return p;
             }
         } catch (SQLException e) {

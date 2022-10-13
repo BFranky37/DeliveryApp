@@ -41,10 +41,8 @@ public class AddressServiceImpl implements AddressService {
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            int addressID = getIDbyAddress(newAddress);
-            if (addressID < 0)
-                newAddress.setId(addressDAO.create(newAddress));
-            else newAddress.setId(addressID);
+            newAddress.setId(addressDAO.create(newAddress));
+            LOGGER.info("address created with id " + newAddress.getId());
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -53,6 +51,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     public Address addRecipientAddress() {
+        input.nextLine();
         boolean valid = false;
         LOGGER.info("Please enter the recipient's street address: ");
         String address = input.nextLine();
@@ -76,10 +75,8 @@ public class AddressServiceImpl implements AddressService {
         Address newAddress = new Address(address, city, zipcode);
 
         try {
-            int addressID = getIDbyAddress(newAddress);
-            if (addressID < 0)
-                newAddress.setId(addressDAO.create(newAddress));
-            else newAddress.setId(addressID);
+            newAddress.setId(addressDAO.create(newAddress));
+            LOGGER.info("address created with id " + newAddress.getId());
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -120,7 +117,6 @@ public class AddressServiceImpl implements AddressService {
         try {
             return addressDAO.getIDbyObject(a);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
             return -1;
         }
     }

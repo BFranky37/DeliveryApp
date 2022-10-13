@@ -4,13 +4,19 @@ import deliveryapp.daoClasses.VehicleTypeDAO;
 import deliveryapp.daoClasses.java.VehicleTypeDAOimpl;
 import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.services.VehicleTypeService;
+import deliveryapp.utils.fileUtils.XmlParserDOM;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class VehicleTypeServiceImpl implements VehicleTypeService {
-    private final VehicleTypeDAO vehicleTypeDAOimpl = new VehicleTypeDAOimpl();;
+    private final VehicleTypeDAO vehicleTypeDAOimpl = new VehicleTypeDAOimpl();
+    private final XmlParserDOM vehicleTypeParser = new XmlParserDOM();
     private static final Logger LOGGER = Logger.getLogger(VehicleTypeServiceImpl.class.getName());
     private static final Scanner input = new Scanner(System.in);
 
@@ -67,6 +73,30 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
             vehicleTypeDAOimpl.update(u);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    public void parseFromXmlDOM(String schemaName, String xmlName) {
+        vehicleTypeParser.loadSchema(schemaName);
+        Document doc = vehicleTypeParser.readXMLFile(xmlName);
+
+        NodeList list = doc.getElementsByTagName("vehicle_type");
+        for (int i = 0; i < list.getLength(); i++) {
+            Node node = list.item(i);
+            if (node.getNodeType() == node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                VehicleType d = new VehicleType();
+                d.setId(Integer.parseInt(element.getAttribute("id")));
+                d.setName(element.getElementsByTagName("name").item(0).getTextContent());
+                d.setRate(Double.parseDouble(element.getElementsByTagName("cost_rate").item(0).getTextContent()));
+                d.setMaxWeight(Double.parseDouble(element.getElementsByTagName("weight_capacity").item(0).getTextContent()));
+                d.setMaxSize(Double.parseDouble(element.getElementsByTagName("space_capacity").item(0).getTextContent()));
+                try {
+                    vehicleTypeDAOimpl.create(d);
+                } catch (SQLException e) {
+                    LOGGER.warn(e.getMessage());
+                }
+            }
         }
     }
 }

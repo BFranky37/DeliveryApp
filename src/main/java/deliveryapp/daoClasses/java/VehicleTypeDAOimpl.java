@@ -5,10 +5,7 @@ import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class VehicleTypeDAOimpl implements VehicleTypeDAO {
     private static final Logger LOGGER = Logger.getLogger(VehicleTypeDAOimpl.class.getName());
@@ -16,7 +13,7 @@ public class VehicleTypeDAOimpl implements VehicleTypeDAO {
     private static final String GET_BY_NAME = "SELECT * FROM vehicle_types WHERE name = ?;";
     private static final String GET_BY_VEHICLE_ID = "SELECT * FROM vehicle_types WHERE id IN (SELECT vehicle_typeID FROM vehicles WHERE id = ?);";
     private static final String GET_ID_BY_VEHICLE_TYPE = "SELECT * FROM vehicle_types WHERE name = ? AND cost_rate = ? AND weight_capacity = ? AND space_capacity = ?;";
-    private static final String INSERT = "INSERT INTO vehicle_types (name, cost_rate, weight_capacity, space_capacity) VALUES (?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO vehicle_types (id, name, cost_rate, weight_capacity, space_capacity) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = id;";
     private static final String UPDATE = "UPDATE vehicle_types SET name = ?, cost_rate = ?, weight_capacity = ?, space_capacity = ? WHERE id = ?;";
 
     @Override
@@ -127,10 +124,11 @@ public class VehicleTypeDAOimpl implements VehicleTypeDAO {
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(INSERT);
-            ps.setString(1, p.getName());
-            ps.setDouble(2, p.getRate());
-            ps.setDouble(3, p.getMaxWeight());
-            ps.setDouble(4, p.getMaxSize());
+            ps.setInt(1, p.getId());
+            ps.setString(2, p.getName());
+            ps.setDouble(3, p.getRate());
+            ps.setDouble(4, p.getMaxWeight());
+            ps.setDouble(5, p.getMaxSize());
             ps.executeUpdate();
 
             return getIDbyObject(p);

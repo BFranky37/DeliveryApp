@@ -1,14 +1,11 @@
 package deliveryapp.models.orders;
 
 import deliveryapp.models.people.Discount;
-import deliveryapp.models.vehicles.Route;
-import deliveryapp.models.vehicles.Vehicle;
-import deliveryapp.models.vehicles.VehicleType;
+import deliveryapp.models.vehicles.*;
 import deliveryapp.services.*;
 import deliveryapp.services.jdbc.*;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,8 +57,8 @@ public class Shipment {
 
     public void setSenderID(int send) {
         senderID = send;
-        //LOGGER.info("As the sender for this shipment has been changed, we must re-verify the shipping method and update the price.");
-        //setRoute();
+        LOGGER.info("As the sender for this shipment has been changed, we must re-verify the shipping method and update the price.");
+        setRoute();
     }
 
     public int getRecipientID() {
@@ -70,8 +67,8 @@ public class Shipment {
 
     public void setRecipientID(int receive) {
         recipientID = receive;
-        //LOGGER.info("As the recipient for this shipment has been changed, we must re-verify the shipping method and update the price.");
-        //setRoute();
+        LOGGER.info("As the recipient for this shipment has been changed, we must re-verify the shipping method and update the price.");
+        setRoute();
     }
 
     public int getPackageID() {
@@ -80,8 +77,8 @@ public class Shipment {
 
     public void setPackageID(int pack) {
         packageID = pack;
-        //LOGGER.info("As the package for this shipment has been changed, we must re-verify the shipping method and update the price.");
-        //determineShippingPlan();
+        LOGGER.info("As the package for this shipment has been changed, we must re-verify the shipping method and update the price.");
+        determineShippingPlan();
     }
 
     public int getInsuranceID() {
@@ -90,7 +87,7 @@ public class Shipment {
 
     public void setInsuranceID(int plan) {
         insuranceID = plan;
-        //calculatePrice();
+        calculatePrice();
     }
 
     public int getRouteID() {
@@ -99,7 +96,6 @@ public class Shipment {
 
     public void setRouteID(int newRoute) {
         routeID = newRoute;
-        //determineShippingPlan();
     }
 
     public void setRoute() {
@@ -107,7 +103,7 @@ public class Shipment {
         Route route = new Route(addressService.getAddressByUserID(senderID).getId(), addressService.getAddressByProfileID(recipientID).getId());
         routeService.createRoute(route);
         routeID = route.getId();
-        //determineShippingPlan();
+        determineShippingPlan();
     }
 
     public int getVehicleID() {
@@ -124,7 +120,7 @@ public class Shipment {
 
     public void setPrio(boolean prio) {
         priority = prio;
-        //determineShippingPlan();
+        determineShippingPlan();
     }
 
     public double getPrice() {
@@ -145,6 +141,7 @@ public class Shipment {
         //Apply discount
         List<Discount> discounts = discountService.getDiscountsByUser(senderID);
         for (Discount d : discounts) {
+            LOGGER.info("with " + d.getName() + " discount of " + d.getDiscountRate() * 100 + "% applied");
             totalPrice -= totalPrice * d.getDiscountRate();
         }
     }

@@ -1,10 +1,13 @@
 package deliveryapp.models.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import deliveryapp.services.VehicleTypeService;
+import deliveryapp.services.jdbc.VehicleTypeServiceImpl;
 
 import java.util.Objects;
 
 public class Vehicle {
+    VehicleTypeService vehicleTypeService = new VehicleTypeServiceImpl();
     //Members
     @JsonProperty("id")
     private int id;
@@ -49,7 +52,8 @@ public class Vehicle {
     //Class Overrides
     @Override
     public String toString() {
-        return ("Vehicle number: " + vehicleNumber);
+        VehicleType vehicleType = vehicleTypeService.getVehicleTypeByID(vehicleTypeID);
+        return ("Vehicle Type: " + vehicleType.getName() + ", Vehicle number: " + vehicleNumber);
     }
 
     @Override

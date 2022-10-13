@@ -73,7 +73,7 @@ public class Box {
     }
 
     public final double getArea() { //return area in cubic inches
-        return (Math.round(SizeMeasurement.CENTIMETERS.convert(length * width * height) * 100.0) / 100.0);
+        return (Math.round((length * width * height) * 100.0) / 100.0);
     }
 
     //Class Overrides
