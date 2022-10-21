@@ -2,6 +2,7 @@ package deliveryapp.services.jdbc;
 
 import deliveryapp.daoClasses.VehicleTypeDAO;
 import deliveryapp.daoClasses.java.VehicleTypeDAOimpl;
+import deliveryapp.models.orders.Insurance;
 import deliveryapp.models.vehicles.VehicleType;
 import deliveryapp.services.VehicleTypeService;
 import deliveryapp.utils.fileUtils.XmlParserDOM;
@@ -12,6 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class VehicleTypeServiceImpl implements VehicleTypeService {
@@ -76,11 +79,13 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
         }
     }
 
-    public void parseFromXmlDOM(String schemaName, String xmlName) {
+    public List<VehicleType> parseFromXmlDOM(String schemaName, String xmlName) {
         vehicleTypeParser.loadSchema(schemaName);
-        Document doc = vehicleTypeParser.readXMLFile(xmlName);
+        Document doc = vehicleTypeParser.readXMLFile(xmlName, Document.class);
+        vehicleTypeParser.validate(doc);
 
         NodeList list = doc.getElementsByTagName("vehicle_type");
+        List<VehicleType> vehicleTypes = new ArrayList<VehicleType>();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
             if (node.getNodeType() == node.ELEMENT_NODE) {
@@ -91,6 +96,8 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
                 d.setRate(Double.parseDouble(element.getElementsByTagName("cost_rate").item(0).getTextContent()));
                 d.setMaxWeight(Double.parseDouble(element.getElementsByTagName("weight_capacity").item(0).getTextContent()));
                 d.setMaxSize(Double.parseDouble(element.getElementsByTagName("space_capacity").item(0).getTextContent()));
+
+                vehicleTypes.add(d);
                 try {
                     vehicleTypeDAOimpl.create(d);
                 } catch (SQLException e) {
@@ -98,5 +105,6 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
                 }
             }
         }
+        return vehicleTypes;
     }
 }

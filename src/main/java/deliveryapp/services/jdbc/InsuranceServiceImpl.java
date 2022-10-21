@@ -4,6 +4,7 @@ import deliveryapp.daoClasses.InsuranceDAO;
 import deliveryapp.daoClasses.java.InsuranceDAOimpl;
 import deliveryapp.models.orders.Insurance;
 import deliveryapp.models.orders.Package;
+import deliveryapp.models.people.Discount;
 import deliveryapp.services.InsuranceService;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
@@ -12,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InsuranceServiceImpl implements InsuranceService {
@@ -75,11 +78,13 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
-    public void parseFromXmlDOM(String schemaName, String xmlName) {
+    public List<Insurance> parseFromXmlDOM(String schemaName, String xmlName) {
         insuranceParser.loadSchema(schemaName);
-        Document doc = insuranceParser.readXMLFile(xmlName);
+        Document doc = insuranceParser.readXMLFile(xmlName, Document.class);
+        insuranceParser.validate(doc);
 
         NodeList list = doc.getElementsByTagName("insurance");
+        List<Insurance> insurances = new ArrayList<Insurance>();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
             if (node.getNodeType() == node.ELEMENT_NODE) {
@@ -89,6 +94,8 @@ public class InsuranceServiceImpl implements InsuranceService {
                 d.setName(element.getElementsByTagName("name").item(0).getTextContent());
                 d.setCost(Double.parseDouble(element.getElementsByTagName("base_cost").item(0).getTextContent()));
                 d.setRate(Double.parseDouble(element.getElementsByTagName("price_rate").item(0).getTextContent()));
+
+                insurances.add(d);
                 try {
                     insuranceDAOimpl.create(d);
                 } catch (SQLException e) {
@@ -96,5 +103,6 @@ public class InsuranceServiceImpl implements InsuranceService {
                 }
             }
         }
+        return insurances;
     }
 }

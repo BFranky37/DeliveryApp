@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 @XmlRootElement(name = "discount")
 @XmlType(propOrder = { "id", "name", "discountRate" })
@@ -22,6 +23,11 @@ public class Discount {
     @XmlElement(name = "rate")
     private double discountRate;
 
+    public Discount (int id, String name, double discountRate) {
+        this.id = id;
+        this.name = name;
+        this.discountRate = discountRate;
+    }
     public Discount (String name, double discountRate) {
         this.name = name;
         this.discountRate = discountRate;
@@ -52,5 +58,26 @@ public class Discount {
 
     public void setDiscountRate(double rate) {
         this.discountRate = rate;
+    }
+
+    @Override
+    public String toString() {
+        return name + " Discount: " + discountRate * 100 + "% off";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Discount)) return false;
+        Discount discount = (Discount) obj;
+
+        return (Objects.equals(this.name, discount.name) &&
+                Objects.equals(this.discountRate, discount.discountRate) &&
+                this.id == discount.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, discountRate);
     }
 }

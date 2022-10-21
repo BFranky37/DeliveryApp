@@ -47,11 +47,12 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public void parseFromXmlDOM(String schemaName, String xmlName) {
+    public List<Discount> parseFromXmlDOM(String schemaName, String xmlName) {
         domParser.loadSchema(schemaName);
-        Document doc = domParser.readXMLFile(xmlName);
-
+        Document doc = domParser.readXMLFile(xmlName, Document.class);
+        domParser.validate(doc);
         NodeList list = doc.getElementsByTagName("discount");
+        List<Discount> discounts = new ArrayList<Discount>();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
             if (node.getNodeType() == node.ELEMENT_NODE) {
@@ -61,6 +62,7 @@ public class DiscountServiceImpl implements DiscountService {
                 d.setName(element.getElementsByTagName("name").item(0).getTextContent());
                 d.setDiscountRate(Double.parseDouble(element.getElementsByTagName("rate").item(0).getTextContent()));
 
+                discounts.add(d);
                 try {
                     discountDAOimpl.create(d);
                 } catch (SQLException e) {
@@ -68,6 +70,7 @@ public class DiscountServiceImpl implements DiscountService {
                 }
             }
         }
+        return discounts;
     }
 
     @Override

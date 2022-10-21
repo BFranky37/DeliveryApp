@@ -1,9 +1,12 @@
 package deliveryapp.utils.fileUtils;
 
-import org.w3c.dom.Document;
+import javax.xml.validation.Schema;
+import java.util.List;
 
-public interface XmlParser {
-    public void loadSchema(String filename);
+public interface XmlParser<T> {
+    public Schema loadSchema(String filename);
 
-    public Document readXMLFile(String filename);
+    public T readXMLFile(String filename, Class<T> clazz);
+
+    public List<T> unmarshal(String filename, Class<T> clazz);
 }

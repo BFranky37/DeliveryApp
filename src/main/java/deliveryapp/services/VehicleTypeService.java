@@ -1,6 +1,9 @@
 package deliveryapp.services;
 
+import deliveryapp.models.people.Discount;
 import deliveryapp.models.vehicles.VehicleType;
+
+import java.util.List;
 
 public interface VehicleTypeService {
     public VehicleType getVehicleTypeByID(int id);
@@ -15,5 +18,5 @@ public interface VehicleTypeService {
 
     public void updateVehicleType(VehicleType u);
 
-    public void parseFromXmlDOM(String schemaName, String xmlName);
+    public List<VehicleType> parseFromXmlDOM(String schemaName, String xmlName);
 }
