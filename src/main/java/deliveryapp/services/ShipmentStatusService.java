@@ -13,4 +13,8 @@ public interface ShipmentStatusService {
     public void createShipmentStatus(Shipment u);
 
     public void updateShipmentStatus(ShipmentStatus u);
+
+    public ShipmentStatus getShipmentStatusByShipment(int id);
+
+    public void shipmentTravel(Shipment shipment);
 }

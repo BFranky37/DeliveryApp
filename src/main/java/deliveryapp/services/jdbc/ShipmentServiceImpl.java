@@ -13,6 +13,8 @@ import deliveryapp.services.*;
 import deliveryapp.utils.ValidateInput;
 import deliveryapp.utils.exceptions.InvalidInputException;
 import deliveryapp.utils.functionalInterfaces.IEditString;
+import deliveryapp.utils.threads.DropOff;
+import deliveryapp.utils.threads.Travel;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -88,13 +90,7 @@ public class ShipmentServiceImpl implements ShipmentService {
             LOGGER.info("Shipment finalized");
             LOGGER.info("Package Sent!");
 
-            //Object Lock1 = new Object();
-            //Object Lock2 = new Object();
-            //Thread travel = new Thread(new Travel(shipment, Lock1, Lock2));
-            //Thread receivePackage = new Thread(new DropOff(shipment, Lock1, Lock2));
-            //travel.start();
-            //receivePackage.start();
-            //LOGGER.info("Delivery vehicle has begun it's transport");
+            shipmentStatusService.shipmentTravel(shipment);
         }
         return shipment;
     }

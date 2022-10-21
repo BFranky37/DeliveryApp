@@ -5,6 +5,8 @@ import deliveryapp.daoClasses.java.ShipmentStatusDAOimpl;
 import deliveryapp.models.orders.Shipment;
 import deliveryapp.models.orders.ShipmentStatus;
 import deliveryapp.services.ShipmentStatusService;
+import deliveryapp.utils.threads.DropOff;
+import deliveryapp.utils.threads.Travel;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
@@ -19,6 +21,15 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
     public ShipmentStatus getShipmentStatusByID(int id) {
         try {
             return shipmentStatusDAOimpl.getObjectByID(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public ShipmentStatus getShipmentStatusByShipment(int id) {
+        try {
+            return shipmentStatusDAOimpl.getObjectByID(shipmentStatusDAOimpl.getIDbyShipment(id));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -44,10 +55,20 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
         }
     }
 
+    @Override
     public void createShipmentStatus(Shipment u) {
-        ShipmentStatus shipmentStatus = new ShipmentStatus(u);
+        ShipmentStatus shipmentStatus = new ShipmentStatus(u.getId());
         try {
-            u.setId(shipmentStatusDAOimpl.create(shipmentStatus));
+            shipmentStatus.setId(shipmentStatusDAOimpl.create(shipmentStatus));
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    public void createShipmentStatus(int shipmentID) {
+        ShipmentStatus shipmentStatus = new ShipmentStatus(shipmentID);
+        try {
+            shipmentStatus.setId(shipmentStatusDAOimpl.create(shipmentStatus));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -60,5 +81,15 @@ public class ShipmentStatusServiceImpl implements ShipmentStatusService {
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    public void shipmentTravel(Shipment s) {
+        Object Lock1 = new Object();
+        Object Lock2 = new Object();
+        Thread travel = new Thread(new Travel(s, Lock1, Lock2));
+        Thread receivePackage = new Thread(new DropOff(s, Lock1, Lock2));
+        travel.start();
+        receivePackage.start();
+        LOGGER.info("Delivery vehicle has begun it's transport");
     }
 }

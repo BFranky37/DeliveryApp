@@ -11,6 +11,8 @@ public interface ShipmentStatusDAO extends IBaseDAO<ShipmentStatus> {
     @Override
     public int getIDbyObject(ShipmentStatus p) throws SQLException;
 
+    int getIDbyShipment(int shipmentID) throws SQLException;
+
     @Override
     public int create(ShipmentStatus p) throws SQLException;
 

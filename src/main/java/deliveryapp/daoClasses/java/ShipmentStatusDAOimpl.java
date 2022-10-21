@@ -10,7 +10,7 @@ import java.sql.*;
 public class ShipmentStatusDAOimpl implements ShipmentStatusDAO {
     private static final Logger LOGGER = Logger.getLogger(ShipmentStatusDAOimpl.class.getName());
     private static final String GET_BY_ID = "SELECT * FROM shipment_status WHERE id = ?;";
-    private static final String GET_ID_BY_SHIPMENT = "SELECT * FROM shipment_status WHERE shipmentID = ? AND delivered = ? AND date_departed = ?;";
+    private static final String GET_BY_SHIPMENT_ID = "SELECT * FROM shipment_status WHERE shipmentID = ?";
     private static final String INSERT = "INSERT INTO shipment_status (shipmentID, delivered, date_arrived, date_departed) VALUES (?, ?, ?, ?);";
     private static final String UPDATE = "UPDATE shipment_status SET shipmentID = ?, delivered = ?, date_arrived = ?, date_departed = ? WHERE id = ?;";
 
@@ -49,10 +49,32 @@ public class ShipmentStatusDAOimpl implements ShipmentStatusDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = c.prepareStatement(GET_ID_BY_SHIPMENT);
+            ps = c.prepareStatement(GET_BY_SHIPMENT_ID);
             ps.setInt(1, p.getShipmentID());
-            ps.setBoolean(2, p.isDelivered());
-            ps.setDate(3, p.getDateDeparted());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            assert rs != null;
+            rs.close();
+            ps.close();
+            ConnectionPool.getInstance().returnConnection(c);
+        }
+        throw new SQLException("No data matching the Object given");
+    }
+
+    @Override
+    public int getIDbyShipment(int shipmentID) throws SQLException {
+        Connection c = ConnectionPool.getInstance().getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = c.prepareStatement(GET_BY_SHIPMENT_ID);
+            ps.setInt(1, shipmentID);
+
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("id");

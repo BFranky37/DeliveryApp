@@ -13,11 +13,11 @@ public class ShipmentStatus {
     Date dateDeparted;
     Date dateArrived;
 
-    public ShipmentStatus(Shipment shipment) {
-        shipmentID = shipment.getId();
+    public ShipmentStatus(int shipmentID) {
+        this.shipmentID = shipmentID;
         delivered = false;
         java.util.Date utilDate = new java.util.Date();
-        dateDeparted = new java.sql.Date(utilDate.getTime());;
+        dateDeparted = new java.sql.Date(utilDate.getTime());
     }
 
     public ShipmentStatus() {
