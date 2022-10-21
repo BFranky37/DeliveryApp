@@ -22,9 +22,4 @@ public class JAXBTest extends AbstractXML {
         List<Discount> discounts = xmlParser.unmarshal(discountXMLPath, Discount.class);
         Assert.assertEquals(discounts, expectedDiscountList, "Data read from XML should match expected data");
     }
-
-    @AfterClass
-    public void destroy() {
-        expectedDiscountList.clear();
-    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Testing suite1" verbose="1" parallel="tests" thread-count="5">
+<suite name="Testing suite1" verbose="1" parallel="classes" thread-count="5">
     <test name="XML">
         <classes>
             <class name="org.DeliveryApp.xmlTests.JAXBTest"/>
@@ -8,7 +8,7 @@
     </test>
     <test name="Services">
         <classes>
-            <class name="org.DeliveryApp.serviceTests.ShipmentStatusTest"/>
+            <class name="org.DeliveryApp.jdbcServiceTests.AddressServiceTest"/>
         </classes>
     </test>
 </suite>

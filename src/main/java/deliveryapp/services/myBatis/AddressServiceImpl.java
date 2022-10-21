@@ -11,7 +11,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
@@ -106,5 +105,25 @@ public class AddressServiceImpl implements AddressService {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             return session.getMapper(AddressMapper.class).getIDbyAddress(a);
         }
+    }
+
+    @Override
+    public Address create(Address newAddress) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void updateAddress(Address a) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int getNumAddresses() {
+        throw new NotImplementedException();
     }
 }
