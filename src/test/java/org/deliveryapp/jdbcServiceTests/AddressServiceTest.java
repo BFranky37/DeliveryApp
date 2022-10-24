@@ -16,37 +16,37 @@ public class AddressServiceTest {
     private final String street = "123 Street st";
     private final String city = "Cityville";
     private final int zipcode = 1;
-    private final Address address = new Address(street, city, zipcode);
+    private final Address ADDRESS = new Address(street, city, zipcode);
 
     @Test
     public void testCreateAddress() {
         LOGGER.info("AddressServiceTest 1");
         int numAddresses = addressService.getNumAddresses();
-        addressService.create(address);
+        addressService.create(ADDRESS);
         Assert.assertEquals(addressService.getNumAddresses(), numAddresses + 1, "Created Address must be added to database");
     }
 
     @Test
     public void testGetIdByAddress() {
         LOGGER.info("AddressServiceTest 2");
-        addressService.create(address);
-        Assert.assertNotNull(addressService.getIDbyAddress(address), "ID should be found for created address");
+        addressService.create(ADDRESS);
+        Assert.assertNotNull(addressService.getIDbyAddress(ADDRESS), "ID should be found for created address");
     }
 
     @Test
     public void testGetAddressByID() {
         LOGGER.info("AddressServiceTest 3");
-        addressService.create(address);
-        Address duplicate = addressService.getAddressByID(address.getId());
-        Assert.assertEquals(address, duplicate, "Address of the same ID should have the same data");
+        addressService.create(ADDRESS);
+        Address duplicate = addressService.getAddressByID(ADDRESS.getId());
+        Assert.assertEquals(ADDRESS, duplicate, "Address of the same ID should have the same data");
     }
 
     @Test
     public void testUpdateAddress() {
         LOGGER.info("AddressServiceTest 4");
         SoftAssert softAssertion= new SoftAssert();
-        addressService.create(address);
-        Address updatedAddress = address;
+        addressService.create(ADDRESS);
+        Address updatedAddress = ADDRESS;
         updatedAddress.setZipcode(zipcode + 1);
         addressService.updateAddress(updatedAddress);
         updatedAddress = addressService.getAddressByID(updatedAddress.getId());
@@ -57,14 +57,14 @@ public class AddressServiceTest {
     @Test
     public void testDeleteAddress() {
         LOGGER.info("AddressServiceTest 5");
-        addressService.create(address);
+        addressService.create(ADDRESS);
         int numAddresses = addressService.getNumAddresses();
-        addressService.delete(address.getId());
+        addressService.delete(ADDRESS.getId());
         Assert.assertEquals(addressService.getNumAddresses(), numAddresses - 1, "Deleted address must be removed from database");
     }
 
     @AfterMethod(alwaysRun = true)
     public void deleteAddress() {
-        addressService.delete(addressService.getIDbyAddress(address));
+        addressService.delete(addressService.getIDbyAddress(ADDRESS));
     }
 }
