@@ -1,4 +1,4 @@
-package org.DeliveryApp.xmlTests;
+package org.deliveryapp.xmlTests;
 
 import deliveryapp.models.people.Discount;
 import deliveryapp.utils.fileUtils.XmlParser;
@@ -8,11 +8,10 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class JAXBTest extends AbstractXML {
-    static Logger LOGGER = LogManager.getLogger(JAXBTest.class.getName());
+    private static Logger LOGGER = LogManager.getLogger(JAXBTest.class.getName());
 
 
     @Test

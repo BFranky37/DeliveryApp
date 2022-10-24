@@ -1,4 +1,4 @@
-package org.DeliveryApp.xmlTests;
+package org.deliveryapp.xmlTests;
 
 import deliveryapp.services.DiscountService;
 import deliveryapp.services.jdbc.DiscountServiceImpl;
@@ -12,7 +12,8 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
 public class XmlDOMTest extends AbstractXML {
-    static Logger LOGGER = LogManager.getLogger(XmlDOMTest.class.getName());
+    private static Logger LOGGER = LogManager.getLogger(XmlDOMTest.class.getName());
+
 
     @Test
     public void testReadDiscountSchema() {

@@ -1,4 +1,4 @@
-package org.DeliveryApp.jdbcServiceTests;
+package org.deliveryapp.jdbcServiceTests;
 
 import deliveryapp.models.people.Address;
 import deliveryapp.services.AddressService;
@@ -7,27 +7,16 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 public class AddressServiceTest {
-    static Logger LOGGER = LogManager.getLogger(AddressServiceTest.class.getName());
+    private static Logger LOGGER = LogManager.getLogger(AddressServiceTest.class.getName());
     private final AddressService addressService = new AddressServiceImpl();
 
-    private String street;
-    private String city;
-    private int zipcode;
-    private Address address;
-
-    @BeforeClass
-    public void setSampleData() {
-        street = "123 Street st";
-        city = "Cityville";
-        zipcode = 11111;
-    }
-
-    @BeforeMethod
-    public void initializeAddress() {
-        address = new Address(street, city, zipcode);
-    }
+    private final String street = "123 Street st";
+    private final String city = "Cityville";
+    private final int zipcode = 1;
+    private final Address address = new Address(street, city, zipcode);
 
     @Test
     public void testCreateAddress() {
@@ -55,13 +44,14 @@ public class AddressServiceTest {
     @Test
     public void testUpdateAddress() {
         LOGGER.info("AddressServiceTest 4");
+        SoftAssert softAssertion= new SoftAssert();
         addressService.create(address);
-        address.setZipcode(zipcode + 1);
-        addressService.updateAddress(address);
-        address = addressService.getAddressByID(address.getId());
-        Assert.assertNotEquals(address.getZipcode(),zipcode, "Zipcode value should be different after Update");
-        address.setZipcode(zipcode);
-        addressService.updateAddress(address);
+        Address updatedAddress = address;
+        updatedAddress.setZipcode(zipcode + 1);
+        addressService.updateAddress(updatedAddress);
+        updatedAddress = addressService.getAddressByID(updatedAddress.getId());
+        softAssertion.assertNotEquals(updatedAddress.getZipcode(),zipcode, "Zipcode value should be different after Update");
+        softAssertion.assertAll();
     }
 
     @Test
@@ -75,8 +65,6 @@ public class AddressServiceTest {
 
     @AfterMethod(alwaysRun = true)
     public void deleteAddress() {
-        address = new Address(street, city, zipcode);
         addressService.delete(addressService.getIDbyAddress(address));
-        LOGGER.info("address has been deleted");
     }
 }

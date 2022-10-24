@@ -19,7 +19,7 @@ public class AddressDAOimpl implements AddressDAO {
     private static final String INSERT = "INSERT INTO addresses (street, city, zipcode) VALUES (?, ?, ?);";
     private static final String UPDATE = "UPDATE addresses SET street = ?, city = ?, zipcode = ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM addresses WHERE id = ?;";
-    private static final String GET_NUM_ADDRESSES = "SELECT count(id) FROM discounts;";
+    private static final String GET_NUM_ADDRESSES = "SELECT count(id) FROM addresses;";
 
     public Address getObjectByID(int id) throws SQLException {
         Connection c = ConnectionPool.getInstance().getConnection();
