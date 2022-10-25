@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressServiceImpl implements AddressService {
@@ -42,7 +43,6 @@ public class AddressServiceImpl implements AddressService {
 
         try {
             newAddress.setId(addressDAO.create(newAddress));
-            LOGGER.info("address created with id " + newAddress.getId());
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -76,7 +76,6 @@ public class AddressServiceImpl implements AddressService {
 
         try {
             newAddress.setId(addressDAO.create(newAddress));
-            LOGGER.info("address created with id " + newAddress.getId());
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -117,6 +116,42 @@ public class AddressServiceImpl implements AddressService {
         try {
             return addressDAO.getIDbyObject(a);
         } catch (SQLException e) {
+            return -1;
+        }
+    }
+
+    public Address create(Address newAddress) {
+        try {
+            newAddress.setId(addressDAO.create(newAddress));
+            return newAddress;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public void delete(int id) {
+        try {
+            addressDAO.delete(id);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateAddress(Address a) {
+        try {
+            addressDAO.update(a);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    public int getNumAddresses() {
+        try {
+            return addressDAO.getNumAddresses();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             return -1;
         }
     }

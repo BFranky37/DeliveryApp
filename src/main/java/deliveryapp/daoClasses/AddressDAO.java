@@ -20,5 +20,9 @@ public interface AddressDAO extends IBaseDAO<Address> {
 
     @Override
     public void update(Address p) throws SQLException;
+
+    public void delete(int id) throws SQLException;
+
+    public int getNumAddresses() throws SQLException;
 }
 

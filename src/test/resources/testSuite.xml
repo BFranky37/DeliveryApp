@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Testing suite1" verbose="1" parallel="classes" thread-count="5">
+    <test name="XML">
+        <classes>
+            <class name="org.deliveryapp.xmlTests.JAXBTest"/>
+            <class name="org.deliveryapp.xmlTests.XmlDOMTest"/>
+        </classes>
+    </test>
+    <test name="Services">
+        <classes>
+            <class name="org.deliveryapp.jdbcServiceTests.AddressServiceTest"/>
+        </classes>
+    </test>
+</suite>
